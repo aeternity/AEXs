@@ -5,8 +5,8 @@ AEX: 1
 Title: AEX process
 Author: Sascha Hanse <shanse@posteo.de>
 License: CC0-1.0
-Discussions-To: <URL>
-Status: Draft
+Discussions-To: https://forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461
+Status: Active
 Type: Meta
 Created: 2019-02-01
 ```
@@ -76,7 +76,7 @@ community consensus around the idea.
 #### Stages
 
 | Stage | Purpose | Entrance Criteria | Changes Expected |
-|:--|:--|:--|:--|:--|:--|:--|
+|:---|:---|:--|:---|
 | Draft | rapid iteration in small/focused working group | none | major |
 | Review | review and feedback from editor and other interested parties | initial specification, editor assigned, template filled, authors and editor consider document to be in a state where the general public can give constructive feedback | no major TODOs left |
 | Last call (yyyy-mm-dd to yyyy-mm-dd) | indicate that authors and editors consider document to be complete; solicit last round of feedback | at least one working implementation (if applicable), authors and editors deem the proposal complete | minor |
