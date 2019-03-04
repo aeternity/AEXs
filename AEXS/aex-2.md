@@ -199,6 +199,7 @@ When the URI is invoked, if there is a default application selected by user for 
 
 ### Deep Linking
 
+- Deep linking enables the users(& `SDK`) to interact with the `wallets` that don't support `postMessage` API i.e. native desktop wallets with no browser extension, mobile wallet applications, etc.
 
 ## References
 
