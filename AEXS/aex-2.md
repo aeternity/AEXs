@@ -3,7 +3,7 @@
 ```
 AEX: 2
 Title: Third-party Wallet Provider Support
-Author: Andrea Giacobino, Shubhendu Shekhar & Nazar Duchak
+Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea) & Nazar Duchak (@nduchak)
 License: BSD-3-Clause
 License-Code: Apache-2.0
 Status: Draft
