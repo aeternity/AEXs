@@ -14,7 +14,9 @@ Created: 2019-03-04
 
 ## Simple Summary
 
-The document approaches the technical specification about how a wallet provider (ex. BaseApp, Metamask) can interact with Aeternity enabled applications.
+The document approaches the technical specification about how a wallet provider (ex. BaseApp, Metamask) can interact with Aeternity enabled applications. 
+
+[Link to discussion topic](https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715).
 
 ## Abstract
 
