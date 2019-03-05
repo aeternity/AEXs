@@ -90,7 +90,7 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
 
 #### Workflow (Messages Exchange Example)
 
-We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) standard for messages exchange, but for simplicity's sake, this documentation is not using the standard, so the actual messages exchange is slightly different.
+We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) standard for messages exchange (already supported by aeternity's JS SDK), but for simplicity's sake, this documentation is not using the standard, so the actual messages exchange is slightly different.
 
 ##### Provider Registration
 
