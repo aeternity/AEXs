@@ -5,6 +5,7 @@ AEX: 2
 Title: Third-party Wallet Provider Support
 Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea) & Nazar Duchak (@nduchak)
 License: BSD-3-Clause
+Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
 Status: Draft
 Type: Standards Track
