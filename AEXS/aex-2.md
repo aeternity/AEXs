@@ -71,15 +71,14 @@ notifiy the SDK (and the app) that the wallet has been disconnected.
 [sign]: https://i.imgur.com/C5cu3FI.png "Sign Tx"
 [register]: https://i.imgur.com/4qOLPDf.png "Register Provider"
 
-
 #### SDK Provided Methods
 
-##### The window object listens for the following events:
+##### The window object listens for the following events
 
 - `ae:sdkReady` (_optional_): Invoked by `sdk` to announce the fact that it has been loaded.
 - `ae:registerProvider`: Invoked by `wallet` to register with `sdk`.
 - `ae:registrationComplete`: Invoked by `sdk` to let wallet know that the registration is done.
-- `ae:walletDetail`: Invoked by `wallet`. this contains encrypted information about the list of addresses and extra wallet methods.
+- `ae:walletDetail`: Invoked by `wallet`. This contains encrypted information about the current active account address and extra wallet methods. Everytime there is a change of address(active address) in wallet, the wallet needs to invoke this method to let the `sdk` know about the change.
 - `ae:sign`: Invoked by `sdk` when required to sign the tx.
 - `ae:broadcast`: Invoked by `wallet` after it has signed the tx.
 - `ae:deregister`: Invoked by `wallet` to deregister itself from the `sdk`.
@@ -106,6 +105,7 @@ We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) stand
 
 2. The SDK listens for `registerProvider` and on receiving a request generates a pub-priv key pair and broadcasts a `registrationComplete` message that includes `sdk` public key that should be used by wallet provider for all the future communications.
    Message:
+
    ```json
    {
      "registrationComplete": {
@@ -114,6 +114,7 @@ We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) stand
      }
    }
    ```
+
 3. At this step, the user should be prompted by the extension/wallet to accept the incoming SDK. If the user agrees, the wallet posts the `walletDetail` message encrypted using the secret key generated (wallet private key + sdk public key) and nonce.
 
    Message:
@@ -131,7 +132,7 @@ We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) stand
 
    ```json
    {
-     "address": [],
+     "address": "<current address>",
      "extra": []
    }
    ```
