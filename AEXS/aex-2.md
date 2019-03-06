@@ -3,7 +3,7 @@
 ```
 AEX: 2
 Title: Third-party Wallet Provider Support
-Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea) & Nazar Duchak (@nduchak)
+Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea), Enrico Icardi (@ricricucit) & Nazar Duchak (@nduchak)
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
@@ -14,7 +14,7 @@ Created: 2019-03-04
 
 ## Simple Summary
 
-The document approaches the technical specification about how a wallet provider (ex. BaseApp, Metamask) can interact with Aeternity enabled applications. 
+The document approaches the technical specification about how a wallet provider (ex. BaseApp, Metamask) can interact with Aeternity enabled applications.
 
 [Link to discussion topic](https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715).
 
@@ -42,7 +42,7 @@ The specification is divided in two main areas, the first one addresses applicat
 
 For in browser application the communication between `wallet <-> (sdk <-> app)` leverages the [Native messaging API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging).
 
-The advantages of using the _Native messaging API_ lie in the possibility of components to communicate independently from where they are being instantiated: a embedded iFrame can communicate with the parent page as well as a browser extension or a custom browser implementation.
+The advantages of using the _Native messaging API_ lies in the possibility of components to communicate independently from where they are being instantiated: a embedded iFrame can communicate with the parent page as well as a browser extension or a custom browser implementation.
 
 Since the messages via _Native messaging API_ are broadcasted, the communication between the SDK and a Wallet provider are encrypted using the [nacl secrectbox](https://nacl.cr.yp.to/secretbox.html) implementation with throwaway keys.
 
@@ -50,24 +50,27 @@ Since the messages via _Native messaging API_ are broadcasted, the communication
 
 The workflow of the interaction between the App + SDK is divided in 3 phases:
 
-- handshake
-- operation
-- de-registration
+1. Handshake
+2. Operation
+3. De-registration
 
-An example for the handshake is the following
-
-```sequence
-Note left of SDK: App
-SDK --> Wallet: ae:sdkReady [optional]
-Wallet ->SDK: ae:registerProvider(WalletPubKey)
-SDK -> Wallet: ae:registrationComplete(SDKPubKey, WalletPubKey)
-```
-
-In the operation phase the SDK and the Wallet will be exchangin encrypted data
-relative to signing end broadcasting transactions
+In the operation phase the SDK and the Wallet will be exchanging encrypted data relative to signing end broadcasting transactions.
 
 The deregistration phase is optional but allows a wallet provider to
 notifiy the SDK (and the app) that the wallet has been disconnected.
+
+
+#### Communication Examples
+
+##### Provider Registration (Handshake)
+![Register Provider][register]
+
+##### Transaction Signing (example operation)
+![Sign TX][sign]
+
+[sign]: https://i.imgur.com/C5cu3FI.png "Sign Tx"
+[register]: https://i.imgur.com/4qOLPDf.png "Register Provider"
+
 
 #### SDK Provided Methods
 
@@ -85,7 +88,9 @@ notifiy the SDK (and the app) that the wallet has been disconnected.
 
 The wallet can also let the SDK know of extra funtionality that it provides during the time of registration. These methods will vary from wallet to wallet and are out of the scope of this proposal.
 
-#### Workflow
+#### Workflow (Messages Exchange Example)
+
+We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) standard for messages exchange (already supported by aeternity's JS SDK), but for simplicity's sake, this documentation is not using the standard, so the actual messages exchange is slightly different.
 
 ##### Provider Registration
 
@@ -104,8 +109,8 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
    ```json
    {
      "registrationComplete": {
-       "provider": "<DH public key>",
-       "sdk": "<DH public key>"
+        "provider": "<DH public key>",
+        "sdk": "<DH public key>"
      }
    }
    ```
@@ -115,10 +120,10 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
 
    ```json
    {
-       "walletDetail": {
-           "message": <encrypted payload>,
-           "nonce": "<nonce>"
-       }
+      "walletDetail": {
+        "message": "<encrypted payload>",
+        "nonce": "<nonce>"
+      }
    }
    ```
 
@@ -140,7 +145,7 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
    ```json
    {
      "sign": {
-        "message": <encrypted payload>,
+        "message": "<encrypted payload>",
         "nonce": "<nonce>"
      }
    }
@@ -150,8 +155,8 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
 
    ```json
    {
-     "transaction": <unsigned tx>,
-     "network_id": "<network_id>",
+      "transaction": "<unsigned tx>",
+      "network_id": "<network_id>",
    }
    ```
 
@@ -161,10 +166,10 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
 
    ```json
    {
-       "broadcast": {
-           "message": <encrypted signed transaction>,
-           "nonce": "<nonce>"
-       }
+      "broadcast": {
+        "message": "<encrypted signed tx>",
+        "nonce": "<nonce>"
+      }
    }
    ```
 
@@ -183,13 +188,13 @@ When the URI is invoked, if there is a default application selected by user for 
   - `aeternity://<address>/<raw_tx>?network_id=<network_id>&callback=<sdk_url>`
 - Callback to SDK
 
-  - Every `sign` request should specify `sdk callback` url. Once the signing is done by the wallet, it needs to invode the callback url with the signex transaction payload for the `SDK` to broadcast it.
+  - Every `sign` request should specify `sdk callback` url. Once the signing is done by the wallet, it needs to invoke the callback url with the signex transaction payload for the `SDK` to broadcast it.
   - The wallet should do a `POST` request on the `callback` url with following payload:
 
   ```json
   {
-      "transaction": <signed_transaction>,
-      "network_id": <network_id>
+    "transaction": <signed_transaction>,
+    "network_id": <network_id>
   }
   ```
 
