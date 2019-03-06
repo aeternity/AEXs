@@ -10,7 +10,7 @@ higher the quality of the feedback you are likely to receive.
 
 Keep in mind the following guidelines from [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md):
 
-> Each AEX must have a champion - someone who writes the EIP using the style and
+> Each AEX must have a champion - someone who writes the AEX using the style and
   format described below, shepherds the discussions in the appropriate forums,
   and attempts to build community consensus around the idea. The AEX champion
   (a.k.a. Author) should first attempt to ascertain whether the idea is AEX-
