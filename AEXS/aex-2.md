@@ -68,8 +68,8 @@ notifiy the SDK (and the app) that the wallet has been disconnected.
 ##### Transaction Signing (example operation)
 ![Sign TX][sign]
 
-[sign]: https://i.imgur.com/C5cu3FI.png "Sign Tx"
-[register]: https://i.imgur.com/4qOLPDf.png "Register Provider"
+[sign]: ../assets/aex-2/wallet-signing.png "Sign Tx"
+[register]: ../assets/aex-2/provider-registration.png "Register Provider"
 
 #### SDK Provided Methods
 
@@ -89,7 +89,7 @@ The wallet can also let the SDK know of extra funtionality that it provides duri
 
 #### Workflow (Messages Exchange Example)
 
-We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) standard for messages exchange (already supported by aeternity's JS SDK), but for simplicity's sake, this documentation is not using the standard, so the actual messages exchange is slightly different.
+We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) standard for message exchange, already supported by aeternity's JS SDK.
 
 ##### Provider Registration
 
@@ -97,45 +97,42 @@ We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) stand
 
    Message:
 
-   ```json
-   {
-     "registerProvider": "<DH public key>"
-   }
-   ```
+  ```json
+    {
+      "jsonrpc": "2.0",
+      "method": "ae:registerProvider",
+      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY="],
+      "id": 1
+    }
+  ```
 
 2. The SDK listens for `registerProvider` and on receiving a request generates a pub-priv key pair and broadcasts a `registrationComplete` message that includes `sdk` public key that should be used by wallet provider for all the future communications.
    Message:
 
-   ```json
-   {
-     "registrationComplete": {
-        "provider": "<DH public key>",
-        "sdk": "<DH public key>"
-     }
-   }
-   ```
+  ```json
+    {
+      "jsonrpc": "2.0",
+      "method": "ae:registrationComplete",
+      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ="],
+      "id": 1
+    }
+  ```
 
 3. At this step, the user should be prompted by the extension/wallet to accept the incoming SDK. If the user agrees, the wallet posts the `walletDetail` message encrypted using the secret key generated (wallet private key + sdk public key) and nonce.
 
    Message:
 
-   ```json
-   {
-      "walletDetail": {
-        "message": "<encrypted payload>",
-        "nonce": "<nonce>"
-      }
-   }
-   ```
-
-   Plaintext for encrypted payload:
-
-   ```json
-   {
-     "address": "<current address>",
-     "extra": []
-   }
-   ```
+  ```json
+    {
+      "jsonrpc": "2.0",
+      "method": "ae:walletDetail",
+      "params": [ "1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=",
+                "ak_bobS3qRvWfDxCpmedQYzp3xrK5jVUS4MSto99QrCdySSMjYnd",
+                ...[]
+              ],
+      "id": 1
+	}
+  ```
 
 ##### Transaction Signing
 
@@ -143,35 +140,26 @@ We're using [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) stand
 
    Message:
 
-   ```json
-   {
-     "sign": {
-        "message": "<encrypted payload>",
-        "nonce": "<nonce>"
-     }
-   }
-   ```
-
-   Plaintext:
-
-   ```json
-   {
-      "transaction": "<unsigned tx>",
-      "network_id": "<network_id>",
-   }
-   ```
+  ```json
+    {
+	  "jsonrpc": "2.0",
+      "method": "ae:sign",
+      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "raw_tx"],
+      "id": 1
+    }
+  ```
 
 2. When the wallet receives this message it tries to decrypt it, and if successful validates and signs the tx, re-encrypts it and again posts it for `SDK` to receive.
 
    Message:
 
-   ```json
-   {
-      "broadcast": {
-        "message": "<encrypted signed tx>",
-        "nonce": "<nonce>"
-      }
-   }
+  ```json
+    {
+      "jsonrpc": "2.0",
+      "method": "ae:broadcast",
+      "params": ["1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=", "signed_tx"],
+      "id": 1
+    }
    ```
 
 #### Wallet Deep Linking Specification
@@ -189,7 +177,7 @@ When the URI is invoked, if there is a default application selected by user for 
   - `aeternity://<address>/<raw_tx>?network_id=<network_id>&callback=<sdk_url>`
 - Callback to SDK
 
-  - Every `sign` request should specify `sdk callback` url. Once the signing is done by the wallet, it needs to invoke the callback url with the signex transaction payload for the `SDK` to broadcast it.
+  - Every `sign` request should specify a `sdk callback` URL. Once the signing is done by the wallet, it needs to invoke the callback url with the signex transaction payload for the `SDK` to broadcast it.
   - The wallet should do a `POST` request on the `callback` url with following payload:
 
   ```json
