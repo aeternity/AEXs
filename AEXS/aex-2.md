@@ -44,7 +44,8 @@ For in browser application the communication between `wallet <-> (sdk <-> app)` 
 
 The advantages of using the _Native messaging API_ lies in the possibility of components to communicate independently from where they are being instantiated: a embedded iFrame can communicate with the parent page as well as a browser extension or a custom browser implementation.
 
-Since the messages via _Native messaging API_ are broadcasted, the communication between the SDK and a Wallet provider are encrypted using the [nacl secrectbox](https://nacl.cr.yp.to/secretbox.html) implementation with throwaway keys.
+Since the messages via _Native messaging API_ are broadcasted, the communication between the SDK and a Wallet provider are encrypted using the [nacl box](https://nacl.cr.yp.to/box.html) implementation with throwaway keys.
+For secruity model and selected primitives, please refer [here](https://nacl.cr.yp.to/box.html).
 
 #### Workflow
 
@@ -59,16 +60,17 @@ In the operation phase the SDK and the Wallet will be exchanging encrypted data 
 The deregistration phase is optional but allows a wallet provider to
 notifiy the SDK (and the app) that the wallet has been disconnected.
 
-
 #### Communication Examples
 
 ##### Provider Registration (Handshake)
+
 ![Register Provider][register]
 
 ##### Transaction Signing (example operation)
+
 ![Sign TX][sign]
 
-[sign]: ../assets/aex-2/wallet-signing.png "Sign Tx"
+[sign]: ../assets/aex-2/wallet-signing.png "Sign Transaction"
 [register]: ../assets/aex-2/provider-registration.png "Register Provider"
 
 #### SDK Provided Methods
@@ -79,8 +81,8 @@ notifiy the SDK (and the app) that the wallet has been disconnected.
 - `ae:registerProvider`: Invoked by `wallet` to register with `sdk`.
 - `ae:registrationComplete`: Invoked by `sdk` to let wallet know that the registration is done.
 - `ae:walletDetail`: Invoked by `wallet`. This contains encrypted information about the current active account address and extra wallet methods. Everytime there is a change of address(active address) in wallet, the wallet needs to invoke this method to let the `sdk` know about the change.
-- `ae:sign`: Invoked by `sdk` when required to sign the tx.
-- `ae:broadcast`: Invoked by `wallet` after it has signed the tx.
+- `ae:sign`: Invoked by `sdk` when required to sign the transaction.
+- `ae:broadcast`: Invoked by `wallet` after it has signed the transaction.
 - `ae:deregister`: Invoked by `wallet` to deregister itself from the `sdk`.
 
 #### Wallet Provided Methods
@@ -149,7 +151,7 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
     }
   ```
 
-2. When the wallet receives this message it tries to decrypt it, and if successful validates and signs the tx, re-encrypts it and again posts it for `SDK` to receive.
+2. When the wallet receives this message it tries to decrypt it, and if successful validates and signs the transaction, re-encrypts it and again posts it for `SDK` to receive.
 
    Message:
 
@@ -157,7 +159,7 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
     {
       "jsonrpc": "2.0",
       "method": "ae:broadcast",
-      "params": ["1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=", "signed_tx"],
+      "params": ["1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=", "raw_tx", "signed_tx"],
       "id": 1
     }
    ```
