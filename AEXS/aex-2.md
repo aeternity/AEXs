@@ -83,6 +83,7 @@ notifiy the SDK (and the app) that the wallet has been disconnected.
 - `ae:walletDetail`: Invoked by `wallet`. This contains encrypted information about the current active account address and extra wallet methods. Everytime there is a change of address(active address) in wallet, the wallet needs to invoke this method to let the `sdk` know about the change.
 - `ae:sign`: Invoked by `sdk` when required to sign the transaction.
 - `ae:broadcast`: Invoked by `wallet` after it has signed the transaction.
+- `ae:broadcastSuccess`: Invoked by `SDK` to 
 - `ae:deregister`: Invoked by `wallet` to deregister itself from the `sdk`.
 
 #### Wallet Provided Methods
@@ -179,7 +180,7 @@ When the URI is invoked, if there is a default application selected by user for 
   - `aeternity://<address>/<raw_tx>?network_id=<network_id>&callback=<sdk_url>`
 - Callback to SDK
 
-  - Every `sign` request should specify a `sdk callback` URL. Once the signing is done by the wallet, it needs to invoke the callback url with the signex transaction payload for the `SDK` to broadcast it.
+  - Every `sign` request should specify a `sdk callback` URL. Once the signing is done by the wallet, it needs to invoke the callback url with the signed transaction payload for the `SDK` to broadcast it.
   - The wallet should do a `POST` request on the `callback` url with following payload:
 
   ```json
