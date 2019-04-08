@@ -145,7 +145,7 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
 
   ```json
     {
-	  "jsonrpc": "2.0",
+	    "jsonrpc": "2.0",
       "method": "ae:sign",
       "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "raw_tx"],
       "id": null
