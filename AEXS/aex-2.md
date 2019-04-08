@@ -7,7 +7,7 @@ Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea), En
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
-Status: Draft
+Status: Review
 Type: Standards Track
 Created: 2019-03-04
 ```
