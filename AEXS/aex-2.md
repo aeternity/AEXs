@@ -83,6 +83,7 @@ notifiy the SDK (and the app) that the wallet has been disconnected.
 - `ae:walletDetail`: Invoked by `wallet`. This contains encrypted information about the current active account address and extra wallet methods. Everytime there is a change of address(active address) in wallet, the wallet needs to invoke this method to let the `sdk` know about the change.
 - `ae:sign`: Invoked by `sdk` when required to sign the transaction.
 - `ae:broadcast`: Invoked by `wallet` after it has signed the transaction.
+- `ae:broadcastResponse`: Invoked by `SDK` to inform wallet about a successful or failed transaction broadcast. If there is a failure, the SDK will also provide a reason for the failure.
 - `ae:deregister`: Invoked by `wallet` to deregister itself from the `sdk`.
 
 #### Wallet Provided Methods
@@ -104,7 +105,7 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
       "jsonrpc": "2.0",
       "method": "ae:registerProvider",
       "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY="],
-      "id": 1
+      "id": null
     }
   ```
 
@@ -116,7 +117,7 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
       "jsonrpc": "2.0",
       "method": "ae:registrationComplete",
       "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ="],
-      "id": 1
+      "id": null
     }
   ```
 
@@ -132,8 +133,8 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
                 "ak_bobS3qRvWfDxCpmedQYzp3xrK5jVUS4MSto99QrCdySSMjYnd",
                 ...[]
               ],
-      "id": 1
-	}
+      "id": null
+    }
   ```
 
 ##### Transaction Signing
@@ -147,7 +148,7 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
 	  "jsonrpc": "2.0",
       "method": "ae:sign",
       "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "raw_tx"],
-      "id": 1
+      "id": null
     }
   ```
 
@@ -160,34 +161,22 @@ We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) s
       "jsonrpc": "2.0",
       "method": "ae:broadcast",
       "params": ["1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=", "raw_tx", "signed_tx"],
-      "id": 1
+      "id": null
     }
    ```
 
-#### Wallet Deep Linking Specification
+3. On receiving the signed transaction back, the SDK will brodcast it and revert back to the wallet with the following message
 
-##### URI Scheme: `ae://` or `aeternity://`
-
-URI based deep linking enables websites or applications to interact with native applications registered to listen for aeternity URI scheme.
-This enables a users to sign transaction using desktop or app based wallet.
-
-When the URI is invoked, if there is a default application selected by user for the URI scheme then it opens and application and then wallet can process the URL to open the appropriate page or trigger required action.
-
-- Open Wallet Application
-  - `aeternity://<address>`
-- Sign Transaction
-  - `aeternity://<address>/<raw_tx>?network_id=<network_id>&callback=<sdk_url>`
-- Callback to SDK
-
-  - Every `sign` request should specify a `sdk callback` URL. Once the signing is done by the wallet, it needs to invoke the callback url with the signex transaction payload for the `SDK` to broadcast it.
-  - The wallet should do a `POST` request on the `callback` url with following payload:
+   Message:
 
   ```json
-  {
-    "transaction": <signed_transaction>,
-    "network_id": <network_id>
-  }
-  ```
+    {
+      "jsonrpc": "2.0",
+      "method": "ae:broadcastResponse",
+      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "tx_hash", "{status: ok/fail, reason?: string}"],
+      "id": null
+    }
+   ```
 
 ## Rationale
 
@@ -195,10 +184,6 @@ When the URI is invoked, if there is a default application selected by user for 
 
 - Encrypted communication layer protects the user privacy by not leaking the list of accounts to any malicious actor eavesdropping on the communication between `wallet` and `SDK`. The list of accounts is only provided to the `SDK`(in encrypted format) only if the user accepts the incoming `registrationComplete` request.
 - Encryption communication also prevents any malicious actor to inject itself between the `SDK` and `wallet` and modify the requests and responses originating from either party. In other words, it prevents MITM attacks against wallets.
-
-### Deep Linking
-
-- Deep linking enables the users(& `SDK`) to interact with the `wallets` that don't support `postMessage` API i.e. native desktop wallets with no browser extension, mobile wallet applications, etc.
 
 ## References
 
@@ -213,6 +198,3 @@ When the URI is invoked, if there is a default application selected by user for 
 - https://medium.com/@lyricalpolymath/web3designdecisionframework-e84075816515
 - https://www.youtube.com/watch?v=aVE0eHp7QA0&feature=youtu.be
 - https://docs.satoshipay.io/api/#introduction
-- https://medium.com/@abhimuralidharan/universal-links-in-ios-79c4ee038272
-- https://developer.android.com/training/app-links
-- https://developer.apple.com/ios/universal-links/
