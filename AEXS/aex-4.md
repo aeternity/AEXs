@@ -41,6 +41,10 @@ This is especially beneficial for mobile wallet users as they can simply click o
     3. If the acoount is found with the wallet, then the user is redirected to the account information page of the provided address.
     4.If the account is not found then prompt the user with an `account not found` message.
 
+    #### Example
+
+    `aeternity:ak_2i2fioFMoEffBPeT3EBZEsxK1w579BuCgYE8WiMiADEQqUguU2`
+
 2. Payment
 
     URI: `aeternity:<wallet_address>/<amount>/<vendor_name>?callback=<url>&txId=<transaction_id>`
@@ -50,7 +54,9 @@ This is especially beneficial for mobile wallet users as they can simply click o
     1. Vendor generates a wallet address for receiving payment.
     2. Creates the URI substituting `wallet_address` with newly created address, `amount` with amount requested, `vendor_name` with unique self-identifier for the user to correctly identifiy vendor and `url` with a callback URL that accepts a transaction id under `txId` query param.
 
-### Example
+    #### Example
+
+    `aeternity:ak_2gUJrd11cy65yqZ7mg1ULUG4kZ5r6v6vNqVtmA8HqUGKCf6kNf/125.12/myaeshop?callback=https://myaeshop.com/verify?txId=th_rox6XyzqDBTopoTYQNJux49jnLVd39QhxDSvYoQ5he9SAGupz`
 
 ## Reference
 
