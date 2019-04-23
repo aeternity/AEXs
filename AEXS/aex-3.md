@@ -18,7 +18,7 @@ The document describes and defines the secret storage approach used by æternity
 
 The motivation for the AEX is to describe a standard way that is being used by æternity for secret storage.
 
-The secret storage specification, although is being currently used for secret-key storage, should not be limited to it and should be used as a standard way of storing any data (esp. user related or user-owned) in an encrypted format.
+The secret storage specification, although is being currently used for secret-key storage, should not be limited to it and should be used as a standard way of storing secret text/plain text (esp. user related or user-owned) in an encrypted format.
 
 Having a standard way for encryption and storage of data enables
 
