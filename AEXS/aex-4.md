@@ -47,16 +47,16 @@ This is especially beneficial for mobile wallet users as they can simply click o
 
 2. Payment
 
-    URI: `aeternity:<receiver_address>/<amount>/<vendor_name>?callback=<url>&txId=<transaction_id>`
+    URI: `aeternity:<receiver_address>/<amount>/<vendor_identifier>?callback=<url>&txId=<transaction_id>`
 
     This URI scheme enables vendors to generate direct payment request URIs to user wallet.
 
     1. Vendor generates a address for receiving payment.
-    2. Creates the URI substituting `receiver_address` with newly created address, `amount` with amount requested, `vendor_name` with unique self-identifier for the user to correctly identifiy vendor and `url` with a callback URL that accepts a transaction id under `txId` query param.
+    2. Creates the URI substituting `receiver_address` with newly created address, `amount` with amount requested, `vendor_identifier` with a human readable identifier that can be used to correctly identifiy vendor and requested payment, and `url` with a callback URL that accepts a transaction id under `txId` query param.
 
     #### Example
 
-    `aeternity:ak_2gUJrd11cy65yqZ7mg1ULUG4kZ5r6v6vNqVtmA8HqUGKCf6kNf/125.12/myaeshop?callback=https://myaeshop.com/verify?txId=th_rox6XyzqDBTopoTYQNJux49jnLVd39QhxDSvYoQ5he9SAGupz`
+    `aeternity:ak_2gUJrd11cy65yqZ7mg1ULUG4kZ5r6v6vNqVtmA8HqUGKCf6kNf/125.12/myaeshop-ref9834?callback=https://myaeshop.com/verify?txId=th_rox6XyzqDBTopoTYQNJux49jnLVd39QhxDSvYoQ5he9SAGupz`
 
 ## Reference
 
