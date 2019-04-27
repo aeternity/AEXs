@@ -5,6 +5,7 @@ AEX: 4
 Title: æternity wallet deep linking specification
 Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea)
 License: BSD-3-Clause
+Discussions-To: https://forum.aeternity.com/t/aex-4-aeternity-wallet-deep-linking-specification/3231
 Status: Draft
 Type: Standards Track
 Created: 2019-04-03
