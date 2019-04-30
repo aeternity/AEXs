@@ -25,7 +25,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 3. If, SDK needs the wallet to sign the transaction it asks the wallet
 4. Wallet signs and returns the signed transaction.
 
-### Proposed process with inter-wallet link and communication
+### Proposed process with inter-wallet communication
 
 1. SDK connects with a wallet
 2. Wallet returns it's personal address and other account address it may help the SDK in getting signature for.
@@ -37,3 +37,30 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 5. Once the transaction is signed it is returned back to the requesting SDK for further processing.
 
 ## Specification
+
+### Naming Convention
+
+We try to enforce a `who - what - how` rule for naming wherever possible.
+
+### Protocol Messages
+
+- `wallet.channel.initiate`
+- `wallet.channel.accept`
+- `wallet.channel.close`
+- `wallet.channel.close_incoming`
+
+- `wallet.get.address`
+- `wallet.receive.address`
+- `wallet.update.address`
+- `wallet.update.address_ack`
+- `wallet.update.address_error`
+
+- `wallet.sign.tx_return`
+- `wallet.sign.tx_broadcast`
+- `wallet.tx.return`
+- `wallet.tx.broadcast`
+- `wallet.tx.sign_failed`
+- `wallet.tx.sign_ack`
+- `wallet.tx.sign_error`
+
+### Message Flow
