@@ -27,18 +27,18 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 #### General
 
-- `aepp.wallet.error`: used to communicate any error occurred. this is a json-rpc 2.0 error object.
+- `error`: used to communicate any error occurred. Each error object will contain the `request` that triggered it.
 
 ##### Types of errors
 
-**Type**|**Code**|**Meaning**
+**Code**|**Message**|**Meaning**
 :-----:|:-----:|:-----:
-tx_verification_error|1|returned when verification of signed transaction fails.
-invalid_tx|2|returned by node for an invalid transaction.
-signature_deny|3|returned when wallet denies the signature request by Aepp/SDK.
-address_deny|4|returned when wallet denies the address request by Aepp/SDK.
+1|Transaction verification failed|returned when verification of signed transaction fails.
+2|Invalid transaction|returned by node for an invalid transaction.
+3|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
+4|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
 
-- `ping/pong`
+- `ping/pong`: general ping/pong messages to check liveness.
 
 #### SDK/Aepp
 
