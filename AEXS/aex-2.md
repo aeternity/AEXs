@@ -253,4 +253,6 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 ## Example Flow
 
-![example-flow](../assets/aex-2/example-flow.png)
+<p align="center">
+<img src="../assets/aex-2/example-flow.png" width="400px">
+</p>
