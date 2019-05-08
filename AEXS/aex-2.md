@@ -25,33 +25,31 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 ### Protocol Messages
 
-(TODO: expand on each message and provide json-rpc)
-
 #### General
 
 - `aepp.wallet.error`: used to communicate any error occurred. this is a json-rpc 2.0 error object.
 
-(TODO: list possible errors with codes. possible candidates:)
+##### Types of errors
 
-- `TX_VERIFICATION_ERROR`
-- `INVALID_TX`
-- `CONNECT_REJECT`
-- `INVALID_ADDRESS`
-- `ADDRESS_REJECT`
-- `SIGN_REJECT`
+**Type**|**Code**|**Meaning**
+:-----:|:-----:|:-----:
+tx_verification_error|1|returned when verification of signed transaction fails.
+invalid_tx|2|returned by node for an invalid transaction.
+signature_deny|3|returned when wallet denies the signature request by Aepp/SDK.
+address_deny|4|returned when wallet denies the address request by Aepp/SDK.
 
-#### By SDK/Aepp
+- `ping/pong`
 
-- `aepp.wallet.accept`: connection acknowledgement send by the SDK.
-- `aepp.get.address`: SDK requests for current address
-- `aepp.request.sign`: SDK requests wallet for signature
-- `aepp.broadcast.response`: standard response for `wallet.broadcast.tx` containing success message with tx id.
-- `aepp.network`: network details wrapped in a response object
+#### SDK/Aepp
 
-#### By Wallet
+- `aepp.get.address`: request for current address
+- `aepp.request.sign`: request wallet for signature
+- `aepp.broadcast.response`: standard response for `wallet.broadcast.tx` containing success message with transaction id.
+- `aepp.update.network`: network details wrapped in a response object.
+
+#### Wallet
 
 - `wallet.get.network`: get network details from sdk
-- `wallet.request.connect`: connection request sent by the wallet.
 - `wallet.update.address`: used by wallet for sending requested address. wallet can also send the list of address of the wallets it is further connected too
 - `wallet.broadcast.tx`: ask SDK to broadcast the transaction.
 - `wallet.verify.tx`: verify the tx from the SDK
