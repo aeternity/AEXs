@@ -46,16 +46,16 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   }
   ```
 
-##### Types of errors
+    ##### Types of errors
 
-**Code**|**Message**|**Meaning**
-:-----:|:-----:|:-----:
-1|Transaction verification failed|returned when verification of signed transaction fails.
-2|Invalid transaction|returned by node for an invalid transaction.
-3|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
-4|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
-5|Invalid Identifier| returned by aepp or wallet when the enclosing `id` is unknown to the receiving party or is missing entirely.
-6|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.
+    **Code**|**Message**|**Meaning**
+    :-----:|:-----:|:-----:
+    1|Transaction verification failed|returned when verification of signed transaction fails.
+    2|Invalid transaction|returned by node for an invalid transaction.
+    3|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
+    4|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
+    5|Invalid Identifier| returned by aepp or wallet when the enclosing `id` is unknown to the receiving party or is missing entirely.
+    6|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.
 
 - `ping/pong`: general ping/pong messages to check liveness.
 
