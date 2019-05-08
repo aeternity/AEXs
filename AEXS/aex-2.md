@@ -54,7 +54,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 2|Invalid transaction|returned by node for an invalid transaction.
 3|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
 4|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
-5|Invalid Identifier| returned by aepp or wallet when the enclosing `id` is unknown.
+5|Invalid Identifier| returned by aepp or wallet when the enclosing `id` is unknown to the receiving party or is missing entirely.
 6|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.
 
 - `ping/pong`: general ping/pong messages to check liveness.
@@ -216,7 +216,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "method": "wallet.broadcast.tx",
     "params": {
        "id": "<unique_identifier_uuidv4>",
-       "tx": "<signed_tx>"
+       "tx": "<signed_tx>",
+       "verify": true/false
     },
     "version": 1
   }
@@ -249,3 +250,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+
+## Example Flow
+
+![example-flow](../assets/aex-2/example-flow.png)
