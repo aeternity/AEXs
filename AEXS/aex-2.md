@@ -14,7 +14,7 @@ Created: 2019-03-04
 
 ## Simple Summary
 
-The document approaches the technical specification about how a wallet provider (ex. BaseApp, Metamask) can interact with Aeternity enabled applications.
+The document approaches the technical specification about how a wallet provider (ex. BaseApp, MetaMask) can interact with Aeternity enabled applications.
 
 ## Motivation
 
@@ -29,6 +29,23 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 - `error`: used to communicate any error occurred. Each error object will contain the `request` that triggered it.
 
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+  "error": {
+    "code": 1,
+    "data": {
+      "request": {}
+    },
+    "message": ""
+    },
+    "id": null,
+    "jsonrpc": "2.0",
+    "version": 1
+  }
+  ```
+
 ##### Types of errors
 
 **Code**|**Message**|**Meaning**
@@ -37,20 +54,174 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 2|Invalid transaction|returned by node for an invalid transaction.
 3|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
 4|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
+5|Invalid Identifier| returned by aepp or wallet when the enclosing `id` is unknown.
+6|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.
 
 - `ping/pong`: general ping/pong messages to check liveness.
 
 #### SDK/Aepp
 
-- `aepp.get.address`: request for current address
+- `aepp.get.address`: request for current address.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "aepp.get.address",
+    "params": {
+       "id": "<unique_identifier_uuidv4>"
+    },
+    "version": 1
+  }
+  ```
+
 - `aepp.request.sign`: request wallet for signature
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "aepp.request.sign",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx": "<raw_unsigned_tx>"
+    },
+    "version": 1
+  }
+
 - `aepp.broadcast.response`: standard response for `wallet.broadcast.tx` containing success message with transaction id.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "aepp.broadcast.response",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx_id": "<tx_id>"
+    },
+    "version": 1
+  }
+
 - `aepp.update.network`: network details wrapped in a response object.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "aepp.update.network",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "network": "<network_id>"
+    },
+    "version": 1
+  }
+
+- `aepp.accept.wallet`: response from sdk/aepp when it accepts the wallets registration request.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "aepp.accept.wallet",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "name": "<aepp_name>"
+    },
+    "version": 1
+  }
 
 #### Wallet
 
+- `wallet.request.connect`: connection request sent by wallet containing an identifier that it wants to assign to the aepp/sdk. The generated identifier must be unique and must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14).
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "wallet.request.connect",
+    "params": {
+       "id": "<unique_identifier_uuidv4>"
+    },
+    "version": 1
+  }
+
 - `wallet.get.network`: get network details from sdk
-- `wallet.update.address`: used by wallet for sending requested address. wallet can also send the list of address of the wallets it is further connected too
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "wallet.get.network",
+    "params": {
+       "id": "<unique_identifier_uuidv4>"
+    },
+    "version": 1
+  }
+
+- `wallet.update.address`: used by wallet for sending requested address. wallet can also send the list of address of the wallets it is further connected to.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "aepp.accept.wallet",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "address": "<current_wallet_address>",
+       "connected": "[List of addresses from the connected wallets]"
+    },
+    "version": 1
+  }
+
 - `wallet.broadcast.tx`: ask SDK to broadcast the transaction.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "wallet.broadcast.tx",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx": "<signed_tx>"
+    },
+    "version": 1
+  }
+
 - `wallet.verify.tx`: verify the tx from the SDK
-- `wallet.aepp.disconnect`: wallet lets the aepp know that it will disconnect. no further acknowledgement required.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "wallet.verify.tx",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx": "<signed_tx>"
+    },
+    "version": 1
+  }
+
+- `wallet.disconnect.aepp`: wallet lets the aepp know that it will disconnect. no further acknowledgement required.
+
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "wallet.disconnect.aepp",
+    "params": {
+       "id": "<unique_identifier_uuidv4>"
+    },
+    "version": 1
+  }
