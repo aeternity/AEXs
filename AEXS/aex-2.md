@@ -59,6 +59,30 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 - `ping/pong`: general ping/pong messages to check liveness.
 
+  json-rpc 2.0 structure:
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "ping",
+    "params": {
+       "id": "<unique_identifier_uuidv4>"
+    },
+    "version": 1
+  }
+  ```
+
+  ```json
+  {
+    "jsonrpc": "2.0",
+    "method": "pong",
+    "params": {
+       "id": "<unique_identifier_uuidv4>"
+    },
+    "version": 1
+  }
+  ```
+
 #### SDK/Aepp
 
 - `aepp.get.address`: request for current address.
