@@ -5,6 +5,7 @@ AEX: 3
 Title: Secret storage format
 Author: Sascha Hanse <shanse@posteo.de>, Shubhendu Shekhar (@shekhar-shubhendu)
 License: BSD-3-Clause
+Discussions-To: https://forum.aeternity.com/t/aex-3-secure-storage-format/3220
 Status: Draft
 Type: Informational
 Created: 2019-04-03
@@ -18,7 +19,7 @@ The document describes and defines the secret storage approach used by æternity
 
 The motivation for the AEX is to describe a standard way that is being used by æternity for secret storage.
 
-The secret storage specification, although is being currently used for secret-key storage, should not be limited to it and should be used as a standard way of storing any data (esp. user related or user-owned) in an encrypted format.
+The secret storage specification, although is being currently used for secret-key storage, should not be limited to it and should be used as a standard way of storing secret text/plain text (esp. user related or user-owned) in an encrypted format.
 
 Having a standard way for encryption and storage of data enables
 
