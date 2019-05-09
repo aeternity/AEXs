@@ -1,9 +1,9 @@
-# AEX 5: Strategic Semantic Syntax: Contract Interaction Wrapper 
+# AEX 6: Strategic Semantic Syntax: Contract Interaction Wrapper 
 <style>
 .markdown-body { max-width: 80% !important; }
 </style>
 ```
-AEX: 5
+AEX: 6
 Title: Strategic Semantic Syntax Part 1: Contract Interaction Wrapper
 Author: Nikita Fuchs GitHub: @nikita-fuchs
 License: BSD-3-Clause
