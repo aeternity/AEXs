@@ -33,7 +33,7 @@ Having a standard way for encryption and storage of data enables
 
   - `secret_type` specifies the type of the encrypted data. This is restricted to `ed25519` at this point.
   - `symmetric_alg` specifies the algorithm used for symmetric encryption of the secret. This should be authenticated encryption and the only option is `xsalsa20-poly1305` currently.
-  - The `ciphertext` is the output of `symmectric_alg` , i.e. the output of libsodiums `crypto_secretbox_easy`, which is `MAC + CIPHER`.
+  - The `ciphertext` is the output of `symmectric_alg` , i.e. the output of libsodiums `crypto_secretbox_easy`, which is `MAC + CIPHER` with an upper-limit of `512 bytes`.
   - `cipher_params` params used for successful decryption of the ciphertext
   - `kdf` specifies the methods used for key derivation.
   - `kdf_params` are the params used by the `kdf`
