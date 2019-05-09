@@ -4,7 +4,7 @@
 AEX: 5
 Title: Inter-Wallet Communication
 Author: Shubhendu Shekhar <@shekhar-shubhendu>
-License: CC0-1.0
+License: BSD-3-Clause
 Status: Draft
 Type: Standards Track
 Created: 2019-04-29
@@ -34,15 +34,19 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
     1. checks if it can sign the transaction.
     2. else it checks if it holds direct link to the wallet that can sign the transaction and forwards the request to it.
     3. and at last it checks if there is any indirect link to the signing address i.e. via another connected wallet and forwards the request to it.
-5. Once the transaction is signed it is returned back to the requesting SDK for further processing.
+5. Once the transaction is signed, it is returned back to the requesting SDK for further processing.
 
 ## Specification
 
-### Naming Convention
-
-We try to enforce a `who - what - how` rule for naming wherever possible.
-
 ### Protocol Messages
+
+#### General
+
+- `error`: used to communicate any error occurred. Error code `1` to `5` are reserved and reused here from [AEX-2](https://github.com/apeunit/AEXs/blob/feature/update-aex-2/AEXS/aex-2.md#types-of-errors).
+
+- `ping/pong`: ping/pong messages for liveness check.
+
+#### Start and Close
 
 - `wallet.channel.initiate`: initiate request to open a communication channel.
 - `wallet.channel.accept`: accept `wallet.channel.initiate` request
@@ -51,18 +55,18 @@ We try to enforce a `who - what - how` rule for naming wherever possible.
 - `wallet.channel.close_incoming`: close channel only for signing requests i.e. closing wallet can still ask the wallet on other end to sign or forward the transactions.
 - `wallet.channel.close_incoming_ack`: acknowledgment for `close_incoming`
 
+#### Address Update
+
 - `wallet.get.address`: to ask the connected wallet for its address
-- `wallet.address`: reply message with list of address(and maybe also addresses of other connected wallets)
-- `wallet.update.address`: issued by connected wallets whenever there is address change
+- `wallet.update.address`: issued by connected wallets for returning addresses incl. from the connected wallets
 - `wallet.update.address_ack`: acknowledgement for successful address received
-- `wallet.update.address_error`: error thrown if there is some error, like empty list, invalid format.
+
+#### Sign and Broadcast
 
 - `wallet.sign.tx_return`: ask the connected wallet to sign and return the signed transaction to the originating wallet.
 - `wallet.sign.tx_broadcast`: ask the connected wallet to sign and if possible broadcast it to the network else see `wallet.tx.broadcast`.
-- `wallet.tx.return`:
+- `wallet.tx.return`: used to return signed transaction back to the requestor.
 - `wallet.tx.broadcast`: if the wallet does not support broadcasting then it will send the message back from where it received under this message. Any wallet in the connection chain that is capable of broadcasting or connected to the SDK can broadcast the transaction.
-- `wallet.tx.sign_failed`: if wallet is unable to sign the transaction of find someone who can
 - `wallet.tx.sign_ack`: when requesting wallet receives the signed transaction and it is accepted by the SDK.
-- `wallet.tx.sign_error`: when requesting wallet receives the signed transaction and there is error with the signed transaction (like signature mismatch etc).
 
-### Message Flow
+### Example Flow
