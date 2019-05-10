@@ -5,6 +5,7 @@ AEX: 5
 Title: Inter-Wallet Communication
 Author: Shubhendu Shekhar <@shekhar-shubhendu>
 License: BSD-3-Clause
+Discussions-To: https://forum.aeternity.com/t/aex-5-inter-wallet-communication/3371
 Status: Draft
 Type: Standards Track
 Created: 2019-04-29
@@ -205,23 +206,34 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
 #### Sign and Broadcast Transaction
 
-- `wallet.sign.tx`: ask the connected wallet to sign the tx. If the `return` param is `true` then wallet will sign and return the transaction to the requestor
+- `wallet.sign.tx`: ask the connected wallet to sign the tx.
 
   json-rpc 2.0 structure:
 
   ```json
+  Request:
   {
     "jsonrpc": "2.0",
     "method": "wallet.sign.tx",
     "params": {
        "id": "<unique_identifier_uuidv4>",
-       "return": true/false
+       "tx": "<raw_unsigned_tx>"
+    },
+    "id":1,
+    "version": 1
+  }
+
+  Response:
+  {
+    "jsonrpc": "2.0",
+    "result": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx": "<signed_tx>"
     },
     "id":1,
     "version": 1
   }
   ```
 
-- `wallet.broadcast.tx`: if the wallet does not support broadcasting then it will send the message back from where it received under this message. Any wallet in the connection chain that is capable of broadcasting or connected to the SDK can broadcast the transaction.
-
 ### Example Flow
+[WIP]
