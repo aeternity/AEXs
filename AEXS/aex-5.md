@@ -48,25 +48,19 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
 #### Start and Close
 
-- `wallet.channel.initiate`: initiate request to open a communication channel.
-- `wallet.channel.accept`: accept `wallet.channel.initiate` request
 - `wallet.channel.close`: close the channel
-- `wallet.channel.close_ack`: acknowledgement for `close` request.
 - `wallet.channel.close_incoming`: close channel only for signing requests i.e. closing wallet can still ask the wallet on other end to sign or forward the transactions.
-- `wallet.channel.close_incoming_ack`: acknowledgment for `close_incoming`
 
 #### Address Update
 
 - `wallet.get.address`: to ask the connected wallet for its address
 - `wallet.update.address`: issued by connected wallets for returning addresses incl. from the connected wallets
-- `wallet.update.address_ack`: acknowledgement for successful address received
 
-#### Sign and Broadcast
+#### Sign and Broadcast Transaction
 
 - `wallet.sign.tx_return`: ask the connected wallet to sign and return the signed transaction to the originating wallet.
 - `wallet.sign.tx_broadcast`: ask the connected wallet to sign and if possible broadcast it to the network else see `wallet.tx.broadcast`.
 - `wallet.tx.return`: used to return signed transaction back to the requestor.
 - `wallet.tx.broadcast`: if the wallet does not support broadcasting then it will send the message back from where it received under this message. Any wallet in the connection chain that is capable of broadcasting or connected to the SDK can broadcast the transaction.
-- `wallet.tx.sign_ack`: when requesting wallet receives the signed transaction and it is accepted by the SDK.
 
 ### Example Flow
