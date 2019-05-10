@@ -137,22 +137,6 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   }
   ```
 
-- `aepp.accept.wallet`: response from sdk/aepp when it accepts the wallets registration request.
-
-  json-rpc 2.0 structure:
-
-  ```json
-  {
-    "jsonrpc": "2.0",
-    "method": "aepp.accept.wallet",
-    "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "name": "<aepp_name>"
-    },
-    "version": 1
-  }
-  ```
-
 #### Wallet
 
 - `wallet.request.connect`: connection request sent by wallet containing an identifier that it wants to assign to the aepp/sdk. The generated identifier must be unique and must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14).
@@ -160,12 +144,24 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   json-rpc 2.0 structure:
 
   ```json
+  Request:
   {
     "jsonrpc": "2.0",
     "method": "wallet.request.connect",
     "params": {
        "id": "<unique_identifier_uuidv4>"
     },
+    "version": 1
+  }
+
+  Response:
+  {
+    "jsonrpc": "2.0",
+    "result": {
+       "id": "<unique_identifier_uuidv4_as_request>",
+       "name": "<aepp_name>"
+    },
+    "id": 1,
     "version": 1
   }
   ```
@@ -195,8 +191,21 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "method": "aepp.accept.wallet",
     "params": {
        "id": "<unique_identifier_uuidv4>",
-       "address": "<current_wallet_address>",
-       "connected": "[List of addresses from the connected wallets]"
+       "address": {
+         "current": {
+           "<address>": {
+             // object with related metadata(optional)
+           }
+         },
+         "connected": {
+           "<address1>": {
+             // object with related metadata(optional)
+           },
+           "<address2>": {
+             // object with related metadata(optional)
+           }
+         }
+       }
     },
     "version": 1
   }
