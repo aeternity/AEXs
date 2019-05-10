@@ -52,11 +52,12 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     :-----:|:-----:|:-----:
     1|Transaction verification failed|returned when verification of signed transaction fails.
     2|Invalid transaction|returned by node for an invalid transaction.
-    3|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
-    4|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
-    5|Invalid Address|returned by aepp when the address (or any address in a list) provided by wallet is invalid.
-    6|Unknown Identifier| returned by aepp or wallet when the enclosing `id` is unknown to the receiving party or is missing entirely.
-    7|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.
+    3|Broadcast Failed| returned when Aepp/SDK loses connection to the node and is unable to broadcast the transaction.
+    4|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.
+    5|Get address request denied|returned when wallet denies the address request by Aepp/SDK.
+    6|Invalid Address|returned by aepp when the address (or any address in a list) provided by wallet is invalid.
+    7|Unknown Identifier| returned by aepp or wallet when the enclosing `id` is unknown to the receiving party or is missing entirely.
+    8|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.
 
 - `ping/pong`: general ping/pong messages to check liveness.
 
@@ -223,7 +224,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   }
   ```
 
-- `wallet.broadcast.tx`: Ask SDK to broadcast the transaction.
+- `wallet.broadcast.tx`: Ask Aepp/SDK to broadcast the transaction. If the Aepp/SDK is unable to broadcast it returns the `error`  with code `3`.
 
   json-rpc 2.0 structure:
 
