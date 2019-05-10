@@ -69,6 +69,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "params": {
        "id": "<unique_identifier_uuidv4>"
     },
+    "id": 1,
     "version": 1
   }
   ```
@@ -76,10 +77,11 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   ```json
   {
     "jsonrpc": "2.0",
-    "method": "pong",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
+    "result": {
+       "id": "<unique_identifier_uuidv4>",
+       "data": "pong"
     },
+    "id": 1,
     "version": 1
   }
   ```
@@ -97,6 +99,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "params": {
        "id": "<unique_identifier_uuidv4>"
     },
+    "id": 1,
     "version": 1
   }
   ```
@@ -113,25 +116,12 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
        "id": "<unique_identifier_uuidv4>",
        "tx": "<raw_unsigned_tx>"
     },
+    "id": 1,
     "version": 1
   }
+  ```
 
-- `aepp.broadcast.response`: standard response for `wallet.broadcast.tx` containing success message with transaction id.
-
-  json-rpc 2.0 structure:
-
-  ```json
-  {
-    "jsonrpc": "2.0",
-    "method": "aepp.broadcast.response",
-    "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx_id": "<tx_id>"
-    },
-    "version": 1
-  }
-
-- `aepp.update.network`: network details wrapped in a response object.
+- `aepp.update.network`: Message sent by Aepp/SDK asking wallet to update the network details.
 
   json-rpc 2.0 structure:
 
@@ -145,6 +135,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+  ```
 
 - `aepp.accept.wallet`: response from sdk/aepp when it accepts the wallets registration request.
 
@@ -160,6 +151,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+  ```
 
 #### Wallet
 
@@ -176,6 +168,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+  ```
 
 - `wallet.get.network`: get network details from sdk
 
@@ -190,6 +183,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+  ```
 
 - `wallet.update.address`: used by wallet for sending requested address. wallet can also send the list of address of the wallets it is further connected to.
 
@@ -206,12 +200,14 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+  ```
 
-- `wallet.broadcast.tx`: ask SDK to broadcast the transaction.
+- `wallet.broadcast.tx`: Ask SDK to broadcast the transaction.
 
   json-rpc 2.0 structure:
 
   ```json
+  Request:
   {
     "jsonrpc": "2.0",
     "method": "wallet.broadcast.tx",
@@ -223,7 +219,19 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "version": 1
   }
 
-- `wallet.verify.tx`: verify the tx from the SDK
+  Response:
+  {
+    "jsonrpc": "2.0",
+    "result": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx_id": "<tx_id>"
+    },
+    "id": 1,
+    "version": 1
+  }
+  ```
+
+- `wallet.verify.tx`: verify the tx from the SDK. On verification success, a response object is returned else with `status` field with a value `ok` else error with `code 1` is returned.
 
   json-rpc 2.0 structure:
 
@@ -235,8 +243,20 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
        "id": "<unique_identifier_uuidv4>",
        "tx": "<signed_tx>"
     },
+    "id": 1,
     "version": 1
   }
+
+  {
+    "jsonrpc": "2.0",
+    "result": {
+       "id": "<unique_identifier_uuidv4>",
+       "status": "ok"
+    },
+    "id": 1,
+    "version": 1
+  }
+  ```
 
 - `wallet.disconnect.aepp`: wallet lets the aepp know that it will disconnect. no further acknowledgement required.
 
@@ -251,6 +271,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     },
     "version": 1
   }
+  ```
 
 ## Example Flow
 
