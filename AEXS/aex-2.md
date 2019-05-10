@@ -31,7 +31,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
   "error": {
     "code": 1,
@@ -63,7 +63,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Ping:
   {
     "jsonrpc": "2.0",
@@ -93,7 +93,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "aepp.get.address",
@@ -109,7 +109,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -138,7 +138,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "aepp.update.network",
@@ -156,7 +156,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -183,7 +183,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "wallet.get.network",
@@ -198,7 +198,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "wallet.update.address",
@@ -228,7 +228,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -257,7 +257,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -286,7 +286,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "wallet.disconnect.aepp",
