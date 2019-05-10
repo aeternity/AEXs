@@ -49,7 +49,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Ping:
   {
     "jsonrpc": "2.0",
@@ -79,7 +79,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -106,7 +106,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -133,7 +133,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -162,7 +162,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "wallet.get.address",
@@ -178,7 +178,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   {
     "jsonrpc": "2.0",
     "method": "wallet.update.address",
@@ -210,7 +210,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
 
   json-rpc 2.0 structure:
 
-  ```json
+  ```jsonc
   Request:
   {
     "jsonrpc": "2.0",
@@ -227,7 +227,7 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
   {
     "jsonrpc": "2.0",
     "result": {
-       "id": "<unique_identifier_uuidv4>",
+       "id": "<unique_identifier_uuidv4_as_request>",
        "tx": "<signed_tx>"
     },
     "id":1,
@@ -235,5 +235,35 @@ The purpose of AEXs is to provide specification and json-rpc compatible messages
   }
   ```
 
+- `wallet.request.broadcast`: Ask connected wallet to broadcast the transaction. Connected wallet can try to broadcast the transaction itself or forward it to the SDK. If wallet is unable to broadcast it returns the `error`  with code `3`.
+
+  json-rpc 2.0 structure:
+
+  ```jsonc
+  Request:
+  {
+    "jsonrpc": "2.0",
+    "method": "wallet.request.broadcast",
+    "params": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx": "<signed_tx>",
+       "verify": true/false
+    },
+    "version": 1
+  }
+
+  Response:
+  {
+    "jsonrpc": "2.0",
+    "result": {
+       "id": "<unique_identifier_uuidv4_as_request>",
+       "tx_id": "<tx_id>"
+    },
+    "id": 1,
+    "version": 1
+  }
+  ```
+
 ### Example Flow
+
 [WIP]
