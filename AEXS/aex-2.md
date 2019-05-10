@@ -63,6 +63,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   json-rpc 2.0 structure:
 
   ```json
+  Ping:
   {
     "jsonrpc": "2.0",
     "method": "ping",
@@ -72,9 +73,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "id": 1,
     "version": 1
   }
-  ```
 
-  ```json
+  Pong:
   {
     "jsonrpc": "2.0",
     "result": {
@@ -188,7 +188,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   ```json
   {
     "jsonrpc": "2.0",
-    "method": "aepp.accept.wallet",
+    "method": "wallet.update.address",
     "params": {
        "id": "<unique_identifier_uuidv4>",
        "address": {
