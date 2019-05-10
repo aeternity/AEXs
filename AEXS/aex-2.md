@@ -109,12 +109,24 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   json-rpc 2.0 structure:
 
   ```json
+  Request:
   {
     "jsonrpc": "2.0",
     "method": "aepp.request.sign",
     "params": {
        "id": "<unique_identifier_uuidv4>",
        "tx": "<raw_unsigned_tx>"
+    },
+    "id": 1,
+    "version": 1
+  }
+
+  Response:
+  {
+    "jsonrpc": "2.0",
+    "result": {
+       "id": "<unique_identifier_uuidv4>",
+       "tx": "<signed_tx>"
     },
     "id": 1,
     "version": 1
