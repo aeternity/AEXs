@@ -236,6 +236,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   json-rpc 2.0 structure:
 
   ```json
+  Request:
   {
     "jsonrpc": "2.0",
     "method": "wallet.verify.tx",
@@ -247,6 +248,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "version": 1
   }
 
+  Response:
   {
     "jsonrpc": "2.0",
     "result": {
