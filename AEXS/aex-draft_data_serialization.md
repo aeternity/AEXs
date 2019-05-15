@@ -1,4 +1,4 @@
-# AEX X
+# AEX 7
 
 ```
 AEX: 7
