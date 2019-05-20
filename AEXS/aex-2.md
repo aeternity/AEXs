@@ -14,12 +14,12 @@ Created: 2019-03-04
 
 ## Simple Summary
 
-The document approaches the technical specification about how a wallet provider (ex. BaseApp, MetaMask) can interact with Aeternity enabled applications.
+The document approaches the technical specification about how a wallet provider (ex. Base æpp, MetaMask) can interact with Aeternity enabled applications.
 
 ## Motivation
 
-Currently, there exist no one standard way for wallets and SDK to communicate and everything developed on the SDK side is developed only keeping base-aepp in mind and rest of the wallet providers need to follow the same path.
-By defining the standard way of communication between SDK(aepps) and Wallet we will not only reduce the dependency that other wallet providers have on base-aepp as well as we'll have a clear standard method of communication on the SDK side that can be further extended whenever required.
+Currently, there exist no one standard way for wallets and SDK to communicate and everything developed on the SDK side is developed only keeping Base æpp in mind and rest of the wallet providers need to follow the same path.
+By defining the standard way of communication between SDK(aepps) and Wallet we will not only reduce the dependency that other wallet providers have on Base æpp as well as we'll have a clear standard method of communication on the SDK side that can be further extended whenever required.
 
 ## Specification
 
