@@ -19,7 +19,7 @@ The document describes and defines the deep linking specification that every æt
 
 URI based deep linking enables websites or applications to interact with native applications registered to listen for aeternity URI scheme and trigger wallet actions like open wallet accounts directly from third-party applications.
 
-This also enables users to sign transaction using desktop or app based wallets without the need to copy or remember long addresses.
+This also enables users to sign transaction using desktop or mobile based wallets without the need to copy or remember long addresses.
 This is especially beneficial for mobile wallet users as they can simply click on the wallet deeplink to open the wallet app from the vendor app, confirm the transaction and return back to the vendor app through the callback url.
 
 ## Specification
