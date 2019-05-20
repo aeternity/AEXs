@@ -39,7 +39,7 @@ This is especially beneficial for mobile wallet users as they can simply click o
 
     1. Open the wallet app
     2. Check if the address exists or not
-    3. If the acoount is found with the wallet, then the user is redirected to the account information page of the provided address.
+    3. If the account is found with the wallet, then the user is redirected to the account information page of the provided address.
     4. If the account is not found then prompt the user with an `account not found` message.
 
     #### Example
