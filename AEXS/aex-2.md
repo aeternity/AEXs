@@ -33,12 +33,12 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   ```jsonc
   {
-  "error": {
-    "code": 1,
-    "data": {
-      "request": {}
-    },
-    "message": ""
+    "error": {
+      "code": 1,
+      "data": {
+        "request": {}
+      },
+      "message": ""
     },
     "id": null,
     "jsonrpc": "2.0",
@@ -69,7 +69,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "ping",
     "params": {
-       "id": "<unique_identifier_uuidv4>"
+      "id": "<unique_identifier_uuidv4>"
     },
     "id": 1,
     "version": 1
@@ -79,8 +79,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   {
     "jsonrpc": "2.0",
     "result": {
-       "id": "<unique_identifier_uuidv4>",
-       "data": "pong"
+      "id": "<unique_identifier_uuidv4>",
+      "data": "pong"
     },
     "id": 1,
     "version": 1
@@ -98,7 +98,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "aepp.get.address",
     "params": {
-       "id": "<unique_identifier_uuidv4>"
+      "id": "<unique_identifier_uuidv4>"
     },
     "id": 1,
     "version": 1
@@ -115,8 +115,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "aepp.request.sign",
     "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx": "<raw_unsigned_tx>"
+      "id": "<unique_identifier_uuidv4>",
+      "tx": "<raw_unsigned_tx>"
     },
     "id": 1,
     "version": 1
@@ -126,8 +126,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   {
     "jsonrpc": "2.0",
     "result": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx": "<signed_tx>"
+      "id": "<unique_identifier_uuidv4>",
+      "tx": "<signed_tx>"
     },
     "id": 1,
     "version": 1
@@ -143,8 +143,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "aepp.update.network",
     "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "network": "<network_id>"
+      "id": "<unique_identifier_uuidv4>",
+      "network": "<network_id>"
     },
     "version": 1
   }
@@ -162,7 +162,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "wallet.request.connect",
     "params": {
-       "id": "<unique_identifier_uuidv4>"
+      "id": "<unique_identifier_uuidv4>"
     },
     "version": 1
   }
@@ -171,8 +171,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   {
     "jsonrpc": "2.0",
     "result": {
-       "id": "<unique_identifier_uuidv4_as_request>",
-       "name": "<aepp_name>"
+      "id": "<unique_identifier_uuidv4_as_request>",
+      "name": "<aepp_name>"
     },
     "id": 1,
     "version": 1
@@ -188,7 +188,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "wallet.get.network",
     "params": {
-       "id": "<unique_identifier_uuidv4>"
+      "id": "<unique_identifier_uuidv4>"
     },
     "version": 1
   }
@@ -203,22 +203,22 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "wallet.update.address",
     "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "address": {
-         "current": {
-           "<address>": {
-             // object with related metadata(optional)
-           }
-         },
-         "connected": {
-           "<address1>": {
-             // object with related metadata(optional)
-           },
-           "<address2>": {
-             // object with related metadata(optional)
-           }
-         }
-       }
+      "id": "<unique_identifier_uuidv4>",
+      "address": {
+        "current": {
+          "<address>": {
+            // object with related metadata(optional)
+          }
+        },
+        "connected": {
+          "<address1>": {
+            // object with related metadata(optional)
+          },
+          "<address2>": {
+            // object with related metadata(optional)
+          }
+        }
+      }
     },
     "version": 1
   }
@@ -234,9 +234,9 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "wallet.broadcast.tx",
     "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx": "<signed_tx>",
-       "verify": true/false
+      "id": "<unique_identifier_uuidv4>",
+      "tx": "<signed_tx>",
+      "verify": true/false
     },
     "version": 1
   }
@@ -245,8 +245,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   {
     "jsonrpc": "2.0",
     "result": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx_id": "<tx_id>"
+      "id": "<unique_identifier_uuidv4>",
+      "tx_id": "<tx_id>"
     },
     "id": 1,
     "version": 1
@@ -263,8 +263,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "wallet.verify.tx",
     "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx": "<signed_tx>"
+      "id": "<unique_identifier_uuidv4>",
+      "tx": "<signed_tx>"
     },
     "id": 1,
     "version": 1
@@ -274,8 +274,8 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
   {
     "jsonrpc": "2.0",
     "result": {
-       "id": "<unique_identifier_uuidv4>",
-       "status": "ok"
+      "id": "<unique_identifier_uuidv4>",
+      "status": "ok"
     },
     "id": 1,
     "version": 1
@@ -291,7 +291,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     "jsonrpc": "2.0",
     "method": "wallet.disconnect.aepp",
     "params": {
-       "id": "<unique_identifier_uuidv4>"
+      "id": "<unique_identifier_uuidv4>"
     },
     "version": 1
   }
