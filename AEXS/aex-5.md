@@ -49,33 +49,20 @@ By standardization of the set of messages that should be used for inter-wallet c
 
 - `error`: Used to communicate any error occurred. Error code `1` to `8` are reserved and reused here from [AEX-2](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-2.md#types-of-errors).
 
-- `ping/pong`: ping/pong messages for liveness check.
+- `ping/pong`: general ping/pong messages to check liveness. Implementation of this method is not mandatory for wallets communicating over a transport layer that have native support for liveness check.
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Ping:
-  {
-    "jsonrpc": "2.0",
-    "method": "ping",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
-    },
-    "id": 1,
-    "version": 1
-  }
+    `Object`
 
-  Pong:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4>",
-       "data": "pong"
-    },
-    "id": 1,
-    "version": 1
-  }
-  ```
+    - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+
+    ##### Returns
+
+    Object`
+
+    - `id` - The unique identifier as in request
+    - `data` - Value will always be equal to `pong`
 
 #### Start and Close
 
