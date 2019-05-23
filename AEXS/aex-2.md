@@ -23,7 +23,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 ## Specification
 
-### Methods
+### JSON-RPC 2.0 Methods
 
 #### General
 
