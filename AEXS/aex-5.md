@@ -43,230 +43,145 @@ By standardization of the set of messages that should be used for inter-wallet c
 
 ## Specification
 
-### Protocol Messages
+### JSON-RPC 2.0 Methods
 
 #### General
 
-- `error`: Used to communicate any error occurred. Error code `1` to `8` are reserved and reused here from [AEX-2](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-2.md#types-of-errors).
+- `error`: Used to communicate any error occurred. Error code `1` to `9` are reserved and reused here from [AEX-2](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-2.md#types-of-errors).
 
-- `ping/pong`: ping/pong messages for liveness check.
+- `ping/pong`: general ping/pong messages to check liveness. Implementation of this method is not mandatory for wallets communicating over a transport layer that have native support for liveness check.
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Ping:
-  {
-    "jsonrpc": "2.0",
-    "method": "ping",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
-    },
-    "id": 1,
-    "version": 1
-  }
+    `Object`
 
-  Pong:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4>",
-       "data": "pong"
-    },
-    "id": 1,
-    "version": 1
-  }
-  ```
+    - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+
+    ##### Returns
+
+    `Object`
+
+    - `id` - same id as in the corresponding request
+    - `data` - Value will always be equal to `pong`
 
 #### Start and Close
 
 - `wallet.channel.initiate`: Initiate request to open a communication channel. The request contains an identifier that will be used by either party to recognize and process incoming messages. The `id` should match the subsequent incoming or outgoing messages between the two wallets. The generated identifier must be unique and must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14).
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Request:
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.channel.initiate",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
-    },
-    "version": 1
-  }
+    `Object`
 
-  Response:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4_as_request>",
-       "name": "<optional_name_param>"
-    },
-    "id": 1,
-    "version": 1
-  }
-  ```
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `name` - human readable wallet name
+  - `version` - protocol version. Currently defaults to `1`.
+
+  ##### Returns
+
+    `Object`
+
+  - `id` - same id as in the corresponding request
+  - `name` - human readable wallet name
 
 - `wallet.channel.close`: Close the channel
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Request:
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.channel.close",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
-    },
-    "version": 1
-  }
+    `Object`
 
-  Response:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4_as_request>",
-       "status": "ack"
-    },
-    "id": 1,
-    "version": 1
-  }
-  ```
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+
+  ##### Returns
+
+    `Object`
+
+    - `id` - same id as in the corresponding request
+    - `status` - Value will always be equal to `ack`
 
 - `wallet.channel.close_incoming`: Close channel only for signing requests i.e. closing wallet can still ask the wallet on another end to sign or forward the transactions.
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Request:
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.channel.close_incoming",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
-    },
-    "version": 1
-  }
+    `Object`
 
-  Response:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4_as_request>",
-       "status": "ack"
-    },
-    "id": 1,
-    "version": 1
-  }
-  ```
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  
+  ##### Returns
+
+    `Object`
+
+    - `id` - same id as in the corresponding request
+    - `status` - Value will always be equal to `ack`
 
 #### Address Update
 
 - `wallet.get.address`: Ask the connected wallet for its address
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.get.address",
-    "params": {
-       "id": "<unique_identifier_uuidv4>"
-    },
-    "id":1,
-    "version": 1
-  }
-  ```
+    `Object`
 
-- `wallet.update.address`: Issued by connected wallets for returning addresses incl. from the connected wallets. The `connected` field is optional.
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
-  JSON-RPC 2.0 structure:
+- `wallet.update.address`: Issued by connected wallets for returning addresses incl. from the connected wallets. The `connected` field is optional and contains the list of address of the wallets it is further connected to.
 
-  ```jsonc
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.update.address",
-    "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "address": {
-         "current": {
-           "<address>": {
-             // object with related metadata(optional)
-           }
-         },
-         "connected": {
-           "<address1>": {
-             // object with related metadata(optional)
-           },
-           "<address2>": {
-             // object with related metadata(optional)
-           }
-         }
-       }
-    },
-    "version": 1
-  }
-  ```
+    ##### Parameters
+
+    `Object`
+
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `address` - Object containing two objects named `current` and `connected`.
+
+    - `current` - Object containing only a single account currently in use by the wallet.
+
+    - `connected`(optional) - Object containing multiple connected accounts.
+
+      ###### Example Account Format
+
+        ```json
+        {
+          "current": {
+              "ak_2iBPH7HUz3cSDVEUWiHg76MZJ6tZooVNBmmxcgVK6VV8KAE688": {
+                  "name": "this property is optional"
+                }
+            }
+        }
+        ```
 
 #### Sign and Broadcast Transaction
 
 - `wallet.sign.tx`: Ask the connected wallet to sign the transaction.
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Request:
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.sign.tx",
-    "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx": "<raw_unsigned_tx>"
-    },
-    "id":1,
-    "version": 1
-  }
+    `Object`
 
-  Response:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4_as_request>",
-       "tx": "<signed_tx>"
-    },
-    "id":1,
-    "version": 1
-  }
-  ```
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `tx` - raw unsigned transaction
+
+  ##### Returns
+
+    `Object`
+
+  - `id` - same id as in the corresponding request
+  - `tx` - signed tx returned by the wallet
 
 - `wallet.request.broadcast`: Ask connected wallet to broadcast the transaction. The connected wallet can try to broadcast the transaction itself or forward it to the SDK. If the wallet is unable to broadcast it returns the `error`  with code `3`.
 
-  JSON-RPC 2.0 structure:
+    ##### Parameters
 
-  ```jsonc
-  Request:
-  {
-    "jsonrpc": "2.0",
-    "method": "wallet.request.broadcast",
-    "params": {
-       "id": "<unique_identifier_uuidv4>",
-       "tx": "<signed_tx>",
-       "verify": true/false
-    },
-    "version": 1
-  }
+    `Object`
 
-  Response:
-  {
-    "jsonrpc": "2.0",
-    "result": {
-       "id": "<unique_identifier_uuidv4_as_request>",
-       "tx_id": "<tx_id>"
-    },
-    "id": 1,
-    "version": 1
-  }
-  ```
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `tx` - signed transaction to be broadcasted
+  - `verify` - Boolean. Perform verification before broadcasting or not.
+
+  ##### Returns
+
+    `Object`
+
+  - `id` - same id as in the corresponding request
+  - `tx_id` - transaction id of the broadcasted transaction
 
 ### Example Flow
 
