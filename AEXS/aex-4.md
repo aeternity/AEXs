@@ -65,8 +65,11 @@ This is especially beneficial for mobile wallet users as they can simply click o
 
     This URI scheme enables users to sign(and broadcast) the transaction using deep lining enabled user wallet.
 
-    1. Vendor generates a address for receiving payment.
-    2. Creates the URI substituting `transaction` and `network_id` with their respective value, `label` a human readable text regarding the transaction, `return` which indicates the return value in the callback URL where `txId` means the wallet needs to broadcast the transaction and return the transaction id whereas `tx` means that the callback url expects a signed transaction instead, and at last a `url` with a callback URL that accepts a transaction id under `txId` query param and signed transaction output under `tx` query param.
+    1. The user generates the transaction to be signed
+    2. Creates the URI substituting `transaction` and `network_id` with their respective value, `label` a human-readable text regarding the transaction and provides the query param `return` which indicates the return value type in the callback URL. It can contain only two possible values of string type:
+        - `txId`: which indicates that the wallet needs to broadcast the transaction and return the transaction id
+        - `tx`: means that the callback URL expects a signed transaction back.
+    3. And at last, substitutes the query param `url` which contains a callback URL that accepts a transaction id under `txId` query param and signed transaction output under `tx` query param.
 
     #### Example
 
