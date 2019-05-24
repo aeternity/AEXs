@@ -33,13 +33,13 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-    - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
     ##### Returns
 
     Object`
 
-    - `id` - The unique identifier as in request
+    - `id` - same id as in the corresponding request
     - `data` - Value will always be equal to `pong`
 
 - `error`: used to communicate any error occurred. Embedded `data` field in each error object MUST contain the `request` that triggered it.
@@ -82,7 +82,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
 - `aepp.request.sign`: request wallet for signature
 
@@ -90,14 +90,14 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `tx` - raw unsigned transaction
 
   ##### Returns
 
     `Object`
 
-  - `id` - The unique identifier as in request
+  - `id` - same id as in the corresponding request
   - `tx` - signed tx returned by the wallet
 
 - `aepp.update.network`: Message sent by Aepp/SDK asking wallet to update the network details.
@@ -106,7 +106,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
   - `network` - Current network id used by the Aepp/SDK.
 
@@ -118,7 +118,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `name` - human readable wallet name
   - `version` - protocol version. Currently defaults to `1`.
 
@@ -126,7 +126,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier as in request
+  - `id` - same id as in the corresponding request
   - `name` - human readable aepp name
 
 - `wallet.get.network`: get network details from sdk
@@ -135,7 +135,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
 - `wallet.update.address`: used by wallet for sending requested address. wallet can also send the list of address of the wallets it is further connected to.
 
@@ -143,7 +143,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `address` - Object containing two objects named `current` and `connected`.
 
     - `current` - Object containing only a single account currently in use by the wallet.
@@ -168,7 +168,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `tx` - signed transaction to be broadcasted
   - `verify` - Boolean. Perform verification before broadcasting or not.
 
@@ -176,7 +176,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier as in request
+  - `id` - same id as in the corresponding request
   - `tx_id` - transaction id of the broadcasted transaction
 
 - `wallet.verify.tx`: verify the tx from the SDK. On verification success, a response object is returned else with `status` field with a value `ok` else error with `code 1` is returned.
@@ -185,15 +185,15 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `tx` - signed transaction to be verified
 
   ##### Returns
 
     `Object`
 
-    - `id` - The unique identifier as in request
-    - `status` - Value will always be equal to `ok`
+  - `id` - same id as in the corresponding request
+  - `status` - Value will always be equal to `ok`
 
 - `wallet.disconnect.aepp`: wallet lets the aepp know that it will disconnect. no further acknowledgement required.
 
@@ -201,7 +201,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
 ## Example Flow
 
