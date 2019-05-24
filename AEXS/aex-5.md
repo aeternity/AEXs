@@ -55,13 +55,13 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-    - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+    - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
     ##### Returns
 
     `Object`
 
-    - `id` - The unique identifier as in request
+    - `id` - same id as in the corresponding request
     - `data` - Value will always be equal to `pong`
 
 #### Start and Close
@@ -72,7 +72,7 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `name` - human readable wallet name
   - `version` - protocol version. Currently defaults to `1`.
 
@@ -80,7 +80,7 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier as in request
+  - `id` - same id as in the corresponding request
   - `name` - human readable wallet name
 
 - `wallet.channel.close`: Close the channel
@@ -89,13 +89,13 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
   ##### Returns
 
     `Object`
 
-    - `id` - The unique identifier as in request
+    - `id` - same id as in the corresponding request
     - `status` - Value will always be equal to `ack`
 
 - `wallet.channel.close_incoming`: Close channel only for signing requests i.e. closing wallet can still ask the wallet on another end to sign or forward the transactions.
@@ -104,13 +104,13 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   
   ##### Returns
 
     `Object`
 
-    - `id` - The unique identifier as in request
+    - `id` - same id as in the corresponding request
     - `status` - Value will always be equal to `ack`
 
 #### Address Update
@@ -121,7 +121,7 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
 
 - `wallet.update.address`: Issued by connected wallets for returning addresses incl. from the connected wallets. The `connected` field is optional and contains the list of address of the wallets it is further connected to.
 
@@ -129,7 +129,7 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `address` - Object containing two objects named `current` and `connected`.
 
     - `current` - Object containing only a single account currently in use by the wallet.
@@ -156,14 +156,14 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `tx` - raw unsigned transaction
 
   ##### Returns
 
     `Object`
 
-  - `id` - The unique identifier as in request
+  - `id` - same id as in the corresponding request
   - `tx` - signed tx returned by the wallet
 
 - `wallet.request.broadcast`: Ask connected wallet to broadcast the transaction. The connected wallet can try to broadcast the transaction itself or forward it to the SDK. If the wallet is unable to broadcast it returns the `error`  with code `3`.
@@ -172,7 +172,7 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
   - `tx` - signed transaction to be broadcasted
   - `verify` - Boolean. Perform verification before broadcasting or not.
 
@@ -180,7 +180,7 @@ By standardization of the set of messages that should be used for inter-wallet c
 
     `Object`
 
-  - `id` - The unique identifier as in request
+  - `id` - same id as in the corresponding request
   - `tx_id` - transaction id of the broadcasted transaction
 
 ### Example Flow
