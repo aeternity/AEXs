@@ -3,7 +3,7 @@
 ```
 AEX: 9
 Title: Fungible Token Standard
-Author: Milen Radkov (@mradkov), Philipp Piwowarski (@thepiwo)
+Author: Milen Radkov (@mradkov), Philipp Piwowarsky (@thepiwo)
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-9-fungible-token/3565
 Status: Draft
