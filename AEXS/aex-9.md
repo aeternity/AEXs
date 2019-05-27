@@ -111,8 +111,7 @@ public function allowance(owner: address, spender: address) : int
 
 ### Events
 
-`Transfer`
-MUST trigger when tokens are transferred, including zero value transfers.
+**Transfer** - MUST trigger when tokens are transferred, including zero value transfers.
 
 A token contract which creates new tokens SHOULD trigger a `Transfer` event with first indexed address set to #0 when tokens are created.
 
@@ -123,8 +122,7 @@ The transfer event arguments should be as follows: `(spender, receiver, value)`
 Transfer(indexed address, indexed address, indexed int)
 ```
 
-`Approval`
-MUST trigger on any successful call to `approve(spender : address, value : int)`.
+**Approval** - MUST trigger on any successful call to `approve(spender : address, value : int)`.
 
 The approval event arguments should be as follows: `(spender, receiver, value)`
 
@@ -139,5 +137,9 @@ There are several implementations available at the moment, but they lack a thing
 Example implementations:
 - [Aeternity Sophia Fungible Token - with events](https://github.com/mradkov/aeternity-fungible-token/blob/master/contracts/fungible-token.aes)
 - [Fungible token implementation example](https://github.com/aeternity/aepp-sophia-examples/blob/master/libraries/FungibleToken/contracts/fungible-token.aes)
+
+### References
+[ERC-20](https://eips.ethereum.org/EIPS/eip-20)
+[ERC-20 attack vectors](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit)
 
 
