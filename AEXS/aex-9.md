@@ -136,5 +136,8 @@ Approval(indexed address, indexed address, indexed int)
 ### Implementation
 There are several implementations available at the moment, but they lack a thing or two (that is why this standart is being proposed).
 
-Here is an example implementation:
-[Aeternity Sophia Fungible Token](https://github.com/mradkov/aeternity-fungible-token/blob/master/contracts/fungible-token.aes)
+Example implementations:
+- [Aeternity Sophia Fungible Token - with events](https://github.com/mradkov/aeternity-fungible-token/blob/master/contracts/fungible-token.aes)
+- [Fungible token implementation example](https://github.com/aeternity/aepp-sophia-examples/blob/master/libraries/FungibleToken/contracts/fungible-token.aes)
+
+
