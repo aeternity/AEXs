@@ -68,13 +68,13 @@ public function decimals() : int
 public function total_supply() : int
 ```
 
-`balance_of` - Returns the account balance of another account with address `_owner`.
+`balance_of` - Returns the account balance of another account with address `owner`.
 
 ```
 public function balance_of(owner: address) : int
 ```
 
-`transfer` - Transfers _value amount of tokens to address _to, and MUST fire the Transfer event. The function SHOULD throw if the message caller’s account balance does not have enough tokens to spend.
+`transfer` - Transfers `value` amount of tokens to `to` address, and MUST fire the Transfer event. The function SHOULD throw if the message caller’s account balance does not have enough tokens to spend.
 
 Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
 
@@ -83,7 +83,7 @@ public stateful function transfer(to: address, value: int)
 ```
 
 `transfer_from`
-Transfers _value amount of tokens from address _from to address _to, and MUST fire the Transfer event.
+Transfers `value` amount of tokens from address `from` to address `to`, and MUST fire the Transfer event.
 
 The `transfer_from` method is used for a withdraw workflow, allowing contracts to transfer tokens on your behalf. This can be used for example to allow a contract to transfer tokens on your behalf and/or to charge fees in sub-currencies. The function SHOULD throw unless the `from` account has deliberately authorized the sender of the message via some mechanism.
 
@@ -112,8 +112,6 @@ public function allowance(owner: address, spender: address) : int
 ### Events
 
 **Transfer** - MUST trigger when tokens are transferred, including zero value transfers.
-
-A token contract which creates new tokens SHOULD trigger a `Transfer` event with first indexed address set to #0 when tokens are created.
 
 The transfer event arguments should be as follows: `(spender, receiver, value)`
 
