@@ -1,5 +1,3 @@
-# AEX-DERIVATION-PATH
-
 ```
 AEX: 10
 Title: Derivation path for deterministic wallets
