@@ -6,7 +6,7 @@ Title: Inter-Wallet Communication
 Author: Shubhendu Shekhar <@shekhar-shubhendu>
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-5-inter-wallet-communication/3371
-Status: Draft
+Status: Last call (2019-05-29 to 2019-06-04)
 Type: Standards Track
 Created: 2019-04-29
 ```
@@ -45,24 +45,13 @@ By standardization of the set of messages that should be used for inter-wallet c
 
 ### JSON-RPC 2.0 Methods
 
+### Naming Convention
+
+This document tries to closely follow `who.what.how` naming convention for JSON-RPC methods(wherever possible).
+
 #### General
 
 - `error`: Used to communicate any error occurred. Error code `1` to `9` are reserved and reused here from [AEX-2](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-2.md#types-of-errors).
-
-- `ping/pong`: general ping/pong messages to check liveness. Implementation of this method is not mandatory for wallets communicating over a transport layer that have native support for liveness check.
-
-    ##### Parameters
-
-    `Object`
-
-    - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-
-    ##### Returns
-
-    `Object`
-
-    - `id` - same id as in the corresponding request
-    - `data` - Value will always be equal to `pong`
 
 #### Start and Close
 
