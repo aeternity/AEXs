@@ -23,6 +23,10 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 ## Specification
 
+### Naming Convention
+
+This document tries to closely follow `who.what.how` naming convention for JSON-RPC methods(wherever possible).
+
 ### JSON-RPC 2.0 Methods
 
 #### General
