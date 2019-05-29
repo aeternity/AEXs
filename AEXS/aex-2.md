@@ -7,7 +7,7 @@ Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea), En
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
-Status: Review
+Status: Last call (2019-05-29 to 2019-06-04)
 Type: Standards Track
 Created: 2019-03-04
 ```
@@ -27,24 +27,9 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
 #### General
 
-- `ping/pong`: general ping/pong messages to check liveness. Implementation of this method is not mandatory for wallets communicating over a transport layer that have native support for liveness check.
-
-    ##### Parameters
-
-    `Object`
-
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-
-    ##### Returns
-
-    Object`
-
-    - `id` - same id as in the corresponding request
-    - `data` - Value will always be equal to `pong`
-
 - `error`: used to communicate any error occurred. Embedded `data` field in each error object MUST contain the `request` that triggered it.
 
-  ##### JSON-RPC 2.0 Error Example:
+  ##### JSON-RPC 2.0 Error Example
 
   ```json
       {
