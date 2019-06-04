@@ -74,7 +74,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
     |8|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.|
     |9|Unsupported Protocol Version| returned by aepp when it does not support protocol version the wallet wants to connect through.
 
-#### SDK/Aepp
+#### Wallet methods
 
 - `aepp.get.address`: request for address from wallet.
 
@@ -110,7 +110,7 @@ By defining the standard way of communication between SDK(aepps) and Wallet we w
 
   - `network` - Current network id used by the Aepp/SDK.
 
-#### Wallet
+#### Aepp methods
 
 - `wallet.request.connect`: connection request sent by the wallet containing an identifier that it wants to assign to the aepp/sdk. The provided identifier should be used for all the further communication between the aepp and wallet.
 
