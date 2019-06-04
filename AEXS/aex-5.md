@@ -21,7 +21,7 @@ The purpose of AEXs is to provide specification and JSON-RPC compatible messages
 
 Currently, if a wallet wants to talk to another wallet then each wallet has to implement its own set of messages that the wallet on the other end will understand and this gets limited to communication between the wallets of a single vendor. Although, this single vendor implementation eases the transaction and message signing part when having multiple devices but it binds users to a single wallet and single experience.
 
-By standardization of the set of messages that should be used for inter-wallet communication this AEX will to open the communication between different types of wallet(mobile, web, extensions) from different vendors.
+By standardization of the set of messages that should be used for inter-wallet communication this AEX will to open the communication between different types of wallet (mobile, web, extensions) from different vendors.
 
 ### Current Process (with regards to AEX-2)
 
