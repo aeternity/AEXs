@@ -146,14 +146,14 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - raw unsigned transaction. (Currently Supported format: `tx_` string)
+  - `tx` - raw unsigned transaction. (Currently supported format: `tx_` string)
 
   ##### Returns
 
     `Object`
 
   - `id` - same id as in the corresponding request
-  - `tx` - signed tx returned by the wallet. (Currently Supported format: `tx_` string)
+  - `tx` - signed tx returned by the wallet. (Currently supported format: `tx_` string)
 
 - `wallet.request.broadcast`: Ask connected wallet to broadcast the transaction. The connected wallet can try to broadcast the transaction itself or forward it to the SDK. If the wallet is unable to broadcast it returns the `error`  with code `3`.
 
@@ -162,7 +162,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - signed transaction to be broadcasted. (Currently Supported format: `tx_` string)
+  - `tx` - signed transaction to be broadcasted. (Currently supported format: `tx_` string)
   - `verify` - Boolean. Perform verification before broadcasting or not.
 
   ##### Returns
@@ -170,7 +170,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - same id as in the corresponding request
-  - `tx_id` - transaction id/hash of the broadcasted transaction. (Currently Supported format: `th_` string)
+  - `tx_id` - transaction id/hash of the broadcasted transaction. (Currently supported format: `th_` string)
 
 ### Example Flow
 
