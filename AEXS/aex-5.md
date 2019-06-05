@@ -6,7 +6,7 @@ Title: Inter-Wallet Communication
 Author: Shubhendu Shekhar <@shekhar-shubhendu>
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-5-inter-wallet-communication/3371
-Status: Last call (2019-05-29 to 2019-06-04)
+Status: Final
 Type: Standards Track
 Created: 2019-04-29
 ```
@@ -21,7 +21,7 @@ The purpose of AEXs is to provide specification and JSON-RPC compatible messages
 
 Currently, if a wallet wants to talk to another wallet then each wallet has to implement its own set of messages that the wallet on the other end will understand and this gets limited to communication between the wallets of a single vendor. Although, this single vendor implementation eases the transaction and message signing part when having multiple devices but it binds users to a single wallet and single experience.
 
-By standardization of the set of messages that should be used for inter-wallet communication this AEX will to open the communication between different types of wallet(mobile, web, extensions) from different vendors.
+By standardization of the set of messages that should be used for inter-wallet communication this AEX will to open the communication between different types of wallet (mobile, web, extensions) from different vendors.
 
 ### Current Process (with regards to AEX-2)
 
@@ -55,7 +55,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
 
 #### Start and Close
 
-- `wallet.channel.initiate`: Initiate request to open a communication channel. The request contains an identifier that will be used by either party to recognize and process incoming messages. The `id` should match the subsequent incoming or outgoing messages between the two wallets. The generated identifier must be unique and must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14).
+- `wallet.channel.initiate`: Initiate request to open a communication channel. The request contains an identifier that will be used by either party to recognize and process incoming messages. The `id` should match the subsequent incoming or outgoing messages between the two wallets. The generated `id` must be unique and must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14).
 
     ##### Parameters
 
@@ -146,14 +146,14 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - raw unsigned transaction
+  - `tx` - raw unsigned transaction. (Currently Supported format: `tx_` string)
 
   ##### Returns
 
     `Object`
 
   - `id` - same id as in the corresponding request
-  - `tx` - signed tx returned by the wallet
+  - `tx` - signed tx returned by the wallet. (Currently Supported format: `tx_` string)
 
 - `wallet.request.broadcast`: Ask connected wallet to broadcast the transaction. The connected wallet can try to broadcast the transaction itself or forward it to the SDK. If the wallet is unable to broadcast it returns the `error`  with code `3`.
 
@@ -162,7 +162,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - signed transaction to be broadcasted
+  - `tx` - signed transaction to be broadcasted. (Currently Supported format: `tx_` string)
   - `verify` - Boolean. Perform verification before broadcasting or not.
 
   ##### Returns
@@ -170,7 +170,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - same id as in the corresponding request
-  - `tx_id` - transaction id of the broadcasted transaction
+  - `tx_id` - transaction id/hash of the broadcasted transaction. (Currently Supported format: `th_` string)
 
 ### Example Flow
 
