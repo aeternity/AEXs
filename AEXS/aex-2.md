@@ -7,7 +7,7 @@ Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea), En
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
-Status: Last call (2019-05-29 to 2019-06-04)
+Status: Final
 Type: Standards Track
 Created: 2019-03-04
 ```
@@ -80,14 +80,14 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - raw unsigned transaction
+  - `tx` - raw unsigned transaction. (Currently supported format: `tx_` string)
 
   ##### Returns
 
     `Object`
 
   - `id` - same id as in the corresponding request
-  - `tx` - signed tx returned by the wallet
+  - `tx` - signed tx returned by the wallet. (Currently supported format: `tx_` string)
 
 - `aepp.update.network`: Message sent by Aepp/SDK asking wallet to update the network details.
 
@@ -96,7 +96,6 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-
   - `network` - Current network id used by the Aepp/SDK.
 
 #### Wallet
@@ -136,7 +135,6 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
   - `address` - Object containing two objects named `current` and `connected`.
 
     - `current` - Object containing only a single account currently in use by the wallet.
-
     - `connected`(optional) - Object containing multiple connected accounts.
 
       ###### Example Account Format
@@ -158,7 +156,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - signed transaction to be broadcasted
+  - `tx` - signed transaction to be broadcasted. (Currently supported format: `tx_` string)
   - `verify` - Boolean. Perform verification before broadcasting or not.
 
   ##### Returns
@@ -166,7 +164,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - same id as in the corresponding request
-  - `tx_id` - transaction id of the broadcasted transaction
+  - `tx_id` - transaction id of the broadcasted transaction. (Currently supported format: `th_` string)
 
 - `wallet.verify.tx`: verify the tx from the SDK. On verification success, a response object is returned else with `status` field with a value `ok` else error with `code 1` is returned.
 
@@ -175,7 +173,7 @@ This document tries to closely follow `who.what.how` naming convention for JSON-
     `Object`
 
   - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - signed transaction to be verified
+  - `tx` - signed transaction to be verified. (Currently supported format: `tx_` string)
 
   ##### Returns
 
