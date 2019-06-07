@@ -4,9 +4,9 @@ Title: Derivation path for deterministic wallets
 Author: Andrea Giacobino (@noandrea), Denis Davidyuk (@davidyuk)
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-10-derivation-path-for-deterministic-wallets/3586
-License-Code: Apache-2.0
-Status: Draft
-Type: Standards Track
+License-Code: ISC
+Status: Active Review
+Type: Informational
 Created: 2019-03-04
 ```
 
