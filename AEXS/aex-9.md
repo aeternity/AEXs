@@ -91,6 +91,15 @@ Transfer(indexed address, indexed address, indexed int)
 public stateful function mint(account: address, value: int)
 ```
 
+### Events
+
+**Mint** - MUST trigger when tokens are minted using the `mint` function.
+
+The mint event arguments should be as follows: `(account,  value)`
+
+```
+Mint(indexed address, indexed int)
+```
 
 ## Extension Allowance
 
