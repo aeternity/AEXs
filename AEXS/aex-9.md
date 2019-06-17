@@ -57,13 +57,13 @@ public function balances() : map(address, int)
 ```
 
 
-`balance_of` - Returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned, to be able to determine if the account has balance of 0 or is still unknown.
+`balance` - Returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned, to be able to determine if the account has balance of 0 or is still unknown.
 
 ```
 public function balance(owner: address) : option(int)
 ```
 
-`transfer` - Transfers `value` amount of tokens to `to_account` address, and MUST fire the Transfer event. The function SHOULD abort if the message caller’s account balance does not have enough tokens to spend.
+`transfer` - Transfers `value` amount of tokens to `to_account` address, and MUST fire the `Transfer` event. The function SHOULD abort if the message caller’s account balance does not have enough tokens to spend.
 
 Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
 
