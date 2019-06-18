@@ -22,9 +22,11 @@ The aexpansion is meant to avoid incompatibility with deterministic wallet imple
 
 Accounts derivation path is taken from [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), except that in all path segments hardened derivation is used since [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md) does not support public derivation.
 
-The derivation path (`m/purpose'/coin_type'/account'/change'/address_index'`) is therefore:
+The derivation path (`m/purpose'/coin_type'/account_index'/change'/address_index'`) is therefore:
 
-m/44<sub>H</sub>/457<sub>H</sub>/\${ACCOUNT_IDX}<sub>H</sub>/0<sub>H</sub>/0<sub>H</sub>
+m/44<sub>H</sub>/457<sub>H</sub>/\${account_index}<sub>H</sub>/0<sub>H</sub>/\${address_index}<sub>H</sub>
+
+where `account_index` and `address_index`are integer starting from `0`.
 
 The coin type value for Aeternity, `457`, has been generated on random.org and is registered in [SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md).
 
