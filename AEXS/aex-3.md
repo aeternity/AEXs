@@ -23,15 +23,17 @@ The secret storage specification, although is being currently used for secret-ke
 
 Having a standard way for encryption and storage of data enables
 
-- `Interoperability`, not only between æternity and æpps but also between the æpps.
-- `Easy migration` from an aeternity-supported `wallet` to another.
+- Interoperability, not only between æternity and æpps but also between the æpps.
+- Easy migration from an aeternity-supported `wallet` to another.
 
 ## Specification
 
-- The `data` should always be stored in a `.json` file.
+- The data should always be stored in a `.json` file.
 - Each file should have a minimum of 1 JSON object with the following `required` fields
 
-  - `secret_type` specifies the type of the encrypted data. This is restricted to `ed25519` at this point.
+  - `secret_type` specifies the type of the encrypted data.
+  - (optional) `secret_format` specifies the format of the encrypted data,
+    if not specified then a consumer should assume raw bytes
   - `symmetric_alg` specifies the algorithm used for symmetric encryption of the secret. This should be authenticated encryption and the only option is `xsalsa20-poly1305` currently.
   - The `ciphertext` is the output of `symmectric_alg` , i.e. the output of libsodiums `crypto_secretbox_easy`, which is `MAC + CIPHER` with an upper-limit of `512 bytes`.
   - `cipher_params` params used for successful decryption of the ciphertext
@@ -42,12 +44,26 @@ Having a standard way for encryption and storage of data enables
 
 - Each JSON Object can also have an optional `name` field, which can be a human-readable name for the secret.
 
+### Secret types
+
+Specifying an appropriate `secret_type` helps consumers to decide the proper way
+of handling the decrypted data without having to store additional metadata.
+
+The following `secret_type` values have been proposed:
+
+- `ed25519-bip39-mnemonic`
+- `ed25519-slip0010-masterkey`
+
+This list should be expanded with adoption.
+
+It is not advised to use this format as a store for arbitrary binary data.
+
 ### Example
 
 ```json
 {
   "crypto": {
-    "secret_type": "ed25519",
+    "secret_type": "ed25519-slip0010-masterkey",
     "symmetric_alg": "xsalsa20-poly1305",
     "ciphertext":"66891af8a59e83f0c600435a0681413644588f296240ab922ee357fa5ffa857f2709f8753b2b70d35625203adc6bf6e8",
     "cipher_params": {
@@ -69,4 +85,4 @@ Having a standard way for encryption and storage of data enables
 
 ## Reference
 
-https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
+- https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
