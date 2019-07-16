@@ -14,197 +14,175 @@ Created: 2019-03-04
 
 ## Simple Summary
 
-The document approaches the technical specification about how a wallet provider (ex. Base æpp, MetaMask) can interact with Aeternity enabled applications.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to
+be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
+
+This document describes the technical specification and methods that the wallet provider (ex. Base æpp, Wællet, MetaMask) MUST use to interact with Aeternity based applications (hereinafter referred to as 'aepp' or 'aepps').
 
 ## Motivation
 
-Currently, there exist no one standard way for wallets and SDK to communicate and everything developed on the SDK side is developed only keeping the Base æpp in mind and rest of the wallet providers need to follow the same path.
-By defining the standard way of communication between SDK(aepps) and Wallet we will not only reduce the dependency that other wallet providers have on the Base æpp as well as we'll have a clear standard method of communication on the SDK side that can be further extended whenever required.
+Currently, there exists no standard way for wallets and aepps to communicate and everything developed on the SDK side is developed only keeping the Base æpp in mind and rest of the wallet providers need to follow the same path.
+By defining the standard way of communication between aepps and Wallet we will not only reduce the dependency that other wallet providers have on the Base æpp as well as we'll have a clear standard method of communication on the SDK side that can be further extended upon whenever required.
 
 ## Specification
 
-### JSON-RPC 2.0 Methods
+### Naming Convention
 
-#### General
+Wherever possible, this document tries to closely follow the `who.what.how` naming convention for JSON-RPC methods.
 
-- `ping/pong`: general ping/pong messages to check liveness. Implementation of this method is not mandatory for wallets communicating over a transport layer that have native support for liveness check.
+### JSON-RPC 2.0 Specification
 
-    ##### Parameters
+#### Error
 
-    `Object`
+JSON-RPC 2.0 response error object that is used to communicate any error occurred while processing the request.
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+##### Types of errors
 
-    ##### Returns
+  |**Code**|**Message**|**Meaning**|
+  |:-----:|:-----:|:-----:|
+  |1|Transaction Verification Failed| MUST be returned when verification of signed transaction fails.|
+  |2|Invalid Transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |3|Broadcast Failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
+  |4|Signature Request Denied| MUST be returned by the wallet when it denies the signature request by aepp.|
+  |5|Subscription Denied| MUST be returned by the wallet whenever it denies an address subscription request.|
+  |6|Invalid Address| MUST be returned by the aepp when the address (or any address in a list) provided by wallet is invalid.|
+  |7|Unsupported Protocol Version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |8|Unsupported Network| MUST be thrown by aepp or wallet whenever it sees that the other party is using or requesting to process a transaction for a network that it does not support.|
 
-    Object`
+#### Methods
 
-    - `id` - same id as in the corresponding request
-    - `data` - Value will always be equal to `pong`
+##### Aepp Invokable Methods
 
-- `error`: used to communicate any error occurred. Embedded `data` field in each error object MUST contain the `request` that triggered it.
+  This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an operation.
 
-  ##### JSON-RPC 2.0 Error Example:
+- `aepp.request.connect`: connection request sent by the aepp to the wallet.
 
-  ```json
-      {
-        "error": {
-            "code": 1,
-            "data": {
-                "request": {}
-            },
-            "message": "Transaction verification failed"
-        },
-        "id": null,
-        "jsonrpc": "2.0"
-    }
-  ```
+  **Parameters**
 
-  ##### Types of errors
+    _Object_
 
-    |**Code**|**Message**|**Meaning**|
-    |:-----:|:-----:|:-----:|
-    |1|Transaction verification failed|returned when verification of signed transaction fails.|
-    |2|Invalid transaction|returned by node for an invalid transaction.|
-    |3|Broadcast Failed| returned when Aepp/SDK loses connection to the node and is unable to broadcast the transaction.|
-    |4|Signature request denied|returned when wallet denies the signature request by Aepp/SDK.|
-    |5|Get address request denied|returned when wallet denies the address request by Aepp/SDK.|
-    |6|Invalid Address|returned by aepp when the address (or any address in a list) provided by wallet is invalid.|
-    |7|Unknown Identifier| returned by aepp or wallet when the enclosing `id` is unknown to the receiving party or is missing entirely.|
-    |8|Malformed Identifier| returned by aepp or wallet when the enclosing `id` does not conform to UUID v4 standards.|
-    |9|Unsupported Protocol Version| returned by aepp when it does not support protocol version the wallet wants to connect through.
+  - `name`: human readable aepp name (Supported Datatype: string)
+  - `icons`: Aepp MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
+    - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
+  - `version`: protocol version. Currently defaults to `1`.
+  - `network`: Network id used by the aepp
 
-#### SDK/Aepp
+  **Returns**
 
-- `aepp.get.address`: request for address from wallet.
+    _Object_
 
-    ##### Parameters
+    - `name`: human readable wallet name (Supported Datatype: string)
+    - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
+      - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
+    - `network`: Network id used by the wallet
 
-    `Object`
+- `aepp.subscribe.address`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+    **Parameters**
+
+    _Object_
+
+    - `type`: payload indicating the type of update i.e. subscription or un-subscription. This supports two options:
+      - `subscribe` (datatype: string): MUST be used by the aepp to request a subscription.
+      - `unsubscribe` (datatype: string): MUST be used by the aepp to request an un-subscription.
+    - `value`: indicating the subscription/un-subscription that needs to be handled Currently supported options:
+      - `current` (datatype: string): MUST be used to for current user account
+      - `connected` (datatype: string): MUST be used for connected wallet accounts.
+
+  **Returns**
+
+    _Object_
+
+    - `subscription`: Array of string indicating the current subscriptions. Example: `['current', 'connected']`
 
 - `aepp.request.sign`: request wallet for signature
 
-    ##### Parameters
+    **Parameters**
 
-    `Object`
+    _Object_
+  - `tx`: unsigned encoded transaction of type string.
+  - `locked`: Boolean (DEFAULT: `false`).
+    - `true`: the transaction SHOULD NOT be modified by the wallet.
+    - `false`: the transaction CAN be modified by the wallet.
+  - `return`: Boolean (DEFAULT: `false`).
+    - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
+    - `false`: the aepp wants the wallet to sign and broadcast the transaction and return back only the transaction id.
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - raw unsigned transaction
+  **Returns**
 
-  ##### Returns
+    _Object_
 
-    `Object`
+    - `result`: this can be either of two values depending on the request (as mentioned in the above description of `return`):
+      - `signed transaction`: signed encoded transaction of type string.
+      - `transaction hash`: encoded transaction hash of type string.
 
-  - `id` - same id as in the corresponding request
-  - `tx` - signed tx returned by the wallet
+##### Wallet Invokable Methods
 
-- `aepp.update.network`: Message sent by Aepp/SDK asking wallet to update the network details.
+  This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
 
-    ##### Parameters
+- `wallet.broadcast.tx`: Ask aepp to broadcast the transaction. If the aepp is unable to broadcast it **returns** the `error` with code `3`.
 
-    `Object`
+  **Parameters**
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+    _Object_
+  - `tx`: signed encoded transaction of type string.
+  - `verify`: Boolean. Perform verification before broadcasting or not.
 
-  - `network` - Current network id used by the Aepp/SDK.
+  **Returns**
 
-#### Wallet
+    _Object_
 
-- `wallet.request.connect`: connection request sent by the wallet containing an identifier that it wants to assign to the aepp/sdk. The provided identifier should be used for all the further communication between the aepp and wallet.
+    - `tx_id`: encoded transaction hash of type string.
 
-    ##### Parameters
+#### Notifications
 
-    `Object`
+- `wallet.awaiting.connection`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `aepp.request.connect` message. This is more of a helper message for the aepp to identify the presence of wallet.
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `name` - human readable wallet name
-  - `version` - protocol version. Currently defaults to `1`.
+  **Parameters**
 
-  ##### Returns
+    _Object_
 
-    `Object`
+    - `name`: human readable wallet name (Supported Datatype: string)
+    - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
+      - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
+    - `network`: Network id used by the wallet
 
-  - `id` - same id as in the corresponding request
-  - `name` - human readable aepp name
+- `peer.update.network`: MUST be used by Aepp or Wallet for informing the other party about the change of network.
 
-- `wallet.get.network`: get network details from sdk
+    **Parameters**
 
-    ##### Parameters
+    _Object_
+  - `network`: Updated network id.
 
-    `Object`
+- `peer.connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.¬
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
+    **Parameters**
 
-- `wallet.update.address`: used by wallet for sending requested address. wallet can also send the list of address of the wallets it is further connected to.
+    _Object_
 
-    ##### Parameters
+- `wallet.update.address`: MUST be used by the wallet to notify subscribed aepps about the address change.
 
-    `Object`
+  **Parameters**
 
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `address` - Object containing two objects named `current` and `connected`.
+    _Object_
+  - `address`: JSON Object. This MAY contain 1 or more keys but only of the below types. The values in the object completely depend on the aepp's subscription.
 
-    - `current` - Object containing only a single account currently in use by the wallet.
+    **Subscription Type:**
 
-    - `connected`(optional) - Object containing multiple connected accounts.
+    - `current`: Object containing only a single account currently in use by the wallet. The account MAY also have an embedded `name` key which is a human-readable name for the account.
+    - `connected`: Object containing multiple connected accounts. The accounts MAY also have an embedded `name` key which is a human-readable name for the account.
 
-      ###### Example Account Format
+    **Account Format:**
 
-        ```json
+      ```json
         {
-            "current": {
-                "ak_2iBPH7HUz3cSDVEUWiHg76MZJ6tZooVNBmmxcgVK6VV8KAE688": {
-                    "name": "this property is optional"
+            "<subscription_type>": {
+                "<account_public_key>": {
+                    "name": "<optional_human_readable_account_name>"
                 }
             }
         }
-        ```
+      ```
 
-- `wallet.broadcast.tx`: Ask Aepp/SDK to broadcast the transaction. If the Aepp/SDK is unable to broadcast it returns the `error`  with code `3`.
-
-    ##### Parameters
-
-    `Object`
-
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - signed transaction to be broadcasted
-  - `verify` - Boolean. Perform verification before broadcasting or not.
-
-  ##### Returns
-
-    `Object`
-
-  - `id` - same id as in the corresponding request
-  - `tx_id` - transaction id of the broadcasted transaction
-
-- `wallet.verify.tx`: verify the tx from the SDK. On verification success, a response object is returned else with `status` field with a value `ok` else error with `code 1` is returned.
-
-    ##### Parameters
-
-    `Object`
-
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-  - `tx` - signed transaction to be verified
-
-  ##### Returns
-
-    `Object`
-
-  - `id` - same id as in the corresponding request
-  - `status` - Value will always be equal to `ok`
-
-- `wallet.disconnect.aepp`: wallet lets the aepp know that it will disconnect. no further acknowledgement required.
-
-    ##### Parameters
-
-    `Object`
-
-  - `id` - A unique identifier, must conform to the [UUID v4 standards](https://tools.ietf.org/html/rfc4122#page-14)
-
-## Example Flow
-
-<p align="center">
-<img src="https://github.com/aeternity/AEXs/raw/master/assets/aex-2/example-flow.png" width="400px">
-</p>
+## Example Flow [WIP]
