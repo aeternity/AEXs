@@ -54,7 +54,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 ##### Aepp Invokable Methods
 
-  This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an operation.
+  This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an action.
 
 - `aepp.request.connect`: connection request sent by the aepp to the wallet.
 
@@ -62,7 +62,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-  - `name`: human readable aepp name (Supported Datatype: string)
+  - `name`: human-readable aepp name (Supported Datatype: string)
   - `icons`: Aepp MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
     - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
   - `version`: protocol version. Currently defaults to `1`.
@@ -72,7 +72,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-    - `name`: human readable wallet name (Supported Datatype: string)
+    - `name`: human-readable wallet name (Supported Datatype: string)
     - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
       - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
     - `network`: Network id used by the wallet
@@ -107,7 +107,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     - `false`: the transaction CAN be modified by the wallet.
   - `return`: Boolean (DEFAULT: `false`).
     - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
-    - `false`: the aepp wants the wallet to sign and broadcast the transaction and return back only the transaction id.
+    - `false`: the aepp wants the wallet to sign and broadcast the transaction and return only the transaction id.
 
   **Returns**
 
@@ -137,13 +137,15 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 #### Notifications
 
-- `wallet.awaiting.connection`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `aepp.request.connect` message. This is more of a helper message for the aepp to identify the presence of wallet.
+- `wallet.awaiting.connection`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `aepp.request.connect` message.
+
+  Note: This is a helper message for the aepp to identify the presence of a wallet.
 
   **Parameters**
 
     _Object_
 
-    - `name`: human readable wallet name (Supported Datatype: string)
+    - `name`: human-readable wallet name (Supported Datatype: string)
     - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
       - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
     - `network`: Network id used by the wallet
