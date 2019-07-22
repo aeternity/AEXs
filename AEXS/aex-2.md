@@ -95,6 +95,21 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `subscription`: Array of string indicating the current subscriptions. Example: `['current', 'connected']`
+    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `wallet.update.address` notification, please refer for more details.
+    This field MUST be included in the response when the wallet receives a subscription request i.e. when `type == 'subscribe'`.
+    This field is OPTIONAL in the response when the wallet receives an un-subscription request i.e. when `type == 'unsubscribe'`.
+
+  **Account Format:**
+
+  ```json
+    {
+        "<subscription_type>": {
+            "<account_public_key>": {
+                "name": "<optional_human_readable_account_name>"
+            }
+        }
+    }
+  ```
 
 - `aepp.request.sign`: request wallet for signature
 
