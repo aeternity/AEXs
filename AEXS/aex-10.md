@@ -5,7 +5,7 @@ Author: Andrea Giacobino (@noandrea), Denis Davidyuk (@davidyuk)
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-10-derivation-path-for-deterministic-wallets/3586
 License-Code: ISC
-Status: Last Call (2019-06-18 to 2019-06-25)
+Status: Final
 Type: Informational
 Created: 2019-03-04
 ```
