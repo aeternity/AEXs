@@ -187,4 +187,8 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
         }
       ```
 
-## Example Flow [WIP]
+## Example Flow
+
+<p align="center">
+<img src="../assets/aex-2/example-flow.png" width="400px">	
+</p>
