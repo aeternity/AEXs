@@ -192,3 +192,9 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 <p align="center">
 <img src="../assets/aex-2/example-flow.png" width="400px">	
 </p>
+
+## Reference Implementation
+
+- Aepp: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/vuejs/connect-two-ae
+
+- Extension Wallet: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/extension
