@@ -26,7 +26,7 @@ The derivation path (`m/purpose'/coin_type'/account_index'/change'/address_index
 
 m/44<sub>H</sub>/457<sub>H</sub>/\${account_index}<sub>H</sub>/0<sub>H</sub>/\${address_index}<sub>H</sub>
 
-where `account_index` and `address_index`are integer starting from `0`.
+where `account_index` and `address_index` are integer starting from `0`.
 
 The coin type value for Aeternity, `457`, has been generated on random.org and is registered in [SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md).
 
