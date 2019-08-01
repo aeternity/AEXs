@@ -172,11 +172,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
   - `network`: Updated network id.
 
-- `peer.connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.¬
-
-    **Parameters**
-
-    _Object_
+- `peer.connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
 - `wallet.update.address`: MUST be used by the wallet to notify subscribed aepps about the address change.
 
