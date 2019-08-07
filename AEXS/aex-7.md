@@ -127,6 +127,8 @@ This standard allows for new message types to be added by every application. But
 - MessageSignRequest
 - MessageSignResponse
 
+The numbers 0 to 999 of the message type are reserved for official/default messages, other numbers can be used for user defined types (for which they have to provide their own serialization / deserialization methods.)
+
 ### Versioning
 
 There are 2 different kinds of versions:
@@ -142,17 +144,18 @@ We use RLP over more commonly used standards like JSON or XML because it's more 
 
 We encode the resulting string with `base58` so it will be compatible with URLs.
 
-### Adding an ID to the Request
+### Adding context to a request
 
-It might make sense to include a random ID for all "Requests", and then send this ID back with the "Responses". This would allow the initiating application to provide additional context info for that specific request. However, we decided against that because it means that not the complete state is contained in the data that is sent. There are scenarios where the recipient of the Response is not the same application / device that initiated the request.
+In some situations it makes sense to include context to a request, which is then also sent back with the response.
 
-Example:
+This could for example be used to attach IDs to requests to track their state.
 
-1. User uses web extension to prepare a transaction
-2. User scans prepared transaction QR with mobile phone to sign
-3. User broadcasts the transaction on the mobile phone directly
+The context should be used with caution because:
 
-So in this example, the ID would be useless to the broadcasting app on the phone because the context would be missing.
+1. It will increase the size of both the request and response QR.
+2. You cannot be sure that the response is received on the same device that created the original request. (eg. prepare in chrome extension > signing on offline device > broadcasting with mobile phone)
+
+This context will be added as an optional parameter to all the default message types.
 
 ## Implementation
 
