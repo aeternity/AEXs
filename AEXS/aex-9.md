@@ -93,7 +93,6 @@ Transfers `value` amount of tokens to `to_account` address, and MUST fire the `T
 
 Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
 
-
 ### Events
 
 **Transfer** - MUST trigger when tokens are transferred, including zero value transfers.
@@ -158,7 +157,7 @@ Returns the amount which `for_account` is still allowed to withdraw from `from_a
 
 ### Events
 
-**Approval** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
+**Allowance** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
 
 The approval event arguments should be as follows: `(from_account, for_account, value)`
 
