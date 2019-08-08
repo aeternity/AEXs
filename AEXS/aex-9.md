@@ -36,40 +36,62 @@ A standard interface allows any tokens to be re-used by other applications: from
 ## Basic Token
 ### Methods
 
-NOTES:
-
-`meta_info` - Returns the meta_information record from the token in the required format `{ name : string, symbol : string, decimals : int }`.
+#### Meta Info
 
 ```
-public function meta_info() : meta_info
+entrypoint function meta_info() : meta_info
 ```
 
-`total_supply` - Returns the total token supply.
+Returns the meta information associated with the token contract.
+
+Return type: `record`
 
 ```
-public function total_supply() : int
+record meta_info =
+  { name     : string
+  , symbol   : string
+  , decimals : int }
 ```
 
-`balances` - Returns the full balance state for static calls, e.g. by a blockchain explorer.
+#### Total Supply
 
 ```
-public function balances() : map(address, int)
+entrypoint total_supply() : int
 ```
 
+Returns the total token supply.
 
-`balance` - Returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned, to be able to determine if the account has balance of 0 or is still unknown.
+Return type `int`.
+
+#### Balances
 
 ```
-public function balance(owner: address) : option(int)
+entrypoint balances() : map(address, int)
 ```
 
-`transfer` - Transfers `value` amount of tokens to `to_account` address, and MUST fire the `Transfer` event. The function SHOULD abort if the message caller’s account balance does not have enough tokens to spend.
+Returns the full balance state for static calls, e.g. by a blockchain explorer.
+
+Return type: `map(address, int)`
+
+#### Balance
+
+```
+entrypoint balance(owner: address) : option(int)
+```
+
+Returns: `option(int)`
+
+Info: Returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned, to be able to determine if the account has balance of 0 or is still unknown.
+
+#### Transfer
+
+```
+stateful entrypoint transfer(to_account: address, value: int)
+```
+
+Transfers `value` amount of tokens to `to_account` address, and MUST fire the `Transfer` event. The function SHOULD abort if the message caller’s account balance does not have enough tokens to spend.
 
 Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
-
-```
-public stateful function transfer(to_account: address, value: int)
-```
 
 
 ### Events
@@ -85,11 +107,11 @@ Transfer(indexed address, indexed address, indexed int)
 
 ## Extension Mintable
 
-`mint` - Mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not `state.owner`.
+```
+stateful entrypoint mint(account: address, value: int)
+```
 
-```
-public stateful function mint(account: address, value: int)
-```
+Mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not `state.owner`.
 
 ### Events
 
@@ -103,39 +125,42 @@ Mint(indexed address, indexed int)
 
 ## Extension Allowance
 
-`create_allowance`
+#### Create allowance
+
+```
+stateful entrypoint create_allowance(for_account: address, value: int)
+```
+
 Allows `for_account` to withdraw from your account multiple times, up to the `value` amount. If this function is called again it overwrites the current allowance with `value`.
 
 NOTE: To prevent attack vectors (like the ones possible in ERC20) clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH The contract itself shouldn’t enforce it, to allow backwards compatibility with contracts deployed before
 
+#### Transfer allowance
+
 ```
-public stateful function create_allowance(for_account: address, value: int)
+stateful entrypoint transfer_allowance(from_account: address, to_account: address, value: int)
 ```
 
-`transfer_allowance`
 Transfers `value` amount of tokens from address `from_account` to address `to_account`, and MUST fire the Transfer event.
 
 The `transfer_allowance` method is used for a withdraw workflow, allowing contracts to transfer tokens on your behalf. This can be used for example to allow a contract to transfer tokens on your behalf and/or to charge fees in sub-currencies. The function SHOULD abort unless the `from_account` account has deliberately authorized the sender of the message via some mechanism.
 
 Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
 
+#### Allowance
+
 ```
-public stateful function transfer_allowance(from_account: address, to_account: address, value: int)
+entrypoint allowance(allowance_accounts : allowance_accounts) : option(int)
 ```
 
-`allowance`
 Returns the amount which `for_account` is still allowed to withdraw from `from_account`, where `record allowance_accounts = { from_account : address, for_account : address }`. If no allowance for this combination of accounts exists, `None` is returned.
 
-```
-public function allowance(allowance_accounts : allowance_accounts) : option(int)
-```
 
 ### Events
 
 **Approval** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
 
 The approval event arguments should be as follows: `(from_account, for_account, value)`
-
 
 ```
 Allowance(indexed address, indexed address, indexed int)
