@@ -63,7 +63,7 @@ This is especially beneficial for mobile wallet users as they can simply click o
 
     URI: `aeternity:<transaction>/<network_id>/<label>?return=<txId/tx>&callback=<url>`
 
-    This URI scheme enables users to sign (and broadcast) the transaction using deep lining enabled user wallet.
+    This URI scheme enables users to sign (and broadcast) the transaction using deep linking enabled user wallet.
 
     1. The user generates the transaction to be signed
     2. Creates the URI substituting `transaction` and `network_id` with their respective value, `label` a human-readable text regarding the transaction and provides the query param `return` which indicates the return value type in the callback URL. It can contain only two possible values of string type:
