@@ -28,9 +28,32 @@ of your proposal once assigned, e.g. `assets/aex-1/image.png`.
 
 Everything beyond step 4 is governed by [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md).
 
+## Status terms
+
+
+* Draft - an AEX that is open for consideration and is undergoing rapid iteration and changes.
+* Review - an AEX that is done with its initial iteration and in review by a wide audience.
+* Last Call - In review by a wide audience - last call for accepting changes.
+* Review - an AEX that is done with its initial iteration and ready for review by a wide audience.
+* Final - an AEX  that has been in Last Call for at least 2 weeks and all technical changes that were requested have been addressed by the author.
+* Superseded - an AEX that is deprecated because other AEX supersedes it.
+* Rejected
+
+## AEXs
+
+| Code | Status | Description |
+| --- | --- | --- |
+| [AEX-1](AEXS/aex-1.md)     | Review | AEX process |
+| [AEX-2](AEXS/aex-2.md)     | Review | Third-party Wallet Provider Support |
+| [AEX-3](AEXS/aex-3.md)     | Review | Secret storage format |
+| [AEX-4](AEXS/aex-4.md)     | Draft  | æternity wallet deep linking specification |
+| [AEX-5](AEXS/aex-5.md)     | Draft  | Inter-Wallet Communication |
+| [AEX-7](AEXS/aex-7.md)     | Draft  | Data Serialization |
+| [AEX-9](AEXS/aex-9.md)     | Draft  | Fungible Token Standard |
+| [AEX-10](AEXS/aex-10.md)   | Draft  | Derivation path for deterministic wallets |
+
 
 ## Copyright
 
 This README is released under the
 [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) license.
-

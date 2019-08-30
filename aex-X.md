@@ -7,7 +7,7 @@ Author: <a list of the author's or authors' name(s) and/or username(s), or name(
 License: <license names, abbreviated>
 License-Code (*optional): <license names, abbreviated>
 Discussions-To: <URL>
-Status: <Draft | Active Review | Last Call (yyyy-mm-dd to yyyy-mm-dd) | Final | Updated | Superseded | Rejected | Withdrawn>
+Status: <Draft | Review | Last Call (yyyy-mm-dd to yyyy-mm-dd) | Final | Updated | Superseded | Rejected | Withdrawn>
 Type: <Interface | Informational | Meta>
 Created: <date created on, in ISO 8601 (yyyy-mm-dd) format>
 Requires (*optional): <AEX number(s)>
