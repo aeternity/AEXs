@@ -6,7 +6,7 @@ Title: Fungible Token Standard
 Author: Milen Radkov (@mradkov), Philipp Piwowarsky (@thepiwo)
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-9-fungible-token/3565
-Status: Draft
+Status: Review
 Type: Standards Track
 Created: 2019-05-11
 ```
