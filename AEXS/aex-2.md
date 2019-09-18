@@ -41,14 +41,14 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   |**Code**|**Message**|**Meaning**|
   |:-----:|:-----:|:-----:|
-  |1|Transaction Verification Failed| MUST be returned when verification of signed transaction fails.|
-  |2|Invalid Transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
-  |3|Broadcast Failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
-  |4|Signature Request Denied| MUST be returned by the wallet when it denies the signature request by aepp.|
-  |5|Subscription Denied| MUST be returned by the wallet whenever it denies an address subscription request.|
-  |6|Invalid Address| MUST be returned by the aepp when the address (or any address in a list) provided by wallet is invalid.|
-  |7|Unsupported Protocol Version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
-  |8|Unsupported Network| MUST be thrown by aepp or wallet whenever it sees that the other party is using or requesting to process a transaction for a network that it does not support.|
+  |1|Transaction verification failed| MUST be returned when verification of signed transaction fails.|
+  |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
+  |4|Signature request Denied| MUST be returned by the wallet when it denies the signature request by aepp.|
+  |5|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
+  |6|Invalid address| MUST be returned by the aepp when the address (or any address in a list) provided by wallet is invalid.|
+  |7|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |8|Unsupported network| MUST be thrown by aepp or wallet whenever it sees that the other party is using or requesting to process a transaction for a network that it does not support.|
 
 #### Methods
 
@@ -116,10 +116,8 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     **Parameters**
 
     _Object_
-  - `tx`: unsigned encoded transaction of type string.
-  - `locked`: Boolean (DEFAULT: `false`).
-    - `true`: the transaction SHOULD NOT be modified by the wallet.
-    - `false`: the transaction CAN be modified by the wallet.
+  - `tx`: unsigned encoded transaction (Datatype: String).
+  - `locked`: List of transaction fields/properties(datatype: String) that MUST be considered by the wallet as locked/unmodifiable. This field is OPTIONAL and MAY be used by the aepp. If the field is missing then all the transaction fields MUST be considered modifiable.
   - `return`: Boolean (DEFAULT: `false`).
     - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
     - `false`: the aepp wants the wallet to sign and broadcast the transaction and return only the transaction id.
@@ -129,8 +127,8 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `result`: this can be either of two values depending on the request (as mentioned in the above description of `return`):
-      - `signed transaction`: signed encoded transaction of type string.
-      - `transaction hash`: encoded transaction hash of type string.
+      - `signed transaction`: signed encoded transaction (Datatype: String).
+      - `transaction hash`: encoded transaction hash (Datatype: String).
 
 ##### Wallet Invokable Methods
 
@@ -141,14 +139,14 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   **Parameters**
 
     _Object_
-  - `tx`: signed encoded transaction of type string.
+  - `tx`: signed encoded transaction (Datatype: String).
   - `verify`: Boolean. Perform verification before broadcasting or not.
 
   **Returns**
 
     _Object_
 
-    - `tx_id`: encoded transaction hash of type string.
+    - `tx_hash`: encoded transaction hash (Datatype: String).
 
 #### Notifications
 
@@ -209,3 +207,9 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 - Aepp: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/vuejs/connect-two-ae
 
 - Extension Wallet: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/extension
+
+## References
+
+- Transaction Encoding and Serialization
+  https://github.com/aeternity/protocol/blob/master/node/api/api_encoding.md
+  https://github.com/aeternity/protocol/blob/master/serializations.md
