@@ -30,14 +30,16 @@ Everything beyond step 4 is governed by [AEX-1](https://github.com/aeternity/AEX
 
 ## Status terms
 
+Read [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) for more details.
 
 * Draft - an AEX that is open for consideration and is undergoing rapid iteration and changes.
 * Review - an AEX that is done with its initial iteration and in review by a wide audience.
 * Last Call - In review by a wide audience - last call for accepting changes.
-* Review - an AEX that is done with its initial iteration and ready for review by a wide audience.
 * Final - an AEX  that has been in Last Call for at least 2 weeks and all technical changes that were requested have been addressed by the author.
+* Active - proposal can be in constant flux. No unaddressed substantiated objections are left, crucial or cosmetic updates only.
 * Superseded - an AEX that is deprecated because other AEX supersedes it.
 * Rejected
+* Withdrawn - signalling that the proposal is no longer relevant.
 
 ## AEXs
 

@@ -6,7 +6,7 @@ Title: AEX process
 Author: Sascha Hanse <shanse@posteo.de>
 License: CC0-1.0
 Discussions-To: https://forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461
-Status: Review
+Status: Active
 Type: Meta
 Created: 2019-02-01
 ```
