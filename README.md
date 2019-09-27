@@ -45,7 +45,7 @@ Read [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) for mo
 
 | Code | Status | Description |
 | --- | --- | --- |
-| [AEX-1](AEXS/aex-1.md)     | Review | AEX process |
+| [AEX-1](AEXS/aex-1.md)     | Active | AEX process |
 | [AEX-2](AEXS/aex-2.md)     | Review | Third-party Wallet Provider Support |
 | [AEX-3](AEXS/aex-3.md)     | Review | Secret storage format |
 | [AEX-4](AEXS/aex-4.md)     | Draft  | æternity wallet deep linking specification |
