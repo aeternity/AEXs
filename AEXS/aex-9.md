@@ -35,6 +35,26 @@ A standard interface allows any tokens to be re-used by other applications: from
 
 ## Basic Token
 
+### Interface
+
+```text
+contract FungibleTokenInterface =
+  record meta_info =
+    { name : string
+    , symbol : string
+    , decimals : int }
+    
+  datatype event =
+    Transfer(indexed address, indexed address, indexed int)
+
+  entrypoint meta_info : () => meta_info
+  entrypoint total_supply : () => int
+  entrypoint owner : () => address
+  entrypoint balances : () => map(address, int)
+  entrypoint balance : (address) => option(int)
+  entrypoint transfer : (address, int) => ()
+```
+
 ## Methods
 
 ### meta_info\(\)
