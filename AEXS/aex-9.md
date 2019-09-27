@@ -34,54 +34,66 @@ A standard interface allows any tokens to be re-used by other applications: from
 ## Specification
 
 ## Basic Token
-### Methods
 
-#### Meta Info
+## Methods
 
+### meta_info\(\)
+
+This function **returns** meta information associated with the token contract.
+
+```text
+entrypoint meta_info() : meta_info
 ```
-entrypoint function meta_info() : meta_info
-```
 
-Returns the meta information associated with the token contract.
+| return | type |
+| :--- | :--- |
+| meta_info | meta_info |
 
-Return type: `record`
-
-```
+```text
 record meta_info =
   { name     : string
   , symbol   : string
   , decimals : int }
 ```
 
-#### Total Supply
+### total_supply\(\)
 
-```
+This function returns the total token supply.
+
+```text
 entrypoint total_supply() : int
 ```
 
-Returns the total token supply.
+| return | type |
+| :--- | :--- |
+| total_supply | int |
 
-Return type `int`.
+### balances\(\)
 
-#### Balances
+This function returns the full balance state for static calls, e.g. by a blockchain explorer.
 
-```
+```text
 entrypoint balances() : map(address, int)
 ```
 
-Returns the full balance state for static calls, e.g. by a blockchain explorer.
+| return | type |
+| :--- | :--- |
+| balances | map(address, int) |
 
-Return type: `map(address, int)`
+### balance\(\)
 
-#### Balance
+This function returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned. Using `option` type as a return value allows us to determine if the account has balance of 0, more than 0, or the account has never had balance and is still unknown to the contract.
 
-```
+```text
 entrypoint balance(owner: address) : option(int)
 ```
+| parameter | type |
+| :--- | :--- |
+| owner | address |
 
-Returns: `option(int)`
-
-Info: Returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned, to be able to determine if the account has balance of 0 or is still unknown.
+| return | type |
+| :--- | :--- |
+| balance | option(int) |
 
 #### Transfer
 
