@@ -95,77 +95,125 @@ entrypoint balance(owner: address) : option(int)
 | :--- | :--- |
 | balance | option(int) |
 
-#### Transfer
+### transfer\(\)
 
+This function allows transfer of `value` amount of tokens to `to_account` address and MUST fire the `Transfer` event. The function SHOULD abort if the Call.caller's account balance does not have enough tokens to spend.
+
+Note: Transfers of 0 values MUST be treated as normal transfers and fire the `Transfer` event.
+
+```text
+stateful entrypoint transfer(to_account: address, value: int) : ()
 ```
-stateful entrypoint transfer(to_account: address, value: int)
-```
 
-Transfers `value` amount of tokens to `to_account` address, and MUST fire the `Transfer` event. The function SHOULD abort if the message caller’s account balance does not have enough tokens to spend.
+| parameter | type |
+| :--- | :--- |
+| to_account | address |
+| value | int |
 
-Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
+## Events
 
-### Events
+### **Transfer** 
 
-**Transfer** - MUST trigger when tokens are transferred, including zero value transfers.
+This event MUST be triggered and emitted when tokens are transferred, including zero value transfers.
 
 The transfer event arguments should be as follows: `(from_account, to_account, value)`
 
-```
+```text
 Transfer(indexed address, indexed address, indexed int)
 ```
 
+| parameter | type |
+| :--- | :--- |
+| from_account | address |
+| to_account | address |
+| value | int |
+
+# Extensions
+
+This section covers the extensability of the basic token - e.g. mintable, allowances.
 
 ## Extension Mintable
 
-```
-stateful entrypoint mint(account: address, value: int)
+### mint\(\)
+
+This function mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not the owner of the contract `state.owner`.
+
+```text
+stateful entrypoint mint(account: address, value: int) : ()
 ```
 
-Mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not `state.owner`.
+| parameter | type |
+| :--- | :--- |
+| account | address |
+| value | int |
 
-### Events
+## Events
 
 **Mint** - MUST trigger when tokens are minted using the `mint` function.
 
 The mint event arguments should be as follows: `(account,  value)`
 
-```
+```text
 Mint(indexed address, indexed int)
 ```
 
+| parameter | type |
+| :--- | :--- |
+| account| address |
+| value | int |
+
 ## Extension Allowance
 
-#### Create allowance
-
-```
-stateful entrypoint create_allowance(for_account: address, value: int)
-```
+### create_allowance\(\)
 
 Allows `for_account` to withdraw from your account multiple times, up to the `value` amount. If this function is called again it overwrites the current allowance with `value`.
 
-NOTE: To prevent attack vectors (like the ones possible in ERC20) clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH The contract itself shouldn’t enforce it, to allow backwards compatibility with contracts deployed before
+Note: To prevent attack vectors (like the ones possible in ERC20) clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH the contract itself shouldn't enforce it, to allow backwards compatibility with contracts deployed before.
 
-#### Transfer allowance
-
-```
-stateful entrypoint transfer_allowance(from_account: address, to_account: address, value: int)
+```text
+stateful entrypoint create_allowance(for_account: address, value: int) : ()
 ```
 
-Transfers `value` amount of tokens from address `from_account` to address `to_account`, and MUST fire the Transfer event.
+| parameter | type |
+| :--- | :--- |
+| for_account| address |
+| value | int |
+
+### transfer_allowance\(\)
+
+Transfers `value` amount of tokens from address `from_account` to address `to_account`, and MUST fire the `Transfer` event.
 
 The `transfer_allowance` method is used for a withdraw workflow, allowing contracts to transfer tokens on your behalf. This can be used for example to allow a contract to transfer tokens on your behalf and/or to charge fees in sub-currencies. The function SHOULD abort unless the `from_account` account has deliberately authorized the sender of the message via some mechanism.
 
-Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
+Note: Transfers of 0 values MUST be treated as normal transfers and fire the `Transfer` event.
 
-#### Allowance
-
+```text
+stateful entrypoint transfer_allowance(from_account: address, to_account: address, value: int)
 ```
+
+| parameter | type |
+| :--- | :--- |
+| from_account| address |
+| to_account| address |
+| value | int |
+
+### allowance\(\)
+
+This function returns the amount which `for_account` is still allowed to withdraw from `from_account`, where `record allowance_accounts = { from_account: address, for_account: address }`. If no allowance for this combination of accounts exists, `None` is returned.
+
+```text
 entrypoint allowance(allowance_accounts : allowance_accounts) : option(int)
 ```
 
-Returns the amount which `for_account` is still allowed to withdraw from `from_account`, where `record allowance_accounts = { from_account : address, for_account : address }`. If no allowance for this combination of accounts exists, `None` is returned.
+| parameter | type |
+| :--- | :--- |
+| allowance_accounts| allowance_accounts |
 
+```text
+record allowance_accounts =
+  { from_account: address
+  , for_account: address }
+```
 
 ### Events
 
@@ -173,9 +221,15 @@ Returns the amount which `for_account` is still allowed to withdraw from `from_a
 
 The approval event arguments should be as follows: `(from_account, for_account, value)`
 
-```
+```text
 Allowance(indexed address, indexed address, indexed int)
 ```
+
+| parameter | type |
+| :--- | :--- |
+| from_account| address |
+| for_account| address |
+| value| int |
 
 ## Extension Allowance with Callback
 
