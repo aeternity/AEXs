@@ -37,8 +37,9 @@ Read [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) for mo
 * Last Call - In review by a wide audience - last call for accepting changes.
 * Final - an AEX  that has been in Last Call for at least 2 weeks and all technical changes that were requested have been addressed by the author.
 * Active - proposal can be in constant flux. No unaddressed substantiated objections are left, crucial or cosmetic updates only.
+* Updated - signalling that an updating standard might have to be considered
 * Superseded - an AEX that is deprecated because other AEX supersedes it.
-* Rejected
+* Rejected - editors deemed this proposal to be unworkable
 * Withdrawn - signalling that the proposal is no longer relevant.
 
 ## AEXs
