@@ -36,7 +36,6 @@ The motivation behind this aexpansion is to improve the user experience of brows
 + Category (select from predermined list)
 + aepp description
 + aepp icon
-+ aepp banner image (dimensions and format TBD)
 + Networks the aepp is available on [mainnet, testnet]
 + Link to aepp (which would contain the metadata specified in this proposal)
 + Age restrictions/rating?
@@ -56,24 +55,7 @@ Detail view of a dapp metadata rendered inside a dapps browser (Coinbase Wallet)
 
 ## Rationale
 
-### 2 Potential Formats
-
-**We propose one of two potential formats (feedback is requested):**
-+ a modified version of webmanifest format
-+ a new "aeppmanifest" format
-
-**The pros of using webmanifest include:**
-+ developers are already familiar with the format
-+ many aepps/dapps/apps likely already have a webmanifest file
-
-**The cons of using webmanifest include:**
-+ it could be confusing which fields are required/recommended for aeternity aepps
-
-**The pros of specifying an aeppmanifest include:**
-+ the aepp manifest would only include data pertaining to aepps, which would in turn make it more clear what and how an aepp should specify
-
-**The cons of specifying an aeppmanifest include:**
-+ it could be less convenient for aepp developers to have to maintain multiple manifest files, which include overlapping information.
+We are leveraging the webmanifest format and augmenting it to fit the needs of the blockchain context. The premise is that this format can be universal (used by multiple protocols, with only one field difference).
 
 ### Other considerations
 + Consider if aeppsmanifest format applies to both web and non-web contexts.
@@ -86,12 +68,63 @@ Detail view of a dapp metadata rendered inside a dapps browser (Coinbase Wallet)
 + This proposal does not address the concern of aepps sharing aepps data between themselves.
 
 
-## Backwards Compatibility
-
-
 ## Implementation
 
-A reference implementation can be provided by the Base æpp team.
+### Required members
+
+#### `name` member
+Documentation: https://www.w3.org/TR/appmanifest/#name-member
+
+#### `icons` member
+Documentation: https://www.w3.org/TR/appmanifest/#icons-member
+
+#### `aeternity_network_ids` member
+An array of `AeternityNetworkIdType` items, each item represents id of the network that aepp is compatible with. The persistence of this member means that aepp supports aeternity protocol.
+
+`AeternityNetworkIdType` is a string, allowed values: `ae_mainnet`, `ae_uat` (testnet).
+
+### Recommended members
+
+#### `description` member
+Documentation: https://www.w3.org/TR/appmanifest/#description-member
+
+#### `category` member
+Documentation: https://www.w3.org/TR/appmanifest/#categories-member
+List of known values: https://github.com/w3c/manifest/wiki/Categories
+
+
+#### `author` member
+
+The `author` member is a string that represents the name of author.
+
+#### `author_url` member
+
+The `author_url` member is a string that represents the URL of the author's website.
+
+### Additional members
+
+#### `iarc_rating_id` member
+Could be used to set age restrictions/ratings.
+Documentation: https://www.w3.org/TR/appmanifest/#iarc_rating_id-member
+
+### Binding of marketing websites to a corresponding aepp
+
+The web manifest file of a marketing website should point to an aepp using [`related_applications`](https://www.w3.org/TR/appmanifest/#related_applications-member) member.
+___
+
+### References
+
+Web App Manifest standard: https://www.w3.org/TR/appmanifest/
+Extensions Registry: https://github.com/w3c/manifest/wiki/Extensions-Registry
+
+___
+
+### Comments
+
+*[MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Manifest) says*
+> PWA manifests include its name, **author**, icon(s), version, description, and list of all the necessary resources (among other things).
+
+*DD: I can't find a specific way to add author info except for adding it as a part of another member (for example, at the end of `description` member). Because of this, I am defining the `author` member in this document.*
 
 ## Copyright
 
