@@ -19,8 +19,8 @@ Meta
 - Sascha Hanse <shanse@posteo.de>
 
 
-
-ATTENTION! If you would like to submit an AEX and it has already been written as
+## ATTENTION!  
+If you would like to submit an AEX and it has already been written as
 a draft (see the [template](https://github.com/aeternity/AEXs/blob/master/aex-X.md)
 for an example), please submit it as a [Pull Request](https://github.com/aeternity/AEXs/pulls).
 
