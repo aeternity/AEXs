@@ -1,8 +1,9 @@
 ---
 name: "AExpansion"
-about: "Submit a new Aexpansion"
-title: "Submit AExpansion"
+about: Use this template to submit a new AExpansion
 labels: "AExpansion", ":: draft"
+assignees: ''
+
 ---
 
 ### License: 
