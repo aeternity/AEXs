@@ -1,4 +1,6 @@
 ---
+name: "AExpansion"
+about: "Submit a new Aexpansion"
 title: "Submit AExpansion"
 labels: "AExpansion", ":: draft"
 ---
