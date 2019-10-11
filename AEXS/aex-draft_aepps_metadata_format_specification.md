@@ -5,7 +5,7 @@ AEX: <to be assigned by editors>
 Title: æpps Meta Information Format
 Author: Stoyan Vasilev (@j28), Denis Davidyuk (@davidyuk)
 License: BSD-3-Clause
-Discussions-To: <URL>
+Discussions-To: https://forum.aeternity.com/t/aexpansion-proposal-aepps-metadata-format-specification/3987/9
 Status: Draft
 Type: Meta
 Created: 2019-07-09
