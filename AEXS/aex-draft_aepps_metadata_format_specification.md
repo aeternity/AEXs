@@ -31,13 +31,17 @@ The motivation behind this aexpansion is to improve the user experience of brows
 
 ### Format
 
-**Proposed fields:**
+#### Required members
 + Name of aepp
-+ Category (select from predermined list)
-+ aepp description
-+ aepp icon
++ aepp icons
 + Networks the aepp is available on [mainnet, testnet]
-+ Link to aepp (which would contain the metadata specified in this proposal)
+
+#### Recommended members
++ aepp description
++ Category (select from predermined list)
++ Author
++ Author URL
++ Related applications
 + Age restrictions/rating?
 
 ### References
