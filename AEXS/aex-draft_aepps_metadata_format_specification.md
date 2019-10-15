@@ -42,7 +42,7 @@ The motivation behind this aexpansion is to improve the user experience of brows
 + Author
 + Author URL
 + Related applications
-+ Age restrictions/rating?
++ Age restrictions/rating
 
 ### References
 
