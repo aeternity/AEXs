@@ -6,9 +6,6 @@ assignees: ''
 
 ---
 
-### License: 
-CC0-1.0
-
 ### Discussions-To: 
 [forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461](https://forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461)
 
@@ -25,6 +22,10 @@ CC0-1.0
 
 Url for relevant content
 
+### License: 
+- [x] ISC
+- [ ] CC0-1.0
+- [ ] MIT
 --- 
 
 ## ATTENTION!  
