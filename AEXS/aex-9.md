@@ -34,112 +34,222 @@ A standard interface allows any tokens to be re-used by other applications: from
 ## Specification
 
 ## Basic Token
-### Methods
 
-NOTES:
+### Interface
 
-`meta_info` - Returns the meta_information record from the token in the required format `{ name : string, symbol : string, decimals : int }`.
+```text
+contract FungibleTokenInterface =
+  record meta_info =
+    { name : string
+    , symbol : string
+    , decimals : int }
+    
+  datatype event =
+    Transfer(indexed address, indexed address, indexed int)
 
-```
-public function meta_info() : meta_info
-```
-
-`total_supply` - Returns the total token supply.
-
-```
-public function total_supply() : int
-```
-
-`balances` - Returns the full balance state for static calls, e.g. by a blockchain explorer.
-
-```
-public function balances() : map(address, int)
-```
-
-
-`balance` - Returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned, to be able to determine if the account has balance of 0 or is still unknown.
-
-```
-public function balance(owner: address) : option(int)
+  entrypoint meta_info : () => meta_info
+  entrypoint total_supply : () => int
+  entrypoint owner : () => address
+  entrypoint balances : () => map(address, int)
+  entrypoint balance : (address) => option(int)
+  entrypoint transfer : (address, int) => ()
 ```
 
-`transfer` - Transfers `value` amount of tokens to `to_account` address, and MUST fire the `Transfer` event. The function SHOULD abort if the message caller’s account balance does not have enough tokens to spend.
+## Methods
 
-Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
+### meta_info\(\)
 
+This function **returns** meta information associated with the token contract.
+
+```text
+entrypoint meta_info() : meta_info
 ```
-public stateful function transfer(to_account: address, value: int)
+
+| return | type |
+| :--- | :--- |
+| meta_info | meta_info |
+
+```text
+record meta_info =
+  { name     : string
+  , symbol   : string
+  , decimals : int }
 ```
 
+### total_supply\(\)
 
-### Events
+This function returns the total token supply.
 
-**Transfer** - MUST trigger when tokens are transferred, including zero value transfers.
+```text
+entrypoint total_supply() : int
+```
+
+| return | type |
+| :--- | :--- |
+| total_supply | int |
+
+### balances\(\)
+
+This function returns the full balance state for static calls, e.g. by a blockchain explorer.
+
+```text
+entrypoint balances() : map(address, int)
+```
+
+| return | type |
+| :--- | :--- |
+| balances | map(address, int) |
+
+### balance\(\)
+
+This function returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned. Using `option` type as a return value allows us to determine if the account has balance of 0, more than 0, or the account has never had balance and is still unknown to the contract.
+
+```text
+entrypoint balance(owner: address) : option(int)
+```
+| parameter | type |
+| :--- | :--- |
+| owner | address |
+
+| return | type |
+| :--- | :--- |
+| balance | option(int) |
+
+### transfer\(\)
+
+This function allows transfer of `value` amount of tokens to `to_account` address and MUST fire the `Transfer` event. The function SHOULD abort if the Call.caller's account balance does not have enough tokens to spend.
+
+Note: Transfers of 0 values MUST be treated as normal transfers and fire the `Transfer` event.
+
+```text
+stateful entrypoint transfer(to_account: address, value: int) : ()
+```
+
+| parameter | type |
+| :--- | :--- |
+| to_account | address |
+| value | int |
+
+## Events
+
+### **Transfer** 
+
+This event MUST be triggered and emitted when tokens are transferred, including zero value transfers.
 
 The transfer event arguments should be as follows: `(from_account, to_account, value)`
 
-```
+```text
 Transfer(indexed address, indexed address, indexed int)
 ```
 
+| parameter | type |
+| :--- | :--- |
+| from_account | address |
+| to_account | address |
+| value | int |
+
+# Extensions
+
+This section covers the extensability of the basic token - e.g. mintable, allowances.
 
 ## Extension Mintable
 
-`mint` - Mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not `state.owner`.
+### mint\(\)
 
-```
-public stateful function mint(account: address, value: int)
+This function mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not the owner of the contract `state.owner`.
+
+```text
+stateful entrypoint mint(account: address, value: int) : ()
 ```
 
-### Events
+| parameter | type |
+| :--- | :--- |
+| account | address |
+| value | int |
+
+## Events
 
 **Mint** - MUST trigger when tokens are minted using the `mint` function.
 
 The mint event arguments should be as follows: `(account,  value)`
 
-```
+```text
 Mint(indexed address, indexed int)
 ```
 
+| parameter | type |
+| :--- | :--- |
+| account| address |
+| value | int |
+
 ## Extension Allowance
 
-`create_allowance`
+### create_allowance\(\)
+
 Allows `for_account` to withdraw from your account multiple times, up to the `value` amount. If this function is called again it overwrites the current allowance with `value`.
 
-NOTE: To prevent attack vectors (like the ones possible in ERC20) clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH The contract itself shouldn’t enforce it, to allow backwards compatibility with contracts deployed before
+Note: To prevent attack vectors (like the ones possible in ERC20) clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH the contract itself shouldn't enforce it, to allow backwards compatibility with contracts deployed before.
 
-```
-public stateful function create_allowance(for_account: address, value: int)
+```text
+stateful entrypoint create_allowance(for_account: address, value: int) : ()
 ```
 
-`transfer_allowance`
-Transfers `value` amount of tokens from address `from_account` to address `to_account`, and MUST fire the Transfer event.
+| parameter | type |
+| :--- | :--- |
+| for_account| address |
+| value | int |
+
+### transfer_allowance\(\)
+
+Transfers `value` amount of tokens from address `from_account` to address `to_account`, and MUST fire the `Transfer` event.
 
 The `transfer_allowance` method is used for a withdraw workflow, allowing contracts to transfer tokens on your behalf. This can be used for example to allow a contract to transfer tokens on your behalf and/or to charge fees in sub-currencies. The function SHOULD abort unless the `from_account` account has deliberately authorized the sender of the message via some mechanism.
 
-Note Transfers of 0 values MUST be treated as normal transfers and fire the Transfer event.
+Note: Transfers of 0 values MUST be treated as normal transfers and fire the `Transfer` event.
 
-```
-public stateful function transfer_allowance(from_account: address, to_account: address, value: int)
+```text
+stateful entrypoint transfer_allowance(from_account: address, to_account: address, value: int)
 ```
 
-`allowance`
-Returns the amount which `for_account` is still allowed to withdraw from `from_account`, where `record allowance_accounts = { from_account : address, for_account : address }`. If no allowance for this combination of accounts exists, `None` is returned.
+| parameter | type |
+| :--- | :--- |
+| from_account| address |
+| to_account| address |
+| value | int |
 
+### allowance\(\)
+
+This function returns the amount which `for_account` is still allowed to withdraw from `from_account`, where `record allowance_accounts = { from_account: address, for_account: address }`. If no allowance for this combination of accounts exists, `None` is returned.
+
+```text
+entrypoint allowance(allowance_accounts : allowance_accounts) : option(int)
 ```
-public function allowance(allowance_accounts : allowance_accounts) : option(int)
+
+| parameter | type |
+| :--- | :--- |
+| allowance_accounts| allowance_accounts |
+
+```text
+record allowance_accounts =
+  { from_account: address
+  , for_account: address }
 ```
 
 ### Events
 
-**Approval** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
+**Allowance** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
 
 The approval event arguments should be as follows: `(from_account, for_account, value)`
 
-
-```
+```text
 Allowance(indexed address, indexed address, indexed int)
 ```
+
+| parameter | type |
+| :--- | :--- |
+| from_account| address |
+| for_account| address |
+| value| int |
 
 ## Extension Allowance with Callback
 
