@@ -6,7 +6,7 @@ Title: Secret storage format
 Author: Sascha Hanse <shanse@posteo.de>, Shubhendu Shekhar (@shekhar-shubhendu)
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-3-secure-storage-format/3220
-Status: Review
+Status: Last Call (2019-11-14 to 2019-11-21)
 Type: Informational
 Created: 2019-04-03
 ```
