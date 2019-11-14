@@ -44,7 +44,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   |1|Transaction verification failed| MUST be returned when verification of signed transaction fails.|
   |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
   |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
-  |4|Signature request Denied| MUST be returned by the wallet when it denies the signature request by aepp.|
+  |4|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
   |5|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
   |6|Invalid address| MUST be returned by the aepp when the address (or any address in a list) provided by wallet is invalid.|
   |7|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
