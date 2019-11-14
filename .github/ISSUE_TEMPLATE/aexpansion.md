@@ -1,5 +1,22 @@
+---
+name: AEXpansion
+about: Use this template to submit a new AExpansion
+labels: AEXpansion
+assignees: ''
 
-ATTENTION! If you would like to submit an AEX and it has already been written as
+---
+
+### Discussions-To: 
+
+Paste here the link to the topic on forum.aeternity.com
+
+### Content URL
+
+Paste here the url where the content of the AEX can be found
+
+
+## ATTENTION!  
+If you would like to submit an AEX and it has already been written as
 a draft (see the [template](https://github.com/aeternity/AEXs/blob/master/aex-X.md)
 for an example), please submit it as a [Pull Request](https://github.com/aeternity/AEXs/pulls).
 

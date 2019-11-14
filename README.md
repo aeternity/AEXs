@@ -5,6 +5,20 @@ community at large, i.e. everyone. Some of them can be mandatory in a specific
 context, e.g. [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) describes the set of rules governing this repository, but
 are restricted to the application layer.
 
+## Quick Aexpansions filter
+
+- [Recently updated](https://github.com/u2467/AEXs/issues?q=is%3Aopen+is%3Aissue+sort%3Aupdated-desc)
+- [Help wanted](https://github.com/u2467/AEXs/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)
+- [Stage active](https://github.com/u2467/AEXs/issues?q=is%3Aopen+is%3Aissue+label%3Astage%2FActive+sort%3Aupdated-desc) 
+- [Stage finalized](https://github.com/u2467/AEXs/issues?q=is%3Aopen+is%3Aissue+sort%3Aupdated-desc+label%3Astage%2FFinal)
+- [All](https://github.com/u2467/AEXs/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3AAEXpansion+)
+
+### For open Aexpansions
+
+- [Most commented](https://github.com/u2467/AEXs/issues?q=is%3Aopen+is%3Aissue+label%3AAEXpansion+sort%3Acomments-desc)
+- [Least active](https://github.com/u2467/AEXs/issues?q=is%3Aopen+is%3Aissue+label%3AAEXpansion+sort%3Aupdated-asc)
+
+
 
 ## Goals
 
