@@ -1,5 +1,5 @@
 ---
-name: AExpansion
+name: AEXpansion
 about: Use this template to submit a new AExpansion
 labels: AEXpansion
 assignees: ''
