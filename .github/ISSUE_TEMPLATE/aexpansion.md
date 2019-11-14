@@ -9,24 +9,10 @@ assignees: ''
 ### Discussions-To: 
 [forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461](https://forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461)
 
-### [Type](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md#aex-types): 
-
-- [ ] Standard Track
-- [ ] Informational 
-- [ ] Meta 
-
-### Authors:
-- Sascha Hanse <shanse@posteo.de>
-
 ### Content URL
 
 Url for relevant content
 
-### License: 
-- [x] ISC
-- [ ] CC0-1.0
-- [ ] MIT
---- 
 
 ## ATTENTION!  
 If you would like to submit an AEX and it has already been written as
