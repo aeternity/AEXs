@@ -7,11 +7,12 @@ assignees: ''
 ---
 
 ### Discussions-To: 
-[forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461](https://forum.aeternity.com/t/aeternity-best-current-practices-aexpansions/2461)
+
+Paste here the link to the topic on forum.aeternity.com
 
 ### Content URL
 
-Url for relevant content
+Paste here the url where the content of the AEX can be found
 
 
 ## ATTENTION!  
