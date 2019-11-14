@@ -1,7 +1,7 @@
 ---
 name: AExpansion
 about: Use this template to submit a new AExpansion
-labels: Aexpansion
+labels: AEXpansion
 assignees: ''
 
 ---
