@@ -69,6 +69,11 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `network`: Network id used by the wallet
+    
+  **Returns errors**
+  
+  - Unsupported protocol version
+  - Unsupported network
 
 - `address.subscribe`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
 
@@ -91,6 +96,10 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `address.update` notification, please refer for more details.
     This field MUST be included in the response when the wallet receives a subscription request i.e. when `type == 'subscribe'`.
     This field is OPTIONAL in the response when the wallet receives an un-subscription request i.e. when `type == 'unsubscribe'`.
+    
+  **Returns errors**
+  
+  - Subscription denied
 
   **Account Format:**
 
@@ -121,12 +130,18 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     - `result`: this can be either of two values depending on the request (as mentioned in the above description of `return`):
       - `signed transaction`: signed encoded transaction (Datatype: String).
       - `transaction hash`: encoded transaction hash (Datatype: String).
+    
+  **Returns errors**
+  
+  - Invalid transaction
+  - Signature request denied
+  - Broadcast failed
 
 ##### Wallet Invokable Methods
 
   This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
 
-- `transaction.broadcast`: Ask aepp to broadcast the transaction. If the aepp is unable to broadcast it **returns** the `error` with code `3`.
+- `transaction.broadcast`: Ask aepp to broadcast the transaction.
 
   **Parameters**
 
@@ -139,6 +154,11 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `tx_hash`: encoded transaction hash (Datatype: String).
+    
+  **Returns errors**
+  
+  - Broadcast failed
+  - Transaction verification failed
 
 #### Notifications
 
