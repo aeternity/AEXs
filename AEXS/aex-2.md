@@ -46,9 +46,8 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
   |4|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
   |5|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
-  |6|Invalid address| MUST be returned by the aepp when the address (or any address in a list) provided by wallet is invalid.|
-  |7|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
-  |8|Unsupported network| MUST be thrown by aepp or wallet whenever it sees that the other party is using or requesting to process a transaction for a network that it does not support.|
+  |6|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |7|Unsupported network| MUST be thrown by aepp or wallet whenever it sees that the other party is using or requesting to process a transaction for a network that it does not support.|
 
 #### Methods
 
