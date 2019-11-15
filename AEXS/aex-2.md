@@ -62,7 +62,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `version`: protocol version. Currently defaults to `1`.
-    - `network`: Network id used by the aepp
 
   **Returns**
 
@@ -162,6 +161,8 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 #### Notifications
 
+##### Wallet Invokable Notifications
+
 - `connection.announcePresence`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `connection.open` message.
 
   Note: This is a helper message for the aepp to identify the presence of a wallet.
@@ -172,14 +173,12 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     - `network`: Network id used by the wallet
 
-- `network.update`: MUST be used by Aepp or Wallet for informing the other party about the change of network.
+- `network.update`: MUST be used by Wallet for informing Aepp about the change of network.
 
     **Parameters**
 
     _Object_
   - `network`: Updated network id.
-
-- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
 - `address.update`: MUST be used by the wallet to notify subscribed aepps about the address change.
 
@@ -204,6 +203,10 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
             }
         }
       ```
+
+##### Invokable by Wallet and Aepp
+
+- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
 ## Example Flow
 
