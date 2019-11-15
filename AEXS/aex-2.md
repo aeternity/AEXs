@@ -110,7 +110,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
   - `tx`: unsigned encoded transaction (Datatype: String).
-  - `locked`: List of transaction fields/properties(datatype: String) that MUST be considered by the wallet as locked/unmodifiable. This field is OPTIONAL and MAY be used by the aepp. If the field is missing then all the transaction fields MUST be considered modifiable.
   - `return`: Boolean (DEFAULT: `false`).
     - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
     - `false`: the aepp wants the wallet to sign and broadcast the transaction and return only the transaction id.
