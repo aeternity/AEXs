@@ -56,7 +56,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an action.
 
-- `aepp.request.connect`: connection request sent by the aepp to the wallet.
+- `connection.open`: connection request sent by the aepp to the wallet.
 
   **Parameters**
 
@@ -77,7 +77,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
       - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
     - `network`: Network id used by the wallet
 
-- `aepp.subscribe.address`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
+- `address.subscribe`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
 
     **Parameters**
 
@@ -95,7 +95,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `subscription`: Array of string indicating the current subscriptions. Example: `['current', 'connected']`
-    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `wallet.update.address` notification, please refer for more details.
+    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `address.update` notification, please refer for more details.
     This field MUST be included in the response when the wallet receives a subscription request i.e. when `type == 'subscribe'`.
     This field is OPTIONAL in the response when the wallet receives an un-subscription request i.e. when `type == 'unsubscribe'`.
 
@@ -111,7 +111,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     }
   ```
 
-- `aepp.request.sign`: request wallet for signature
+- `transaction.sign`: request wallet for signature
 
     **Parameters**
 
@@ -134,7 +134,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
 
-- `wallet.broadcast.tx`: Ask aepp to broadcast the transaction. If the aepp is unable to broadcast it **returns** the `error` with code `3`.
+- `transaction.broadcast`: Ask aepp to broadcast the transaction. If the aepp is unable to broadcast it **returns** the `error` with code `3`.
 
   **Parameters**
 
@@ -150,7 +150,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 #### Notifications
 
-- `wallet.awaiting.connection`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `aepp.request.connect` message.
+- `connection.announcePresence`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `connection.open` message.
 
   Note: This is a helper message for the aepp to identify the presence of a wallet.
 
@@ -163,16 +163,16 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
       - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
     - `network`: Network id used by the wallet
 
-- `peer.update.network`: MUST be used by Aepp or Wallet for informing the other party about the change of network.
+- `network.update`: MUST be used by Aepp or Wallet for informing the other party about the change of network.
 
     **Parameters**
 
     _Object_
   - `network`: Updated network id.
 
-- `peer.connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
+- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
-- `wallet.update.address`: MUST be used by the wallet to notify subscribed aepps about the address change.
+- `address.update`: MUST be used by the wallet to notify subscribed aepps about the address change.
 
   **Parameters**
 
