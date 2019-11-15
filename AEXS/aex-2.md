@@ -61,19 +61,13 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-  - `name`: human-readable aepp name (Supported Datatype: string)
-  - `icons`: Aepp MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
-    - `src`: The path to the image file. This field MUST be an absolute URL.
-  - `version`: protocol version. Currently defaults to `1`.
-  - `network`: Network id used by the aepp
+    - `version`: protocol version. Currently defaults to `1`.
+    - `network`: Network id used by the aepp
 
   **Returns**
 
     _Object_
 
-    - `name`: human-readable wallet name (Supported Datatype: string)
-    - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
-      - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
     - `network`: Network id used by the wallet
 
 - `address.subscribe`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
@@ -157,9 +151,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-    - `name`: human-readable wallet name (Supported Datatype: string)
-    - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
-      - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
     - `network`: Network id used by the wallet
 
 - `network.update`: MUST be used by Aepp or Wallet for informing the other party about the change of network.
