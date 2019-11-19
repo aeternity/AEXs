@@ -44,12 +44,16 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   |1|Invalid transaction| MUST be returned whenever the transaction validity check fails|
   |2|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
   |3|Unsupported protocol version| MUST be returned by wallet when it does not support protocol version the aepp wants to connect through.|
+  |4|Already subscribed|MUST be returned by wallet when aepp is already subscribed with the same name.|
+  |5|Not subscribed|MUST be returned by wallet when aepp requested to unsubscribe itself from a subscription that it wasn't subscribed to.|
 
 #### Methods
 
 ##### Aepp Invokable Methods
 
-  This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an action.
+This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an action.  Omitted "Parameters" section means that the corresponding method method doesn't accept any parameters. Omitted "Returns" section means that the corresponding method method MUST return `Null`.
+
+Methods related to subscription flow SHOULD be omitted when used transports in which Wallet can't initiate message sending (for example, QrCodes or URL scheme calls). After calling method for subscription the corresponding result MUST be returned immediately through `subscription` notification.
 
 - `connection.open`: connection request sent by the aepp to the wallet.
 
@@ -70,43 +74,34 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   - Unsupported protocol version
   - Unsupported network
 
-- `address.subscribe`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
+- `addresses.get`: request the wallet to return addresses.
 
-    **Parameters**
+  **Returns** 
+  - array of addresses that can be used for transaction signing (Datatype: array of strings)
 
-    _Object_
-
-    - `type`: payload indicating the type of update i.e. subscription or un-subscription. This supports two options:
-      - `subscribe` (datatype: string): MUST be used by the aepp to request a subscription.
-      - `unsubscribe` (datatype: string): MUST be used by the aepp to request an un-subscription.
-    - `value`: indicating the subscription/un-subscription that needs to be handled Currently supported options:
-      - `current` (datatype: string): MUST be used to for current user account
-      - `connected` (datatype: string): MUST be used for connected wallet accounts.
-
-  **Returns**
-
-    _Object_
-
-    - `subscription`: Array of string indicating the current subscriptions. Example: `['current', 'connected']`
-    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `address.update` notification, please refer for more details.
-    This field MUST be included in the response when the wallet receives a subscription request i.e. when `type == 'subscribe'`.
-    This field is OPTIONAL in the response when the wallet receives an un-subscription request i.e. when `type == 'unsubscribe'`.
-    
   **Returns errors**
-  
   - Rejected by user
 
-  **Account Format:**
+- `networkId.get`: request the wallet to return network id.
 
-  ```json
-    {
-        "<subscription_type>": {
-            "<account_public_key>": {
-                "name": "<optional_human_readable_account_name>"
-            }
-        }
-    }
-  ```
+  **Returns**
+  - id of current network (Datatype: string)
+
+- `subscribe`: request the wallet to subscribe to changes of the return value of some method.
+
+  **Parameters**
+  - name of method to subscribe to (Datatype: string)
+
+  **Returns errors**
+  - Already subscribed
+
+- `unsubscribe`: request the wallet to unsubscribe from data changes.
+
+  **Parameters**
+  - name of method to unsubscribe from (Datatype: String).
+
+  **Returns errors**
+  - Not subscribed
 
 - `transaction.sign`: request wallet for signature
 
@@ -119,6 +114,10 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   **Returns errors**
   - Invalid transaction
   - Rejected by user
+
+Aepp MUST be able to subscribe to return values these methods:
+  - `addresses.get`
+  - `networkId.get`
 
 #### Notifications
 
@@ -134,36 +133,13 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     - `networkId`: Network id used by the wallet
 
-- `networkId.update`: MUST be used by Wallet for informing Aepp about the change of network id.
-
-    **Parameters**
-
-    _Object_
-  - `networkId`: Updated network id.
-
-- `address.update`: MUST be used by the wallet to notify subscribed aepps about the address change.
+- `subscription.update`: MUST be used by Wallet to notify subscribed Aepp about changes of return value of method that aepp is subscribed to.
 
   **Parameters**
-
-    _Object_
-  - `address`: JSON Object. This MAY contain 1 or more keys but only of the below types. The values in the object completely depend on the aepp's subscription.
-
-    **Subscription Type:**
-
-    - `current`: Object containing only a single account currently in use by the wallet. The account MAY also have an embedded `name` key which is a human-readable name for the account.
-    - `connected`: Object containing multiple connected accounts. The accounts MAY also have an embedded `name` key which is a human-readable name for the account.
-
-    **Account Format:**
-
-      ```json
-        {
-            "<subscription_type>": {
-                "<account_public_key>": {
-                    "name": "<optional_human_readable_account_name>"
-                }
-            }
-        }
-      ```
+  _Object_
+  - `name`: the name of method that aepp is subscribed to
+  - `result`: value returned by method that aepp is subscribed to, MUST NOT exist if there was error triggered during invocation (Datatype: JSON Object)
+  - `error`: error object returned by method that aepp is subscribed to, MUST NOT exist if there was no error triggered during invocation (Datatype: JSON Object)
 
 ##### Invokable by Wallet and Aepp
 
