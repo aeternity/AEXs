@@ -7,194 +7,220 @@ Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea), En
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
-Status: Draft
+Status: Review
 Type: Standards Track
 Created: 2019-03-04
 ```
 
 ## Simple Summary
 
-The document approaches the technical specification about how a wallet provider (ex. BaseApp, Metamask) can interact with Aeternity enabled applications.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to
+be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
-[Link to discussion topic](https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715).
-
-## Abstract
-
-The specification address interfaces that the Javascript SDK exposes for a third party wallet provider can implement to provide functionalities like signing. The specification is meant to have a broad coverage for different scenarios like: browser extensions, iframes, native applications, deep linking, etc..
+This document describes the technical specification and methods that the wallet provider (ex. Base æpp, Wællet, MetaMask) MUST use to interact with Aeternity based applications (hereinafter referred to as 'aepp' or 'aepps').
 
 ## Motivation
 
-The motivation for the AEX is to provide to the community a clear, straightforward and safe way to interact with æternity enabled applications that uses the Javascript SDK.
-
-In this direction the goals that have been set for the specification are:
-
-- generic: the proposal must cover as many as possible common uses cases
-- secure: it should provide a safe model for communication between wallets and application
-- simple: it should be easy to implement without much configuration or specific knowledge
-- vendor free: it should not force the adoption of third party tools
-- future proof: it should be extensible to support additional features
+Currently, there exists no standard way for wallets and aepps to communicate and everything developed on the SDK side is developed only keeping the Base æpp in mind and rest of the wallet providers need to follow the same path.
+By defining the standard way of communication between aepps and Wallet we will not only reduce the dependency that other wallet providers have on the Base æpp as well as we'll have a clear standard method of communication on the SDK side that can be further extended upon whenever required.
 
 ## Specification
 
-The specification is divided in two main areas, the first one addresses applications running inside a browser or alike (ex. Electron) and the second one addresses deep linking.
+### Naming Convention
 
-### In Browser Applications
+Wherever possible, this document tries to closely follow the `who.what.how` naming convention for JSON-RPC methods.
 
-For in browser application the communication between `wallet <-> (sdk <-> app)` leverages the [Native messaging API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging).
+### JSON-RPC 2.0 Specification
 
-The advantages of using the _Native messaging API_ lies in the possibility of components to communicate independently from where they are being instantiated: a embedded iFrame can communicate with the parent page as well as a browser extension or a custom browser implementation.
+#### Error
 
-Since the messages via _Native messaging API_ are broadcasted, the communication between the SDK and a Wallet provider are encrypted using the [nacl box](https://nacl.cr.yp.to/box.html) implementation with throwaway keys.
-For secruity model and selected primitives, please refer [here](https://nacl.cr.yp.to/box.html).
+JSON-RPC 2.0 response error object that is used to communicate any error occurred while processing the request.
 
-#### Workflow
+##### Types of errors
 
-The workflow of the interaction between the App + SDK is divided in 3 phases:
+  |**Code**|**Message**|**Meaning**|
+  |:-----:|:-----:|:-----:|
+  |1|Transaction verification failed| MUST be returned when verification of signed transaction fails.|
+  |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
+  |4|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
+  |5|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
+  |6|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
 
-1. Handshake
-2. Operation
-3. De-registration
+#### Methods
 
-In the operation phase the SDK and the Wallet will be exchanging encrypted data relative to signing end broadcasting transactions.
+##### Aepp Invokable Methods
 
-The deregistration phase is optional but allows a wallet provider to
-notifiy the SDK (and the app) that the wallet has been disconnected.
+  This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an action.
 
-#### Communication Examples
+- `connection.open`: connection request sent by the aepp to the wallet.
 
-##### Provider Registration (Handshake)
+  **Parameters**
 
-![Register Provider][register]
+    _Object_
 
-##### Transaction Signing (example operation)
+    - `version`: protocol version. Currently defaults to `1`.
 
-![Sign TX][sign]
+  **Returns**
 
-[sign]: ../assets/aex-2/wallet-signing.png "Sign Transaction"
-[register]: ../assets/aex-2/provider-registration.png "Register Provider"
+    _Object_
 
-#### SDK Provided Methods
+    - `network`: Network id used by the wallet
+    
+  **Returns errors**
+  
+  - Unsupported protocol version
+  - Unsupported network
 
-##### The window object listens for the following events
+- `address.subscribe`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
 
-- `ae:sdkReady` (_optional_): Invoked by `sdk` to announce the fact that it has been loaded.
-- `ae:registerProvider`: Invoked by `wallet` to register with `sdk`.
-- `ae:registrationComplete`: Invoked by `sdk` to let wallet know that the registration is done.
-- `ae:walletDetail`: Invoked by `wallet`. This contains encrypted information about the current active account address and extra wallet methods. Everytime there is a change of address(active address) in wallet, the wallet needs to invoke this method to let the `sdk` know about the change.
-- `ae:sign`: Invoked by `sdk` when required to sign the transaction.
-- `ae:broadcast`: Invoked by `wallet` after it has signed the transaction.
-- `ae:broadcastResponse`: Invoked by `SDK` to inform wallet about a successful or failed transaction broadcast. If there is a failure, the SDK will also provide a reason for the failure.
-- `ae:deregister`: Invoked by `wallet` to deregister itself from the `sdk`.
+    **Parameters**
 
-#### Wallet Provided Methods
+    _Object_
 
-The wallet can also let the SDK know of extra funtionality that it provides during the time of registration. These methods will vary from wallet to wallet and are out of the scope of this proposal.
+    - `type`: payload indicating the type of update i.e. subscription or un-subscription. This supports two options:
+      - `subscribe` (datatype: string): MUST be used by the aepp to request a subscription.
+      - `unsubscribe` (datatype: string): MUST be used by the aepp to request an un-subscription.
+    - `value`: indicating the subscription/un-subscription that needs to be handled Currently supported options:
+      - `current` (datatype: string): MUST be used to for current user account
+      - `connected` (datatype: string): MUST be used for connected wallet accounts.
 
-#### Workflow (Messages Exchange Example)
+  **Returns**
 
-We're using the [JSON-RPC 2.0](https://www.jsonrpc.org/specification#examples) standard for message exchange, already supported by aeternity's JS SDK.
+    _Object_
 
-##### Provider Registration
+    - `subscription`: Array of string indicating the current subscriptions. Example: `['current', 'connected']`
+    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `address.update` notification, please refer for more details.
+    This field MUST be included in the response when the wallet receives a subscription request i.e. when `type == 'subscribe'`.
+    This field is OPTIONAL in the response when the wallet receives an un-subscription request i.e. when `type == 'unsubscribe'`.
+    
+  **Returns errors**
+  
+  - Subscription denied
 
-1. The wallet provider invokes the registration request, passing its public key.
-
-   Message:
+  **Account Format:**
 
   ```json
     {
-      "jsonrpc": "2.0",
-      "method": "ae:registerProvider",
-      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY="],
-      "id": null
+        "<subscription_type>": {
+            "<account_public_key>": {
+                "name": "<optional_human_readable_account_name>"
+            }
+        }
     }
   ```
 
-2. The SDK listens for `registerProvider` and on receiving a request generates a pub-priv key pair and broadcasts a `registrationComplete` message that includes `sdk` public key that should be used by wallet provider for all the future communications.
-   Message:
+- `transaction.sign`: request wallet for signature
 
-  ```json
-    {
-      "jsonrpc": "2.0",
-      "method": "ae:registrationComplete",
-      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ="],
-      "id": null
-    }
-  ```
+    **Parameters**
 
-3. At this step, the user should be prompted by the extension/wallet to accept the incoming SDK. If the user agrees, the wallet posts the `walletDetail` message encrypted using the secret key generated (wallet private key + sdk public key) and nonce.
+    _Object_
+  - `tx`: unsigned encoded transaction (Datatype: String).
+  - `return`: Boolean (DEFAULT: `false`).
+    - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
+    - `false`: the aepp wants the wallet to sign and broadcast the transaction and return only the transaction id.
 
-   Message:
+  **Returns**
 
-  ```json
-    {
-      "jsonrpc": "2.0",
-      "method": "ae:walletDetail",
-      "params": [ "1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=",
-                "ak_bobS3qRvWfDxCpmedQYzp3xrK5jVUS4MSto99QrCdySSMjYnd",
-                ...[]
-              ],
-      "id": null
-    }
-  ```
+    _Object_
 
-##### Transaction Signing
+    - `result`: this can be either of two values depending on the request (as mentioned in the above description of `return`):
+      - `signed transaction`: signed encoded transaction (Datatype: String).
+      - `transaction hash`: encoded transaction hash (Datatype: String).
+    
+  **Returns errors**
+  
+  - Invalid transaction
+  - Signature request denied
+  - Broadcast failed
 
-1. `SDK` posts the message containing `raw and unsigned transaction` encrypted with secret key generated using wallet public key and SDK private key(corresponding to the wallet provider).
+##### Wallet Invokable Methods
 
-   Message:
+  This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
 
-  ```json
-    {
-	  "jsonrpc": "2.0",
-      "method": "ae:sign",
-      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "raw_tx"],
-      "id": null
-    }
-  ```
+- `transaction.broadcast`: Ask aepp to broadcast the transaction.
 
-2. When the wallet receives this message it tries to decrypt it, and if successful validates and signs the transaction, re-encrypts it and again posts it for `SDK` to receive.
+  **Parameters**
 
-   Message:
+    _Object_
+  - `tx`: signed encoded transaction (Datatype: String).
+  - `verify`: Boolean. Perform verification before broadcasting or not.
 
-  ```json
-    {
-      "jsonrpc": "2.0",
-      "method": "ae:broadcast",
-      "params": ["1KGVZ2AFqAybJkpdKCzP/0W4W/0BQZaDH6en8g7VstQ=", "raw_tx", "signed_tx"],
-      "id": null
-    }
-   ```
+  **Returns**
 
-3. On receiving the signed transaction back, the SDK will brodcast it and revert back to the wallet with the following message
+    _Object_
 
-   Message:
+    - `tx_hash`: encoded transaction hash (Datatype: String).
+    
+  **Returns errors**
+  
+  - Broadcast failed
+  - Transaction verification failed
 
-  ```json
-    {
-      "jsonrpc": "2.0",
-      "method": "ae:broadcastResponse",
-      "params": ["mqMprOIp1ehtxUI3IaG5IVJB9JTOT/yYBHm7rE+PJMY=", "tx_hash", "{status: ok/fail, reason?: string}"],
-      "id": null
-    }
-   ```
+#### Notifications
 
-## Rationale
+##### Wallet Invokable Notifications
 
-### Encrypted Communication
+- `connection.announcePresence`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `connection.open` message.
 
-- Encrypted communication layer protects the user privacy by not leaking the list of accounts to any malicious actor eavesdropping on the communication between `wallet` and `SDK`. The list of accounts is only provided to the `SDK`(in encrypted format) only if the user accepts the incoming `registrationComplete` request.
-- Encryption communication also prevents any malicious actor to inject itself between the `SDK` and `wallet` and modify the requests and responses originating from either party. In other words, it prevents MITM attacks against wallets.
+  Note: This is a helper message for the aepp to identify the presence of a wallet.
+
+  **Parameters**
+
+    _Object_
+
+    - `network`: Network id used by the wallet
+
+- `network.update`: MUST be used by Wallet for informing Aepp about the change of network.
+
+    **Parameters**
+
+    _Object_
+  - `network`: Updated network id.
+
+- `address.update`: MUST be used by the wallet to notify subscribed aepps about the address change.
+
+  **Parameters**
+
+    _Object_
+  - `address`: JSON Object. This MAY contain 1 or more keys but only of the below types. The values in the object completely depend on the aepp's subscription.
+
+    **Subscription Type:**
+
+    - `current`: Object containing only a single account currently in use by the wallet. The account MAY also have an embedded `name` key which is a human-readable name for the account.
+    - `connected`: Object containing multiple connected accounts. The accounts MAY also have an embedded `name` key which is a human-readable name for the account.
+
+    **Account Format:**
+
+      ```json
+        {
+            "<subscription_type>": {
+                "<account_public_key>": {
+                    "name": "<optional_human_readable_account_name>"
+                }
+            }
+        }
+      ```
+
+##### Invokable by Wallet and Aepp
+
+- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
+
+## Example Flow
+
+<p align="center">
+<img src="../assets/aex-2/example-flow.png" width="400px">	
+</p>
+
+## Reference Implementation
+
+- Aepp: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/vuejs/connect-two-ae
+
+- Extension Wallet: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/extension
 
 ## References
 
-- https://www.owasp.org/images/9/97/OWASPLondon_PostMessage_Security_in_Chrome_Extensions.pdf
-- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging
-- https://labs.detectify.com/2016/12/08/the-pitfalls-of-postmessage/
-- https://developer.chrome.com/extensions/content_scripts#host-page-communication
-
-### Extra reading
-
-- https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
-- https://medium.com/@lyricalpolymath/web3designdecisionframework-e84075816515
-- https://www.youtube.com/watch?v=aVE0eHp7QA0&feature=youtu.be
-- https://docs.satoshipay.io/api/#introduction
+- Transaction Encoding and Serialization
+  https://github.com/aeternity/protocol/blob/master/node/api/api_encoding.md
+  https://github.com/aeternity/protocol/blob/master/serializations.md
