@@ -3,10 +3,10 @@
 ```
 AEX: 9
 Title: Fungible Token Standard
-Author: Milen Radkov (@mradkov), Philipp Piwowarsky (@thepiwo)
-License: BSD-3-Clause
+Author: @mradkov, @thepiwo
+License: ISC
 Discussions-To: https://forum.aeternity.com/t/aex-9-fungible-token/3565
-Status: Draft
+Status: Review
 Type: Standards Track
 Created: 2019-05-11
 ```
@@ -38,24 +38,36 @@ A standard interface allows any tokens to be re-used by other applications: from
 ### Interface
 
 ```text
+@compiler >= 4
+
 contract FungibleTokenInterface =
   record meta_info =
     { name : string
     , symbol : string
     , decimals : int }
-    
-  datatype event =
-    Transfer(indexed address, indexed address, indexed int)
 
-  entrypoint meta_info : () => meta_info
-  entrypoint total_supply : () => int
-  entrypoint owner : () => address
-  entrypoint balances : () => map(address, int)
-  entrypoint balance : (address) => option(int)
-  entrypoint transfer : (address, int) => ()
+  datatype event =
+    Transfer(address, address, int)
+
+  entrypoint aex9_extensions : ()             => list(string)
+  entrypoint meta_info       : ()             => meta_info
+  entrypoint total_supply    : ()             => int
+  entrypoint owner           : ()             => address
+  entrypoint balances        : ()             => map(address, int)
+  entrypoint balance         : (address)      => option(int)
+  entrypoint transfer        : (address, int) => ()
 ```
 
 ## Methods
+
+
+### aex9_extensions\(\)
+
+This function **returns** a hardcoded list of all implemented extensions on the deployed contract.
+
+```text
+entrypoint aex9_extensions() : list(string)
+```
 
 ### meta_info\(\)
 
@@ -139,7 +151,7 @@ This event MUST be triggered and emitted when tokens are transferred, including 
 The transfer event arguments should be as follows: `(from_account, to_account, value)`
 
 ```text
-Transfer(indexed address, indexed address, indexed int)
+Transfer(address, address, int)
 ```
 
 | parameter | type |
@@ -150,9 +162,12 @@ Transfer(indexed address, indexed address, indexed int)
 
 # Extensions
 
-This section covers the extensability of the basic token - e.g. mintable, allowances.
+This section covers the extendability of the basic token - e.g. mintable, burnable and allowances.
 
-## Extension Mintable
+When a token contract implements an extension its name should be included in the `aex9_extensions` array, in order for third party software or contracts to know the interface.
+Any extensions should be implementable without permission. Developers of extensions MUST choose a name for `aex9_extensions` that is not yet used. Developers CAN make a pull request to the reference implementation for general purpose extensions and maintainers choose to eventually include them.
+
+## Extension Mintable ("mintable")
 
 ### mint\(\)
 
@@ -174,7 +189,7 @@ stateful entrypoint mint(account: address, value: int) : ()
 The mint event arguments should be as follows: `(account,  value)`
 
 ```text
-Mint(indexed address, indexed int)
+Mint(address, int)
 ```
 
 | parameter | type |
@@ -182,7 +197,36 @@ Mint(indexed address, indexed int)
 | account| address |
 | value | int |
 
-## Extension Allowance
+## Extension Burnable ("burnable")
+
+### burn\(\)
+
+This function burns `value` of tokens from `Call.caller`. 
+
+```text
+stateful entrypoint burn(value: int) : ()
+```
+
+| parameter | type |
+| :--- | :--- |
+| value | int |
+
+## Events
+
+**Burn** - MUST trigger when tokens are burned using the `burn` function.
+
+The burn event arguments should be as follows: `(account,  value)`
+
+```text
+Burn(address, int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| account| address |
+| value | int |
+
+## Extension Allowance ("allowances")
 
 ### create_allowance\(\)
 
@@ -242,7 +286,7 @@ record allowance_accounts =
 The approval event arguments should be as follows: `(from_account, for_account, value)`
 
 ```text
-Allowance(indexed address, indexed address, indexed int)
+Allowance(address, address, int)
 ```
 
 | parameter | type |
@@ -251,13 +295,65 @@ Allowance(indexed address, indexed address, indexed int)
 | for_account| address |
 | value| int |
 
-## Extension Allowance with Callback
+## Extension Swappable ("swappable")
 
-*TODO*
+### swap\(\)
 
-## Extension Swappable
+This function burns the whole balance of the `Call.caller` and stores the same amount in the `swapped` map. 
 
-*TODO*
+```text
+stateful entrypoint swap() : ()
+```
+
+| parameter | type |
+| :--- | :--- |
+| value | int |
+| return | type |
+| :--- | :--- |
+| () | unit |
+
+### check_swap\(\)
+
+This function returns the amount of tokens that were burned trough `swap` for the provided account. 
+
+```text
+stateful entrypoint check_swap(account: address) : int
+```
+
+| parameter | type |
+| :--- | :--- |
+| account | address |
+| return | type |
+| :--- | :--- |
+| int | int |
+
+### swapped\(\)
+
+This function returns all of the swapped tokens that are stored in contract state. 
+
+```text
+stateful entrypoint swapped() : map(address, int)
+```
+
+| return | type |
+| :--- | :--- |
+| swapped | map(address, int) |
+
+## Events
+
+**Swap** - MUST trigger when tokens are swapped using the `swap` function.
+
+The swap event arguments should be as follows: `(account,  value)`
+
+```text
+Swap(address, int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| account| address |
+| value | int |
+
 
 ## Implementation
 There are several implementations available at the moment, but they lack a thing or two (that is why this standard is being proposed).
@@ -270,5 +366,4 @@ Example implementations:
 ## References
 [ERC-20](https://eips.ethereum.org/EIPS/eip-20)
 [ERC-20 attack vectors](https://docs.google.com/document/d/1YLPtQxZu1UAvO9cZ1O2RPXBbT0mooh4DYKjA_jp-RLM/edit)
-
 
