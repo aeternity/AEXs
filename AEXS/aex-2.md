@@ -41,12 +41,11 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   |**Code**|**Message**|**Meaning**|
   |:-----:|:-----:|:-----:|
-  |1|Transaction verification failed| MUST be returned when verification of signed transaction fails.|
-  |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
-  |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
-  |4|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
-  |5|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
-  |6|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |1|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |2|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
+  |3|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
+  |4|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
+  |5|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
 
 #### Methods
 
@@ -134,29 +133,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   - Invalid transaction
   - Signature request denied
   - Broadcast failed
-
-##### Wallet Invokable Methods
-
-  This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
-
-- `transaction.broadcast`: Ask aepp to broadcast the transaction.
-
-  **Parameters**
-
-    _Object_
-  - `tx`: signed encoded transaction (Datatype: String).
-  - `verify`: Boolean. Perform verification before broadcasting or not.
-
-  **Returns**
-
-    _Object_
-
-    - `tx_hash`: encoded transaction hash (Datatype: String).
-    
-  **Returns errors**
-  
-  - Broadcast failed
-  - Transaction verification failed
 
 #### Notifications
 
