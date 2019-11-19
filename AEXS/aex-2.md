@@ -66,7 +66,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-    - `network`: Network id used by the wallet
+    - `networkId`: Network id used by the wallet
     
   **Returns errors**
   
@@ -170,14 +170,14 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-    - `network`: Network id used by the wallet
+    - `networkId`: Network id used by the wallet
 
-- `network.update`: MUST be used by Wallet for informing Aepp about the change of network.
+- `networkId.update`: MUST be used by Wallet for informing Aepp about the change of network id.
 
     **Parameters**
 
     _Object_
-  - `network`: Updated network id.
+  - `networkId`: Updated network id.
 
 - `address.update`: MUST be used by the wallet to notify subscribed aepps about the address change.
 
