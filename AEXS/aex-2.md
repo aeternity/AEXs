@@ -45,7 +45,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
   |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
   |4|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
-  |5|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |5|Unsupported protocol version| MUST be returned by wallet when it does not support protocol version the aepp wants to connect through.|
 
 #### Methods
 
