@@ -224,3 +224,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 - Transaction Encoding and Serialization
   https://github.com/aeternity/protocol/blob/master/node/api/api_encoding.md
   https://github.com/aeternity/protocol/blob/master/serializations.md
+
+- JSON-RPC 2.0 Specification
+  https://www.jsonrpc.org/specification
