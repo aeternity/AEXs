@@ -41,7 +41,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   |**Code**|**Message**|**Meaning**|
   |:-----:|:-----:|:-----:|
-  |1|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |1|Invalid transaction| MUST be returned whenever the transaction validity check fails|
   |2|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
   |3|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
   |4|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
@@ -112,27 +112,15 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 - `transaction.sign`: request wallet for signature
 
-    **Parameters**
-
-    _Object_
-  - `tx`: unsigned encoded transaction (Datatype: String).
-  - `return`: Boolean (DEFAULT: `false`).
-    - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
-    - `false`: the aepp wants the wallet to sign and broadcast the transaction and return only the transaction id.
+  **Parameters**
+  - unsigned encoded transaction (Datatype: String).
 
   **Returns**
-
-    _Object_
-
-    - `result`: this can be either of two values depending on the request (as mentioned in the above description of `return`):
-      - `signed transaction`: signed encoded transaction (Datatype: String).
-      - `transaction hash`: encoded transaction hash (Datatype: String).
+    signed encoded transaction (Datatype: String)
     
   **Returns errors**
-  
   - Invalid transaction
   - Signature request denied
-  - Broadcast failed
 
 #### Notifications
 
