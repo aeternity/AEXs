@@ -6,10 +6,14 @@ Title: Data Serialization
 Author: Andreas Gassmann (@AndreasGassmann), Alessandro De Carli (@dcale)
 License: BSD-3-Clause
 Discussions-To: TBD
-Status: Draft
+Status: Withdrawn
 Type: Standards Track
 Created: 2019-05-13
 ```
+
+## WITHDRAWN
+
+**This proposal has been withdrawn because of overlap with AEX-2. A new AEX will be created at a later stage that is compatible with AEX-2 and focuses on the transport layer only.**
 
 ## Simple Summary
 
