@@ -41,14 +41,11 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   |**Code**|**Message**|**Meaning**|
   |:-----:|:-----:|:-----:|
-  |1|Transaction Verification Failed| MUST be returned when verification of signed transaction fails.|
-  |2|Invalid Transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
-  |3|Broadcast Failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
-  |4|Signature Request Denied| MUST be returned by the wallet when it denies the signature request by aepp.|
-  |5|Subscription Denied| MUST be returned by the wallet whenever it denies an address subscription request.|
-  |6|Invalid Address| MUST be returned by the aepp when the address (or any address in a list) provided by wallet is invalid.|
-  |7|Unsupported Protocol Version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
-  |8|Unsupported Network| MUST be thrown by aepp or wallet whenever it sees that the other party is using or requesting to process a transaction for a network that it does not support.|
+  |1|Transaction verification failed| MUST be returned when verification of signed transaction fails.|
+  |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
+  |4|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
+  |5|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
 
 #### Methods
 
@@ -56,28 +53,26 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   This section defines the methods that the aepps MUST invoke to either get information from the wallet or request the wallet to perform an action.
 
-- `aepp.request.connect`: connection request sent by the aepp to the wallet.
+- `connection.open`: connection request sent by the aepp to the wallet.
 
   **Parameters**
 
     _Object_
 
-  - `name`: human-readable aepp name (Supported Datatype: string)
-  - `icons`: Aepp MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
-    - `src`: The path to the image file. This field MUST be an absolute URL.
-  - `version`: protocol version. Currently defaults to `1`.
-  - `network`: Network id used by the aepp
+    - `version`: protocol version. Currently defaults to `1`.
 
   **Returns**
 
     _Object_
 
-    - `name`: human-readable wallet name (Supported Datatype: string)
-    - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
-      - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
-    - `network`: Network id used by the wallet
+    - `networkId`: Network id used by the wallet
+    
+  **Returns errors**
+  
+  - Unsupported protocol version
+  - Unsupported network
 
-- `aepp.subscribe.address`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
+- `address.subscribe`: request the wallet to get or subscribe to address changes. This method MUST return only if the aepp is successfully subscribed else it MUST throw the appropriate error.
 
     **Parameters**
 
@@ -95,9 +90,13 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `subscription`: Array of string indicating the current subscriptions. Example: `['current', 'connected']`
-    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `wallet.update.address` notification, please refer for more details.
+    - `address`: This is a nested JSON Object containing the subscribed addresses in the below defined format. Same as `address.update` notification, please refer for more details.
     This field MUST be included in the response when the wallet receives a subscription request i.e. when `type == 'subscribe'`.
     This field is OPTIONAL in the response when the wallet receives an un-subscription request i.e. when `type == 'unsubscribe'`.
+    
+  **Returns errors**
+  
+  - Rejected by user
 
   **Account Format:**
 
@@ -111,15 +110,12 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     }
   ```
 
-- `aepp.request.sign`: request wallet for signature
+- `transaction.sign`: request wallet for signature
 
     **Parameters**
 
     _Object_
-  - `tx`: unsigned encoded transaction of type string.
-  - `locked`: Boolean (DEFAULT: `false`).
-    - `true`: the transaction SHOULD NOT be modified by the wallet.
-    - `false`: the transaction CAN be modified by the wallet.
+  - `tx`: unsigned encoded transaction (Datatype: String).
   - `return`: Boolean (DEFAULT: `false`).
     - `true`: the aepp is indicating that it is expecting a signed transaction back in return and do not want the wallet to perform a transaction broadcast.
     - `false`: the aepp wants the wallet to sign and broadcast the transaction and return only the transaction id.
@@ -129,30 +125,43 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     _Object_
 
     - `result`: this can be either of two values depending on the request (as mentioned in the above description of `return`):
-      - `signed transaction`: signed encoded transaction of type string.
-      - `transaction hash`: encoded transaction hash of type string.
+      - `signed transaction`: signed encoded transaction (Datatype: String).
+      - `transaction hash`: encoded transaction hash (Datatype: String).
+    
+  **Returns errors**
+  
+  - Invalid transaction
+  - Rejected by user
+  - Broadcast failed
 
 ##### Wallet Invokable Methods
 
   This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
 
-- `wallet.broadcast.tx`: Ask aepp to broadcast the transaction. If the aepp is unable to broadcast it **returns** the `error` with code `3`.
+- `transaction.broadcast`: Ask aepp to broadcast the transaction.
 
   **Parameters**
 
     _Object_
-  - `tx`: signed encoded transaction of type string.
+  - `tx`: signed encoded transaction (Datatype: String).
   - `verify`: Boolean. Perform verification before broadcasting or not.
 
   **Returns**
 
     _Object_
 
-    - `tx_id`: encoded transaction hash of type string.
+    - `tx_hash`: encoded transaction hash (Datatype: String).
+    
+  **Returns errors**
+  
+  - Broadcast failed
+  - Transaction verification failed
 
 #### Notifications
 
-- `wallet.awaiting.connection`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `aepp.request.connect` message.
+##### Wallet Invokable Notifications
+
+- `connection.announcePresence`: MAY be used by the wallets to announce their presence wherever required (e.g. postMessage API). This message SHOULD NOT be used by the wallets where a 1-to-1 connection with the aepp is already established but instead wait for the aepp to initiate the connection using `connection.open` message.
 
   Note: This is a helper message for the aepp to identify the presence of a wallet.
 
@@ -160,21 +169,16 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
     _Object_
 
-    - `name`: human-readable wallet name (Supported Datatype: string)
-    - `icons`: Wallet MAY specify an array of objects representing image files that can serve as application icons for different contexts. This array is the same as the icons described in the [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest/icons) but with the below changes:
-      - `src`: The path to the image file. This field MUST NOT be a relative URL and MUST be an absolute URL.
-    - `network`: Network id used by the wallet
+    - `networkId`: Network id used by the wallet
 
-- `peer.update.network`: MUST be used by Aepp or Wallet for informing the other party about the change of network.
+- `networkId.update`: MUST be used by Wallet for informing Aepp about the change of network id.
 
     **Parameters**
 
     _Object_
-  - `network`: Updated network id.
+  - `networkId`: Updated network id.
 
-- `peer.connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
-
-- `wallet.update.address`: MUST be used by the wallet to notify subscribed aepps about the address change.
+- `address.update`: MUST be used by the wallet to notify subscribed aepps about the address change.
 
   **Parameters**
 
@@ -198,6 +202,10 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
         }
       ```
 
+##### Invokable by Wallet and Aepp
+
+- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
+
 ## Example Flow
 
 <p align="center">
@@ -209,3 +217,9 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 - Aepp: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/vuejs/connect-two-ae
 
 - Extension Wallet: https://github.com/aeternity/aepp-sdk-js/tree/feature/aex-2/examples/browser/extension
+
+## References
+
+- Transaction Encoding and Serialization
+  https://github.com/aeternity/protocol/blob/master/node/api/api_encoding.md
+  https://github.com/aeternity/protocol/blob/master/serializations.md

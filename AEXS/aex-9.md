@@ -112,6 +112,7 @@ entrypoint balances() : map(address, int)
 | :--- | :--- |
 | balances | map(address, int) |
 
+
 ### balance\(\)
 
 This function returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned. Using `option` type as a return value allows us to determine if the account has balance of 0, more than 0, or the account has never had balance and is still unknown to the contract.
