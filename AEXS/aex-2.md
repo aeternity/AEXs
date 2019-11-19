@@ -42,9 +42,8 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   |**Code**|**Message**|**Meaning**|
   |:-----:|:-----:|:-----:|
   |1|Invalid transaction| MUST be returned whenever the transaction validity check fails|
-  |2|Signature request denied| MUST be returned by the wallet when it denies the signature request by aepp.|
-  |3|Subscription denied| MUST be returned by the wallet whenever it denies an address subscription request.|
-  |4|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |2|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
+  |3|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
 
 #### Methods
 
@@ -95,7 +94,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     
   **Returns errors**
   
-  - Subscription denied
+  - Rejected by user
 
   **Account Format:**
 
@@ -119,7 +118,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
     
   **Returns errors**
   - Invalid transaction
-  - Signature request denied
+  - Rejected by user
 
 #### Notifications
 
