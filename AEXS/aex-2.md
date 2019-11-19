@@ -205,7 +205,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 ##### Invokable by Wallet and Aepp
 
-- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
+- `connection.close`: SHOULD be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
 ## Example Flow
 
