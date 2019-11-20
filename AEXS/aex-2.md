@@ -44,7 +44,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   |1|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
   |2|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
   |3|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
-  |4|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |4|Unsupported protocol version| MUST be returned by wallet when it does not support protocol version the aepp wants to connect through.|
 
 #### Methods
 
@@ -180,7 +180,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 ##### Invokable by Wallet and Aepp
 
-- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
+- `connection.close`: SHOULD be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
 ## Example Flow
 
@@ -199,3 +199,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 - Transaction Encoding and Serialization
   https://github.com/aeternity/protocol/blob/master/node/api/api_encoding.md
   https://github.com/aeternity/protocol/blob/master/serializations.md
+
+- JSON-RPC 2.0 Specification
+  https://www.jsonrpc.org/specification
