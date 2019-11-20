@@ -49,11 +49,11 @@ contract FungibleTokenInterface =
   datatype event =
     Transfer(address, address, int)
 
-  entrypoint aex9_extensions : unit           => list(string)
-  entrypoint meta_info       : unit           => meta_info
-  entrypoint total_supply    : unit           => int
-  entrypoint owner           : unit           => address
-  entrypoint balances        : unit           => map(address, int)
+  entrypoint aex9_extensions : ()             => list(string)
+  entrypoint meta_info       : ()             => meta_info
+  entrypoint total_supply    : ()             => int
+  entrypoint owner           : ()             => address
+  entrypoint balances        : ()             => map(address, int)
   entrypoint balance         : (address)      => option(int)
   entrypoint transfer        : (address, int) => unit
 ```
