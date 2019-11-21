@@ -55,7 +55,7 @@ contract FungibleTokenInterface =
   entrypoint owner           : ()             => address
   entrypoint balances        : ()             => map(address, int)
   entrypoint balance         : (address)      => option(int)
-  entrypoint transfer        : (address, int) => ()
+  entrypoint transfer        : (address, int) => unit
 ```
 
 ## Methods
