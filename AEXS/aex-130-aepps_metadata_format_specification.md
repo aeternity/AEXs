@@ -1,7 +1,7 @@
-# AEX Z: æpps Metadata Format Specification
+# AEX-130: æpps Metadata Format Specification
 
 ```
-AEX: <to be assigned by editors>
+AEX: 130
 Title: æpps Meta Information Format
 Author: Stoyan Vasilev (@j28), Denis Davidyuk (@davidyuk)
 License: BSD-3-Clause
