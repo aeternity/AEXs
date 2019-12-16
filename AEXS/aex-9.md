@@ -279,6 +279,68 @@ record allowance_accounts =
   , for_account: address }
 ```
 
+### allowances\(\)
+
+This function returns all of the allowances stored in `state.allowances` record.
+
+```sophia
+entrypoint allowances() : allowances
+```
+
+| return | type |
+| :--- | :--- |
+| allowances | map(allowance_accounts, int) |
+
+
+### allowance_for_caller\(\)
+
+This function will look up the allowances and return the allowed spendable amount from `from_account` for the transaction sender `Call.caller`. If there is no such allowance present result is `None`, otherwise `Some(int)` is returned with the allowance amount.
+
+```sophia
+entrypoint allowance_for_caller(from_account: address) : option(int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| from_account| address |
+
+| return | type |
+| :--- | :--- |
+|  | option(int) |
+
+### change_allowance\(\)
+
+This function allows the `Call.caller` to change the allowed spendable value for `for_account` with `value_change`. This adds the `value_change` to the current allowance value. If used for increasing allowance amount a positive value should be passed, if the desired outcome is to lower the value of the allowed spendable value a negative `value_change` should be passed.
+
+```sophia
+stateful entrypoint change_allowance(for_account: address, value_change: int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| for_account | address |
+| value_change | int |
+
+| return | type |
+| :--- | :--- |
+|  | unit |
+
+### reset_allowance\(\)
+
+Resets the allowance given `for_account` to zero.
+
+```sophia
+stateful entrypoint reset_allowance(for_account: address)
+```
+
+| parameter | type |
+| :--- | :--- |
+| for_account| address |
+
+| return | type |
+| :--- | :--- |
+|  | unit |
+
 ### Events
 
 **Allowance** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
