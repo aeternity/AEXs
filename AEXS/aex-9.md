@@ -37,7 +37,7 @@ A standard interface allows any tokens to be re-used by other applications: from
 
 ### Interface
 
-```text
+```sophia
 @compiler >= 4
 
 contract FungibleTokenInterface =
@@ -65,7 +65,7 @@ contract FungibleTokenInterface =
 
 This function **returns** a hardcoded list of all implemented extensions on the deployed contract.
 
-```text
+```sophia
 entrypoint aex9_extensions() : list(string)
 ```
 
@@ -73,7 +73,7 @@ entrypoint aex9_extensions() : list(string)
 
 This function **returns** meta information associated with the token contract.
 
-```text
+```sophia
 entrypoint meta_info() : meta_info
 ```
 
@@ -81,7 +81,7 @@ entrypoint meta_info() : meta_info
 | :--- | :--- |
 | meta_info | meta_info |
 
-```text
+```sophia
 record meta_info =
   { name     : string
   , symbol   : string
@@ -92,7 +92,7 @@ record meta_info =
 
 This function returns the total token supply.
 
-```text
+```sophia
 entrypoint total_supply() : int
 ```
 
@@ -104,7 +104,7 @@ entrypoint total_supply() : int
 
 This function returns the full balance state for static calls, e.g. by a blockchain explorer.
 
-```text
+```sophia
 entrypoint balances() : map(address, int)
 ```
 
@@ -112,12 +112,11 @@ entrypoint balances() : map(address, int)
 | :--- | :--- |
 | balances | map(address, int) |
 
-
 ### balance\(\)
 
 This function returns the account balance of another account with address `owner`, if the account exists. If the owner address is unknown to the contract `None` will be returned. Using `option` type as a return value allows us to determine if the account has balance of 0, more than 0, or the account has never had balance and is still unknown to the contract.
 
-```text
+```sophia
 entrypoint balance(owner: address) : option(int)
 ```
 | parameter | type |
@@ -134,8 +133,8 @@ This function allows transfer of `value` amount of tokens to `to_account` addres
 
 Note: Transfers of 0 values MUST be treated as normal transfers and fire the `Transfer` event.
 
-```text
-stateful entrypoint transfer(to_account: address, value: int) : ()
+```sophia
+stateful entrypoint transfer(to_account: address, value: int) : unit
 ```
 
 | parameter | type |
@@ -151,7 +150,7 @@ This event MUST be triggered and emitted when tokens are transferred, including 
 
 The transfer event arguments should be as follows: `(from_account, to_account, value)`
 
-```text
+```sophia
 Transfer(address, address, int)
 ```
 
@@ -174,8 +173,8 @@ Any extensions should be implementable without permission. Developers of extensi
 
 This function mints `value` new tokens to `account`. The function SHOULD abort if `Call.caller` is not the owner of the contract `state.owner`.
 
-```text
-stateful entrypoint mint(account: address, value: int) : ()
+```sophia
+stateful entrypoint mint(account: address, value: int) : unit
 ```
 
 | parameter | type |
@@ -189,7 +188,7 @@ stateful entrypoint mint(account: address, value: int) : ()
 
 The mint event arguments should be as follows: `(account,  value)`
 
-```text
+```sophia
 Mint(address, int)
 ```
 
@@ -204,8 +203,8 @@ Mint(address, int)
 
 This function burns `value` of tokens from `Call.caller`. 
 
-```text
-stateful entrypoint burn(value: int) : ()
+```sophia
+stateful entrypoint burn(value: int) : unit
 ```
 
 | parameter | type |
@@ -218,7 +217,7 @@ stateful entrypoint burn(value: int) : ()
 
 The burn event arguments should be as follows: `(account,  value)`
 
-```text
+```sophia
 Burn(address, int)
 ```
 
@@ -235,8 +234,8 @@ Allows `for_account` to withdraw from your account multiple times, up to the `va
 
 Note: To prevent attack vectors (like the ones possible in ERC20) clients SHOULD make sure to create user interfaces in such a way that they set the allowance first to 0 before setting it to another value for the same spender. THOUGH the contract itself shouldn't enforce it, to allow backwards compatibility with contracts deployed before.
 
-```text
-stateful entrypoint create_allowance(for_account: address, value: int) : ()
+```sophia
+stateful entrypoint create_allowance(for_account: address, value: int) : unit
 ```
 
 | parameter | type |
@@ -252,7 +251,7 @@ The `transfer_allowance` method is used for a withdraw workflow, allowing contra
 
 Note: Transfers of 0 values MUST be treated as normal transfers and fire the `Transfer` event.
 
-```text
+```sophia
 stateful entrypoint transfer_allowance(from_account: address, to_account: address, value: int)
 ```
 
@@ -266,7 +265,7 @@ stateful entrypoint transfer_allowance(from_account: address, to_account: addres
 
 This function returns the amount which `for_account` is still allowed to withdraw from `from_account`, where `record allowance_accounts = { from_account: address, for_account: address }`. If no allowance for this combination of accounts exists, `None` is returned.
 
-```text
+```sophia
 entrypoint allowance(allowance_accounts : allowance_accounts) : option(int)
 ```
 
@@ -274,11 +273,73 @@ entrypoint allowance(allowance_accounts : allowance_accounts) : option(int)
 | :--- | :--- |
 | allowance_accounts| allowance_accounts |
 
-```text
+```sophia
 record allowance_accounts =
   { from_account: address
   , for_account: address }
 ```
+
+### allowances\(\)
+
+This function returns all of the allowances stored in `state.allowances` record.
+
+```sophia
+entrypoint allowances() : allowances
+```
+
+| return | type |
+| :--- | :--- |
+| allowances | map(allowance_accounts, int) |
+
+
+### allowance_for_caller\(\)
+
+This function will look up the allowances and return the allowed spendable amount from `from_account` for the transaction sender `Call.caller`. If there is no such allowance present result is `None`, otherwise `Some(int)` is returned with the allowance amount.
+
+```sophia
+entrypoint allowance_for_caller(from_account: address) : option(int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| from_account| address |
+
+| return | type |
+| :--- | :--- |
+|  | option(int) |
+
+### change_allowance\(\)
+
+This function allows the `Call.caller` to change the allowed spendable value for `for_account` with `value_change`. This adds the `value_change` to the current allowance value. If used for increasing allowance amount a positive value should be passed, if the desired outcome is to lower the value of the allowed spendable value a negative `value_change` should be passed.
+
+```sophia
+stateful entrypoint change_allowance(for_account: address, value_change: int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| for_account | address |
+| value_change | int |
+
+| return | type |
+| :--- | :--- |
+|  | unit |
+
+### reset_allowance\(\)
+
+Resets the allowance given `for_account` to zero.
+
+```sophia
+stateful entrypoint reset_allowance(for_account: address)
+```
+
+| parameter | type |
+| :--- | :--- |
+| for_account| address |
+
+| return | type |
+| :--- | :--- |
+|  | unit |
 
 ### Events
 
@@ -286,7 +347,7 @@ record allowance_accounts =
 
 The approval event arguments should be as follows: `(from_account, for_account, value)`
 
-```text
+```sophia
 Allowance(address, address, int)
 ```
 
@@ -302,13 +363,14 @@ Allowance(address, address, int)
 
 This function burns the whole balance of the `Call.caller` and stores the same amount in the `swapped` map. 
 
-```text
-stateful entrypoint swap() : ()
+```sophia
+stateful entrypoint swap() : unit
 ```
 
 | parameter | type |
 | :--- | :--- |
 | value | int |
+
 | return | type |
 | :--- | :--- |
 | () | unit |
@@ -317,13 +379,14 @@ stateful entrypoint swap() : ()
 
 This function returns the amount of tokens that were burned trough `swap` for the provided account. 
 
-```text
+```sophia
 stateful entrypoint check_swap(account: address) : int
 ```
 
 | parameter | type |
 | :--- | :--- |
 | account | address |
+
 | return | type |
 | :--- | :--- |
 | int | int |
@@ -332,7 +395,7 @@ stateful entrypoint check_swap(account: address) : int
 
 This function returns all of the swapped tokens that are stored in contract state. 
 
-```text
+```sophia
 stateful entrypoint swapped() : map(address, int)
 ```
 
@@ -346,7 +409,7 @@ stateful entrypoint swapped() : map(address, int)
 
 The swap event arguments should be as follows: `(account,  value)`
 
-```text
+```sophia
 Swap(address, int)
 ```
 
