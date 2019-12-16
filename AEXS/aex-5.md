@@ -6,7 +6,7 @@ Title: Inter-Wallet Communication
 Author: Shubhendu Shekhar <@shekhar-shubhendu>
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-5-inter-wallet-communication/3371
-Status: Draft
+Status: Withdrawn
 Type: Standards Track
 Created: 2019-04-29
 ```

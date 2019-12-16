@@ -7,7 +7,7 @@ Author: Shubhendu Shekhar (@shekhar-shubhendu), Andrea Giacobino (@noandrea), En
 License: BSD-3-Clause
 Discussions-To: https://forum.aeternity.com/t/aex-2-js-sdk-interfaces-for-wallets/2715
 License-Code: Apache-2.0
-Status: Review
+Status: Withdrawn
 Type: Standards Track
 Created: 2019-03-04
 ```
@@ -41,11 +41,10 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
   |**Code**|**Message**|**Meaning**|
   |:-----:|:-----:|:-----:|
-  |1|Transaction verification failed| MUST be returned when verification of signed transaction fails.|
-  |2|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
-  |3|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
-  |4|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
-  |5|Unsupported protocol version| MUST be returned by aepp when it does not support protocol version the wallet wants to connect through.|
+  |1|Invalid transaction| MUST be returned whenever the transaction validity check fails and the node returns a similar error|
+  |2|Broadcast failed| MUST be returned by the aepp or wallet if it has been unable to broadcast the transaction.|
+  |3|Rejected by user| MUST be returned by the wallet when user denies the action request by aepp.|
+  |4|Unsupported protocol version| MUST be returned by wallet when it does not support protocol version the aepp wants to connect through.|
 
 #### Methods
 
@@ -134,29 +133,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
   - Rejected by user
   - Broadcast failed
 
-##### Wallet Invokable Methods
-
-  This section defines the methods that the wallet MUST invoke to either get information from the aepp or request the aepp to perform an operation.
-
-- `transaction.broadcast`: Ask aepp to broadcast the transaction.
-
-  **Parameters**
-
-    _Object_
-  - `tx`: signed encoded transaction (Datatype: String).
-  - `verify`: Boolean. Perform verification before broadcasting or not.
-
-  **Returns**
-
-    _Object_
-
-    - `tx_hash`: encoded transaction hash (Datatype: String).
-    
-  **Returns errors**
-  
-  - Broadcast failed
-  - Transaction verification failed
-
 #### Notifications
 
 ##### Wallet Invokable Notifications
@@ -204,7 +180,7 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 
 ##### Invokable by Wallet and Aepp
 
-- `connection.close`: MUST be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
+- `connection.close`: SHOULD be used by Aepp or Wallet for informing the other party that it is disconnecting and further requests will either be denied or not acknowledged.
 
 ## Example Flow
 
@@ -223,3 +199,6 @@ JSON-RPC 2.0 response error object that is used to communicate any error occurre
 - Transaction Encoding and Serialization
   https://github.com/aeternity/protocol/blob/master/node/api/api_encoding.md
   https://github.com/aeternity/protocol/blob/master/serializations.md
+
+- JSON-RPC 2.0 Specification
+  https://www.jsonrpc.org/specification
