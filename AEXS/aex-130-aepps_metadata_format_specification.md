@@ -114,6 +114,9 @@ Documentation: https://www.w3.org/TR/appmanifest/#iarc_rating_id-member
 ### Binding of marketing websites to a corresponding aepp
 
 The web manifest file of a marketing website should point to an aepp using [`related_applications`](https://www.w3.org/TR/appmanifest/#related_applications-member) member.
+
+### Reference implementation 
+http://aeternity.com/aepp-base-example/webmanifest.json
 ___
 
 ### References
