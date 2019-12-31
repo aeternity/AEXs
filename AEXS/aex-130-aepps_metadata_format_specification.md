@@ -107,6 +107,8 @@ The `author_url` member is a string that represents the URL of the author's webs
 Could be used to set age restrictions/ratings.
 Documentation: https://www.w3.org/TR/appmanifest/#iarc_rating_id-member
 
+### Reference implementation 
+http://aeternity.com/aepp-base-example/webmanifest.json
 ___
 
 ### References
