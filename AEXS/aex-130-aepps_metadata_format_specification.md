@@ -49,13 +49,9 @@ The motivation behind this aexpansion is to improve the user experience of brows
 
 Reference visuals for the result of implementing such metadata format are included below.
 
-A service listing dapps:
-
-![](https://i.imgur.com/KZE2nT7.jpg =240x)
-
-Detail view of a dapp metadata rendered inside a dapps browser (Coinbase Wallet):
-
-![](https://i.imgur.com/31evUOm.png =240x)
+| A service listing aepps | Detail view of a aepp metadata rendered inside a aepp browser |
+|---|---|
+| ![aepps list](../assets/aex-130/registry-list.png) | ![aepp details](../assets/aex-130/registry-details.png) |
 
 ## Rationale
 
