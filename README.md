@@ -10,7 +10,7 @@ are restricted to the application layer.
 - [Recently updated](https://github.com/aeternity/AEXs/issues?q=is%3Aopen+is%3Aissue+sort%3Aupdated-desc)
 - [Help wanted](https://github.com/aeternity/AEXs/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc)
 - [Stage active](https://github.com/aeternity/AEXs/issues?q=is%3Aopen+is%3Aissue+label%3Astage%2FActive+sort%3Aupdated-desc) 
-- [Stage finalized](https://github.com/aeternity/AEXs/issues?q=is%3Aopen+is%3Aissue+sort%3Aupdated-desc+label%3Astage%2FFinal)
+- [Stage finalized](https://github.com/aeternity/AEXs/issues?q=is%3Aclosed+is%3Aissue+sort%3Aupdated-desc+label%3Astage%2FFinal)
 - [All](https://github.com/aeternity/AEXs/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3AAEXpansion+)
 
 ### For open Aexpansions
@@ -60,14 +60,16 @@ Read [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) for mo
 
 | Code | Status | Description |
 | --- | --- | --- |
-| [AEX-1](AEXS/aex-1.md)     | Active | AEX process |
-| [AEX-2](AEXS/aex-2.md)     | Review | Third-party Wallet Provider Support |
-| [AEX-3](AEXS/aex-3.md)     | Review | Secret storage format |
-| [AEX-4](AEXS/aex-4.md)     | Draft  | æternity wallet deep linking specification |
-| [AEX-5](AEXS/aex-5.md)     | Draft  | Inter-Wallet Communication |
-| [AEX-7](AEXS/aex-7.md)     | Draft  | Data Serialization |
-| [AEX-9](AEXS/aex-9.md)     | Draft  | Fungible Token Standard |
-| [AEX-10](AEXS/aex-10.md)   | Draft  | Derivation path for deterministic wallets |
+| [AEX-1](AEXS/aex-1.md)     | Active    | AEX process |
+| [AEX-2](AEXS/aex-2.md)     | Withdrawn | Third-party Wallet Provider Support |
+| [AEX-3](AEXS/aex-3.md)     | Active    | Secret storage format |
+| [AEX-4](AEXS/aex-4.md)     | Withdrawn | æternity wallet deep linking specification |
+| [AEX-5](AEXS/aex-5.md)     | Withdrawn | Inter-Wallet Communication |
+| [AEX-7](AEXS/aex-7.md)     | Withdrawn | Data Serialization |
+| [AEX-9](AEXS/aex-9.md)     | Review    | Fungible Token Standard |
+| [AEX-8](AEXS/aex-8.md)     | Draft     | Message Signing |
+| [AEX-10](AEXS/aex-10.md)   | Final     | Derivation path for deterministic wallets |
+| [AEX-130](AEXS/aex-130.md) | Draft     | æpps Meta Information Format |
 
 
 ## Copyright
