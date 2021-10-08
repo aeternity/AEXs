@@ -66,8 +66,8 @@ Read [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) for mo
 | [AEX-4](AEXS/aex-4.md)     | Withdrawn | æternity wallet deep linking specification |
 | [AEX-5](AEXS/aex-5.md)     | Withdrawn | Inter-Wallet Communication |
 | [AEX-7](AEXS/aex-7.md)     | Withdrawn | Data Serialization |
-| [AEX-9](AEXS/aex-9.md)     | Review    | Fungible Token Standard |
 | [AEX-8](AEXS/aex-8.md)     | Draft     | Message Signing |
+| [AEX-9](AEXS/aex-9.md)     | Review    | Fungible Token Standard |
 | [AEX-10](AEXS/aex-10.md)   | Final     | Derivation path for deterministic wallets |
 | [AEX-130](AEXS/aex-130.md) | Draft     | æpps Meta Information Format |
 
