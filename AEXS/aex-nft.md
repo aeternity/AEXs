@@ -25,7 +25,7 @@ The following standard describes standard interfaces for non-fungible tokens. Th
 
 ## Interface
 
-```
+```sophia
 contract interface NFT =
     datatype metadata_type = URL | IPFS | OBJECT_ID | MAP
     datatype metadata = string | map(string,string)
