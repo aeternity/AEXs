@@ -393,6 +393,7 @@ Swap(address, int)
 
 ## NFTReceiver
 
+```sophia
 contract interface NFTReceiver = 
     entrypoint on_nft_received : (address, address, int, option(string)) => unit
 
