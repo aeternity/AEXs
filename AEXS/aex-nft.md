@@ -237,7 +237,7 @@ entrypoint is_approved_for_all : (owner address, operator address) => bool
      
 ## Events
 
-```
+```sophia
 datatype event 
         = Transfer(indexed address, indexed address, indexed int)
         | Approval(indexed address, indexed address, indexed int, bool)
