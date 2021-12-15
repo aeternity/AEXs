@@ -93,7 +93,8 @@ entrypoint meta_info() : meta_info
 
 Returns meta data associated with a token. The function is a part of the basic interface, because metadata can be set in the constructor, as well as by implementing the Mintable extention.
 
-```entrypoint metadata(id int): option(metadata)```
+```sophia
+entrypoint metadata(id int): option(metadata)
 
 | parameter | type |
 | :--- | :--- |
