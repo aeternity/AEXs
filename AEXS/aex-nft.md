@@ -400,7 +400,7 @@ contract interface NFTReceiver =
 
 ### on_nft_received\(\)
 
-Deals with receiving NFT tokens on behalf of a smart contract. Contracts receiving NFT tokens should implement this interface. Mint and transfer transactions will invoke the `on_nft_received` function.
+Deals with receiving NFTs on behalf of a contract. Contracts MUST implement this interface to be able to receive NFTs. Mint and transfer transactions will invoke the `on_nft_received` function.
 
 ```sophia
 entrypoint on_nft_received : (address, address, int, option(string)) => unit
