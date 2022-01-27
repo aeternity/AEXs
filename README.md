@@ -70,7 +70,7 @@ Read [AEX-1](https://github.com/aeternity/AEXs/blob/master/AEXS/aex-1.md) for mo
 | [AEX-9](AEXS/aex-9.md)     | Review    | Fungible Token Standard |
 | [AEX-10](AEXS/aex-10.md)   | Final     | Derivation path for deterministic wallets |
 | [AEX-130](AEXS/aex-130.md) | Draft     | æpps Meta Information Format |
-
+| [AEX-141](AEXS/aex-141.md) | Review    | Non-Fungible Token Standard |
 
 ## Copyright
 
