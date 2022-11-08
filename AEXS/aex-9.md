@@ -22,14 +22,14 @@ The following standard allows for the implementation of a standard API for token
 
 ## Motivation
 
-This standard will allow decentralized applications and wallets to handle tokens across multiple interfaces.
+This standard will allow decentralized applications and wallets to handle fungible tokens in a standardized way.
+A standard interface allows any tokens to be re-used by other applications, e.g. from wallets to decentralized exchanges.
 
-The most important here are `transfer`, `balance` and the `Transfer` event.
+The provided specification is following the ERC20 standard introduced in Ethereum for fungible tokens.
+This standard is proven to be working, it will help with interoperability and easier developer onboarding as the main differences will be Sophia syntax related.
+Another goal with following the ERC20 standard, is to learn from its mistakes and not repeat them.
 
-A standard interface allows any tokens to be re-used by other applications: from wallets to decentralized exchanges.
-
-- The following specification is following the ERC20 standart introduced in Ethereum for fungible tokens.
-- This standart is proven to be working and we think we can leverage of using it. It will also help us with interoperability and easier developers onboarding as the main differences will be Sophia syntax related.
+The newly proposed standard should be easy to use but extendable with more functionality, both first and third party as shown by splitting allowance, minting, burning and swapping into optional extensions.
 
 ## Specification
 
@@ -38,9 +38,7 @@ A standard interface allows any tokens to be re-used by other applications: from
 ### Interface
 
 ```sophia
-@compiler >= 4
-
-contract FungibleTokenInterface =
+contract interface FungibleTokenInterface =
   record meta_info =
     { name : string
     , symbol : string
@@ -160,6 +158,21 @@ Transfer(address, address, int)
 | to_account | address |
 | value | int |
 
+
+**Mint** (optional if token creation happens) - MUST trigger when tokens are minted and thus are newly available in the given token contract, this also applies to tokens created using the `init` method on contract creation.
+
+The mint event arguments should be as follows: `(account,  value)`
+
+```sophia
+Mint(address, int)
+```
+
+| parameter | type |
+| :--- | :--- |
+| account| address |
+| value | int |
+
+
 # Extensions
 
 This section covers the extendability of the basic token - e.g. mintable, burnable and allowances.
@@ -184,7 +197,7 @@ stateful entrypoint mint(account: address, value: int) : unit
 
 ## Events
 
-**Mint** - MUST trigger when tokens are minted using the `mint` function.
+**Mint** - MUST trigger when tokens are minted and thus are newly available in the given token contract, this also applies to tokens created using the `init` method on contract creation.
 
 The mint event arguments should be as follows: `(account,  value)`
 
@@ -213,7 +226,7 @@ stateful entrypoint burn(value: int) : unit
 
 ## Events
 
-**Burn** - MUST trigger when tokens are burned using the `burn` function.
+**Burn** - MUST trigger when tokens are burned and thus are no longer available in the given token contact.
 
 The burn event arguments should be as follows: `(account,  value)`
 
@@ -281,7 +294,7 @@ record allowance_accounts =
 
 ### allowances\(\)
 
-This function returns all of the allowances stored in `state.allowances` record.
+This function returns all allowances stored in `state.allowances` record.
 
 ```sophia
 entrypoint allowances() : allowances
@@ -343,7 +356,7 @@ stateful entrypoint reset_allowance(for_account: address)
 
 ### Events
 
-**Allowance** - MUST trigger on any successful call to `create_allowance(for_account: address, value: int)`.
+**Allowance** - MUST trigger on any successful allowance creation or change.
 
 The approval event arguments should be as follows: `(from_account, for_account, value)`
 
@@ -393,7 +406,7 @@ stateful entrypoint check_swap(account: address) : int
 
 ### swapped\(\)
 
-This function returns all of the swapped tokens that are stored in contract state. 
+This function returns all swapped tokens that are stored in contract state. 
 
 ```sophia
 stateful entrypoint swapped() : map(address, int)
@@ -405,7 +418,7 @@ stateful entrypoint swapped() : map(address, int)
 
 ## Events
 
-**Swap** - MUST trigger when tokens are swapped using the `swap` function.
+**Swap** - MUST trigger when tokens are swapped and thus are no longer available in the given token contact.
 
 The swap event arguments should be as follows: `(account,  value)`
 
